@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace MergeImage
         //-- FirstPoint use to move image
         private Point firstPoint = new Point();
         private Boolean isMove = false;
+        private string[] wordsName;
+        private List<string> uniqName = new List<string>();
 
 
         public Form1()
@@ -25,6 +28,32 @@ namespace MergeImage
 
             tbxFolderPath.Text = imagePath.SelectedPath;
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
+
+
+            // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
+            string path = "C:\\Users\\tgHan\\Desktop\\HistopathologicalImage\\2019.03.12";
+            DirectoryInfo dirPath = new DirectoryInfo(@path);
+            DirectoryInfo[] dirs = dirPath.GetDirectories();
+            string fullName;
+
+
+
+            foreach (DirectoryInfo dir in dirs) // 하위 폴더목록을 스캔합니다.
+            {
+                foreach (FileInfo File in dir.GetFiles()) // 선택 폴더의 파일 목록을 스캔합니다.
+                {
+
+                    fullName = File.Name;
+                    wordsName = fullName.Split('_');
+                    uniqName.Add(wordsName[0]);
+                }
+
+            }
+            uniqName = uniqName.Distinct().ToList();
+            foreach (string uniq in uniqName) // 선택 폴더의 파일 목록을 스캔합니다.
+            {
+                gridIMG.Rows.Add(uniq, "N");
+            }
         }
 
 
