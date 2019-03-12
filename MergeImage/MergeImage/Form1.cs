@@ -14,6 +14,12 @@ namespace MergeImage
     public partial class Form1 : Form
     {
 
+        enum eMergeImageGridIndex
+        {
+            ID,
+            CONFIRM
+        }
+
         Image imgOriginal;
         //-- FirstPoint use to move image
         private Point firstPoint = new Point();
@@ -29,6 +35,7 @@ namespace MergeImage
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
 
             getDateImageList();
+            readFileMergeImageStatus();
         }
 
 
@@ -60,6 +67,7 @@ namespace MergeImage
                 Properties.Settings.Default.Save();
 
                 getDateImageList();
+                readFileMergeImageStatus();
                 //Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
                 //int index = 0;
                 //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
@@ -146,11 +154,12 @@ namespace MergeImage
         {
             //이미지 리스트 다시 불러오기
             getDateImageList();
+            readFileMergeImageStatus();
         }
 
         public void getDateImageList()
         {
-            gridIMG.Rows.Clear();
+            gridMergeImage.Rows.Clear();
 
             // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
             string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
@@ -179,8 +188,72 @@ namespace MergeImage
                 uniqName = uniqName.Distinct().ToList();
                 foreach (string uniq in uniqName) // 선택 폴더의 파일 목록을 스캔합니다.
                 {
-                    gridIMG.Rows.Add(uniq, "N");
+                    gridMergeImage.Rows.Add(uniq, "N");
                 }
+            }
+        }
+
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            if (gridMergeImage.CurrentRow == null)
+                return;
+
+            //선택한 병합이미지 리스트에서 확인을 했다는 의미의 Y로 변경
+            gridMergeImage.CurrentRow.Cells[(int)eMergeImageGridIndex.CONFIRM].Value = "Y";
+
+            saveFileMergeImageStatus();
+
+
+        }
+
+        public void readFileMergeImageStatus()
+        {
+            FileInfo fi = new FileInfo(tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\list.txt");
+
+            if (fi.Exists == false)
+                return;
+
+            string id;
+            System.IO.StreamReader file = fi.OpenText();
+            while ((id = file.ReadLine()) != null)
+            {
+                if (id.Trim() == "")
+                    continue;
+
+                foreach (DataGridViewRow row in gridMergeImage.Rows)
+                {
+                    if (row.Cells[(int)eMergeImageGridIndex.ID].Value.ToString().Trim() == id)
+                    {
+                        row.Cells[(int)eMergeImageGridIndex.CONFIRM].Value = "Y";
+                    }
+                }
+            }
+
+            file.Close();
+        }
+
+        private void saveFileMergeImageStatus()
+        {
+            try
+            {
+                string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\list.txt";
+                string contents = "";
+
+                File.WriteAllText(path, "");
+
+                foreach (DataGridViewRow row in gridMergeImage.Rows)
+                {
+                    if (row.Cells[(int)eMergeImageGridIndex.CONFIRM].Value.ToString() == "Y")
+                    {
+                        contents += row.Cells[(int)eMergeImageGridIndex.ID].Value.ToString() + System.Environment.NewLine;
+                    }
+                }
+
+                File.WriteAllText(path, contents.TrimEnd());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("저장하다 오류가 발생했습니다.");
             }
         }
     }

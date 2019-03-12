@@ -36,7 +36,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.DataPanelSmar = new System.Windows.Forms.PictureBox();
             this.tbxFolderPath = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnConfirm = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -52,12 +52,12 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
-            this.gridIMG = new System.Windows.Forms.DataGridView();
+            this.gridMergeImage = new System.Windows.Forms.DataGridView();
             this.DataPanel = new System.Windows.Forms.PictureBox();
             this.imagePath = new System.Windows.Forms.FolderBrowserDialog();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanelSmar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridIMG)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
             this.SuspendLayout();
             // 
@@ -79,17 +79,18 @@
             this.tbxFolderPath.TabIndex = 211;
             this.tbxFolderPath.Text = "이미지 경로";
             // 
-            // button4
+            // btnConfirm
             // 
-            this.button4.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.button4.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.Location = new System.Drawing.Point(1212, 190);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(79, 23);
-            this.button4.TabIndex = 210;
-            this.button4.Text = "확인";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button4.UseVisualStyleBackColor = true;
+            this.btnConfirm.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnConfirm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnConfirm.Location = new System.Drawing.Point(1212, 190);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(79, 23);
+            this.btnConfirm.TabIndex = 210;
+            this.btnConfirm.Text = "확인";
+            this.btnConfirm.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
             // button3
             // 
@@ -272,23 +273,23 @@
             this.dtpDate.TabIndex = 206;
             this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
-            // gridIMG
+            // gridMergeImage
             // 
-            this.gridIMG.AllowUserToAddRows = false;
-            this.gridIMG.AllowUserToDeleteRows = false;
-            this.gridIMG.AllowUserToResizeRows = false;
-            this.gridIMG.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
-            this.gridIMG.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.gridMergeImage.AllowUserToAddRows = false;
+            this.gridMergeImage.AllowUserToDeleteRows = false;
+            this.gridMergeImage.AllowUserToResizeRows = false;
+            this.gridMergeImage.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
+            this.gridMergeImage.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomCenter;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightYellow;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.gridIMG.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
-            this.gridIMG.ColumnHeadersHeight = 20;
-            this.gridIMG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.gridIMG.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.gridMergeImage.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.gridMergeImage.ColumnHeadersHeight = 20;
+            this.gridMergeImage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.gridMergeImage.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
             this.Column4});
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -298,12 +299,12 @@
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridIMG.DefaultCellStyle = dataGridViewCellStyle5;
-            this.gridIMG.EnableHeadersVisualStyles = false;
-            this.gridIMG.Location = new System.Drawing.Point(8, 44);
-            this.gridIMG.MultiSelect = false;
-            this.gridIMG.Name = "gridIMG";
-            this.gridIMG.ReadOnly = true;
+            this.gridMergeImage.DefaultCellStyle = dataGridViewCellStyle5;
+            this.gridMergeImage.EnableHeadersVisualStyles = false;
+            this.gridMergeImage.Location = new System.Drawing.Point(8, 44);
+            this.gridMergeImage.MultiSelect = false;
+            this.gridMergeImage.Name = "gridMergeImage";
+            this.gridMergeImage.ReadOnly = true;
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
@@ -311,12 +312,12 @@
             dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridIMG.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.gridIMG.RowHeadersVisible = false;
-            this.gridIMG.RowTemplate.Height = 20;
-            this.gridIMG.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridIMG.Size = new System.Drawing.Size(115, 562);
-            this.gridIMG.TabIndex = 201;
+            this.gridMergeImage.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.gridMergeImage.RowHeadersVisible = false;
+            this.gridMergeImage.RowTemplate.Height = 20;
+            this.gridMergeImage.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridMergeImage.Size = new System.Drawing.Size(115, 562);
+            this.gridMergeImage.TabIndex = 201;
             // 
             // DataPanel
             // 
@@ -339,7 +340,7 @@
             this.ClientSize = new System.Drawing.Size(1299, 618);
             this.Controls.Add(this.DataPanelSmar);
             this.Controls.Add(this.tbxFolderPath);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnChangeFolder);
             this.Controls.Add(this.dataGridView1);
@@ -349,14 +350,14 @@
             this.Controls.Add(this.btnB);
             this.Controls.Add(this.btnA);
             this.Controls.Add(this.dtpDate);
-            this.Controls.Add(this.gridIMG);
+            this.Controls.Add(this.gridMergeImage);
             this.Controls.Add(this.DataPanel);
             this.Name = "Form1";
             this.Text = "이미지 병합";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.DataPanelSmar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridIMG)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -367,7 +368,7 @@
 
         private System.Windows.Forms.PictureBox DataPanelSmar;
         private System.Windows.Forms.TextBox tbxFolderPath;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button btnConfirm;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
@@ -383,7 +384,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DateTimePicker dtpDate;
-        private System.Windows.Forms.DataGridView gridIMG;
+        private System.Windows.Forms.DataGridView gridMergeImage;
         private System.Windows.Forms.PictureBox DataPanel;
         private System.Windows.Forms.FolderBrowserDialog imagePath;
     }
