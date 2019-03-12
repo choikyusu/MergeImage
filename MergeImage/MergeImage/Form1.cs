@@ -25,10 +25,7 @@ namespace MergeImage
             this.DataPanel.MouseWheel += DataPanel_MouseWheel;
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
 
-        }
         // 마우스 휠을 통한 이미지 확대 축소 함수 생성
         private void DataPanel_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -123,6 +120,14 @@ namespace MergeImage
             if (DataPanel.Image != null)
             {
                 DataPanel.Dispose();
+            }
+        }
+
+        private void DataPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                lbImagePosiont.Text = "이미지 Position : X =  " + e.X + "; Y = " + e.Y;
             }
         }
     }
