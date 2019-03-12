@@ -12,14 +12,117 @@ namespace MergeImage
 {
     public partial class Form1 : Form
     {
+
+        Image imgOriginal;
+        //-- FirstPoint use to move image
+        private Point firstPoint = new Point();
+        private Boolean isMove = false;
+
+
         public Form1()
         {
             InitializeComponent();
+            this.DataPanel.MouseWheel += DataPanel_MouseWheel;
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+        // 마우스 휠을 통한 이미지 확대 축소 함수 생성
+        private void DataPanel_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                DataPanel.Width = DataPanel.Width + 50;
+                DataPanel.Height = DataPanel.Height + 50;
+            }
+            else
+            {
+                DataPanel.Width = DataPanel.Width - 50;
+                DataPanel.Height = DataPanel.Height - 50;
+            }
+
+        }
+
+        private void btnFold_Click(object sender, EventArgs e)
+        {
+            //select files...
+            openFileDialog1.ShowDialog();
+
+            if (openFileDialog1.FileNames.Length > 0)
+            {
+                Bitmap canvas = new Bitmap(50, 50 * openFileDialog1.FileNames.Length);
+                int index = 0;
+                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
+                foreach (string filename in openFileDialog1.FileNames)
+                {
+                    System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+                    g.DrawImage(img, 0, 50 * index, 50, 50);
+                    index++;
+                }
+
+                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
+
+                DataPanel.Image = canvas.GetThumbnailImage(50, 50 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
+                imgOriginal = DataPanel.Image;
+            }
+        }
+
+        public bool thumbnailCallback()
+        {
+            return false;
+        }
+        /**
+        * 마우스를 이용한 이미지 Move 힘수
+        *  - DataPanel :최도 마우스 Cursor 취치 확정.
+        *  - DataPanel : 마우스 up하였을때 이미지 이동 하지 않음
+        *  - DataPanel : 마우스 이동 거리에  계산
+        **/
+        private void DataPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                firstPoint.X = Cursor.Position.X;
+                firstPoint.Y = Cursor.Position.Y;
+                isMove = true;
+                DataPanel.Focus();
+
+            }
+
+        }
+
+        private void DataPanel_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                isMove = false;
+            }
+        }
+
+        private void DataPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            DataPanel.Focus();
+            if (isMove)
+            {
+                int x, y;
+                int moveX, moveY;
+                moveX = Cursor.Position.X - firstPoint.X;
+                moveY = Cursor.Position.Y - firstPoint.Y;
+                x = DataPanel.Location.X + moveX;
+                y = DataPanel.Location.Y + moveY;
+                DataPanel.Location = new Point(x, y);
+                firstPoint.X = Cursor.Position.X;
+                firstPoint.Y = Cursor.Position.Y;
+            }
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DataPanel.Image != null)
+            {
+                DataPanel.Dispose();
+            }
         }
     }
 }
