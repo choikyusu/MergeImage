@@ -65,6 +65,7 @@ namespace MergeImage
                 Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
 
                 DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
+                DataPanelSmar.Image = DataPanel.Image;
                 imgOriginal = DataPanel.Image;
             }
         }

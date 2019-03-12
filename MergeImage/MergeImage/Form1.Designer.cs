@@ -34,7 +34,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.DataPanelSmar = new System.Windows.Forms.PictureBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -55,20 +55,21 @@
             this.gridIMG = new System.Windows.Forms.DataGridView();
             this.DataPanel = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataPanelSmar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridIMG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
             this.SuspendLayout();
             // 
-            // pictureBox1
+            // DataPanelSmar
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(1326, 585);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(165, 174);
-            this.pictureBox1.TabIndex = 213;
-            this.pictureBox1.TabStop = false;
+            this.DataPanelSmar.Location = new System.Drawing.Point(1326, 585);
+            this.DataPanelSmar.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.DataPanelSmar.Name = "DataPanelSmar";
+            this.DataPanelSmar.Size = new System.Drawing.Size(165, 174);
+            this.DataPanelSmar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.DataPanelSmar.TabIndex = 213;
+            this.DataPanelSmar.TabStop = false;
             // 
             // textBox1
             // 
@@ -354,7 +355,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1485, 772);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.DataPanelSmar);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -372,7 +373,7 @@
             this.Name = "Form1";
             this.Text = "이미지 병합";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataPanelSmar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridIMG)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
@@ -383,7 +384,7 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox DataPanelSmar;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
