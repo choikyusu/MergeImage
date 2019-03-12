@@ -22,7 +22,9 @@ namespace MergeImage
         public Form1()
         {
             InitializeComponent();
-            this.DataPanel.MouseWheel += DataPanel_MouseWheel;
+
+            tbxFolderPath.Text = imagePath.SelectedPath;
+            tbxFolderPath.Text = Properties.Settings.Default.imagePath;
         }
 
 
@@ -45,25 +47,28 @@ namespace MergeImage
         private void btnFold_Click(object sender, EventArgs e)
         {
             //select files...
-            openFileDialog1.ShowDialog();
+            imagePath.ShowDialog();
 
-            if (openFileDialog1.FileNames.Length > 0)
+            if (imagePath.SelectedPath.Length > 0)
             {
-                Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
-                int index = 0;
-                System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-                foreach (string filename in openFileDialog1.FileNames)
-                {
-                    System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
-                    g.DrawImage(img, 0, 224 * index, 224, 224);
-                    index++;
-                }
+                tbxFolderPath.Text = imagePath.SelectedPath;
+                Properties.Settings.Default.imagePath = tbxFolderPath.Text = imagePath.SelectedPath;
+                Properties.Settings.Default.Save();
+                //Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
+                //int index = 0;
+                //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
+                //foreach (string filename in openFileDialog1.FileNames)
+                //{
+                //    System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+                //    g.DrawImage(img, 0, 224 * index, 224, 224);
+                //    index++;
+                //}
 
-                Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
+                //Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
 
-                DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
-                DataPanelSmar.Image = DataPanel.Image;
-                imgOriginal = DataPanel.Image;
+                //DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
+                //DataPanelSmar.Image = DataPanel.Image;
+                //imgOriginal = DataPanel.Image;
             }
         }
 
@@ -129,6 +134,11 @@ namespace MergeImage
             {
                 lbImagePosiont.Text = "이미지 Position : X =  " + e.X + "; Y = " + e.Y;
             }
+        }
+
+        private void dtpDate_ValueChanged(object sender, EventArgs e)
+        {
+            //이미지 리스트 다시 불러오기
         }
     }
 }
