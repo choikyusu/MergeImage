@@ -52,19 +52,19 @@ namespace MergeImage
 
             if (openFileDialog1.FileNames.Length > 0)
             {
-                Bitmap canvas = new Bitmap(50, 50 * openFileDialog1.FileNames.Length);
+                Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
                 int index = 0;
                 System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
                 foreach (string filename in openFileDialog1.FileNames)
                 {
                     System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
-                    g.DrawImage(img, 0, 50 * index, 50, 50);
+                    g.DrawImage(img, 0, 224 * index, 224, 224);
                     index++;
                 }
 
                 Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
 
-                DataPanel.Image = canvas.GetThumbnailImage(50, 50 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
+                DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
                 imgOriginal = DataPanel.Image;
             }
         }
