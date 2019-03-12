@@ -26,34 +26,9 @@ namespace MergeImage
         {
             InitializeComponent();
 
-            tbxFolderPath.Text = imagePath.SelectedPath;
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
 
-
-            // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
-            string path = "C:\\Users\\tgHan\\Desktop\\HistopathologicalImage\\2019.03.12";
-            DirectoryInfo dirPath = new DirectoryInfo(@path);
-            DirectoryInfo[] dirs = dirPath.GetDirectories();
-            string fullName;
-
-
-
-            foreach (DirectoryInfo dir in dirs) // 하위 폴더목록을 스캔합니다.
-            {
-                foreach (FileInfo File in dir.GetFiles()) // 선택 폴더의 파일 목록을 스캔합니다.
-                {
-
-                    fullName = File.Name;
-                    wordsName = fullName.Split('_');
-                    uniqName.Add(wordsName[0]);
-                }
-
-            }
-            uniqName = uniqName.Distinct().ToList();
-            foreach (string uniq in uniqName) // 선택 폴더의 파일 목록을 스캔합니다.
-            {
-                gridIMG.Rows.Add(uniq, "N");
-            }
+            getDateImageList();
         }
 
 
@@ -83,6 +58,8 @@ namespace MergeImage
                 tbxFolderPath.Text = imagePath.SelectedPath;
                 Properties.Settings.Default.imagePath = tbxFolderPath.Text = imagePath.SelectedPath;
                 Properties.Settings.Default.Save();
+
+                getDateImageList();
                 //Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
                 //int index = 0;
                 //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
@@ -168,6 +145,43 @@ namespace MergeImage
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
             //이미지 리스트 다시 불러오기
+            getDateImageList();
+        }
+
+        public void getDateImageList()
+        {
+            gridIMG.Rows.Clear();
+
+            // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
+            string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
+            DirectoryInfo dirPath = new DirectoryInfo(@path);
+            if (dirPath.Exists == true)
+            {
+                DirectoryInfo[] dirs = dirPath.GetDirectories();
+                string fullName;
+
+                foreach (DirectoryInfo dir in dirs) // 하위 폴더목록을 스캔합니다.
+                {
+                    //폴더명이 N,A,D,M일때만 탐색
+                    if (dir.Name == "N" || dir.Name == "A" || dir.Name == "D" || dir.Name == "M")
+                    {
+                        foreach (FileInfo File in dir.GetFiles()) // 선택 폴더의 파일 목록을 스캔합니다.
+                        {
+                            if (File.Name.Contains("_") == true)
+                            {
+                                fullName = File.Name;
+                                wordsName = fullName.Split('_');
+                                uniqName.Add(wordsName[0]);
+                            }
+                        }
+                    }
+                }
+                uniqName = uniqName.Distinct().ToList();
+                foreach (string uniq in uniqName) // 선택 폴더의 파일 목록을 스캔합니다.
+                {
+                    gridIMG.Rows.Add(uniq, "N");
+                }
+            }
         }
     }
 }
