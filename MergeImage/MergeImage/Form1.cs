@@ -287,7 +287,7 @@ namespace MergeImage
 
 
             Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
-            imageSize = parsingXY(pathParams);
+            imageSize = getMaxXY(pathParams);
             Bitmap canvas = new Bitmap(224, 224);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
             System.Drawing.Image img = System.Drawing.Image.FromFile(pathParams[0]);
@@ -298,10 +298,10 @@ namespace MergeImage
             imgOriginal = DataPanel.Image;
         }
 
-        public Dictionary<string, Int32> parsingXY(List<string> pathParams)
+        public Dictionary<string, Int32> getMaxXY(List<string> pathParams)
         {
             Dictionary<string, Int32> imageSize = new Dictionary<string, Int32>();
-            string itemName;
+            Dictionary<string, Int32> tempSize = new Dictionary<string, Int32>();
             Int32 maxX = 0;
             Int32 maxY = 0;
             Int32 tempX;
@@ -310,11 +310,10 @@ namespace MergeImage
 
             foreach (string item in pathParams)
             {
-                itemName= item.Split('\\').Last();
-                itemName = itemName.Split('.')[0];
-                tempY = Convert.ToInt32(itemName.Split('_')[1]);
-                tempX = Convert.ToInt32(itemName.Split('_')[2]);
-                if(maxX<= tempX)
+                tempSize = parsingXY(item);
+                tempY = tempSize["pY"];
+                tempX = tempSize["pX"];
+                if (maxX<= tempX)
                 {
                     maxX = tempX;
                 }
@@ -328,11 +327,25 @@ namespace MergeImage
                     maxY = tempY;
                     firstCheck = false;
                 }
-                
+                tempSize.Clear();        
             }
             imageSize.Add("maxX", maxX);
             imageSize.Add("maxY", maxY);
             return imageSize;
+        }
+        public Dictionary<string, Int32> parsingXY(string pathParams)
+        {
+            Dictionary<string, Int32> pXY = new Dictionary<string, Int32>();
+            string itemName = pathParams;
+            Int32 pX = 0;
+            Int32 pY = 0;
+            itemName = itemName.Split('\\').Last();
+            itemName = itemName.Split('.')[0];
+            pY = Convert.ToInt32(itemName.Split('_')[1]);
+            pX = Convert.ToInt32(itemName.Split('_')[2]);
+            pXY.Add("pX", pX);
+            pXY.Add("pY", pY);
+            return pXY;
         }
     }
 }
