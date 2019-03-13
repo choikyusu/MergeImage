@@ -186,6 +186,7 @@ namespace MergeImage
                     }
                 }
                 uniqName = uniqName.Distinct().ToList();
+                uniqName.Sort();
                 foreach (string uniq in uniqName) // 선택 폴더의 파일 목록을 스캔합니다.
                 {
                     gridMergeImage.Rows.Add(uniq, "N");
