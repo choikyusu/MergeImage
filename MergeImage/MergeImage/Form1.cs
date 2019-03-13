@@ -288,22 +288,14 @@ namespace MergeImage
 
             Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
             imageSize = parsingXY(pathParams);
-
-            //Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
-            //int index = 0;
-            //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-            //foreach (string filename in pathParams)
-            //{
-            //    System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
-            //    g.DrawImage(img, 0, 224 * index, 224, 224);
-            //    index++;
-            //}
-
-            //Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
-
-            //DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
-            //DataPanelSmar.Image = DataPanel.Image;
-            //imgOriginal = DataPanel.Image;
+            Bitmap canvas = new Bitmap(224, 224);
+            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
+            System.Drawing.Image img = System.Drawing.Image.FromFile(pathParams[0]);
+            g.DrawImage(img, 0, 0, 224, 224);
+            Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
+            DataPanel.Image = canvas.GetThumbnailImage(224, 224, myCallback, IntPtr.Zero);
+            DataPanelSmar.Image = DataPanel.Image;
+            imgOriginal = DataPanel.Image;
         }
 
         public Dictionary<string, Int32> parsingXY(List<string> pathParams)
