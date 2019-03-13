@@ -26,6 +26,8 @@ namespace MergeImage
         private Boolean isMove = false;
         private string[] wordsName;
         private List<string> uniqName = new List<string>();
+        private List<string> slidesFullName = new List<string>();
+        private List<string> filterSlidesFullName = new List<string>();
 
 
         public Form1()
@@ -178,9 +180,10 @@ namespace MergeImage
                         {
                             if (File.Name.Contains("_") == true)
                             {
-                                fullName = File.Name;
-                                wordsName = fullName.Split('_');
-                                uniqName.Add(wordsName[0]);
+                                slidesFullName.Add(File.FullName); // 타일 Full Name(Path+ Image Name) 저장
+                                fullName = File.Name;              // 타일 Name(Image Name)
+                                wordsName = fullName.Split('_');   // 타일 Name Parsing
+                                uniqName.Add(wordsName[0]);        // 타일 ID(Image ID) 저장
                             }
                         }
                     }
@@ -255,6 +258,27 @@ namespace MergeImage
             catch (Exception ex)
             {
                 MessageBox.Show("저장하다 오류가 발생했습니다.");
+            }
+        }
+
+        private void gridMergeImageRowChange(object sender, EventArgs e)
+        {
+            if (gridMergeImage.SelectedRows.Count > 0)
+            {
+                filterSlidesFullName.Clear();
+                int rowindex = gridMergeImage.SelectedRows[0].Index;
+                DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
+                string currentId = Convert.ToString(selectedRow.Cells[0].Value);
+
+                // 특정 ID에 해당 하는 타일 FullName 가져오기.
+                foreach (string item in slidesFullName)
+                {
+                    if (item.Contains(currentId))
+                    {
+                        filterSlidesFullName.Add(item);
+                    }
+
+                }
             }
         }
     }
