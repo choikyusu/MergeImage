@@ -285,19 +285,36 @@ namespace MergeImage
         
         public void drawImage(List<string> pathParams){
 
-
             Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
+            Dictionary<string, Int32> tempSize = new Dictionary<string, Int32>();
+            Int32 X;
+            Int32 Y;
             imageSize = getMaxXY(pathParams);
-            Bitmap canvas = new Bitmap(224, 224);
+            
+            // 10은 Max X, Y좌표를 이용해서 계산한 x축 slide 개수& Y축 Slide 개수-> 추후 정식 좌표 왔을때값구하기 함수 구현
+            // 현재 고정으로 10으로 설정함.
+            Bitmap canvas = new Bitmap(224 * 10, 224 * 10);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-            System.Drawing.Image img = System.Drawing.Image.FromFile(pathParams[0]);
-            g.DrawImage(img, 0, 0, 224, 224);
+            int index = 0;
+            foreach (string filename in pathParams)
+            {
+                tempSize = parsingXY(filename);
+                Y = tempSize["pY"];
+                X = tempSize["pX"];
+                System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+                g.DrawImage(img, X*224, Y*224, 224, 224);
+                index++;
+            }
             Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
-            DataPanel.Image = canvas.GetThumbnailImage(224, 224, myCallback, IntPtr.Zero);
+            if (DataPanel.Image != null)
+                DataPanel.Image.Dispose();
+
+            DataPanel.Image = canvas.GetThumbnailImage(224*10, 224*10, myCallback, IntPtr.Zero);
             DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
         }
 
+        // 전체 이미지 size  구하기 함수.
         public Dictionary<string, Int32> getMaxXY(List<string> pathParams)
         {
             Dictionary<string, Int32> imageSize = new Dictionary<string, Int32>();
@@ -333,6 +350,8 @@ namespace MergeImage
             imageSize.Add("maxY", maxY);
             return imageSize;
         }
+
+        // 이미지 좌표 파싱함수
         public Dictionary<string, Int32> parsingXY(string pathParams)
         {
             Dictionary<string, Int32> pXY = new Dictionary<string, Int32>();
