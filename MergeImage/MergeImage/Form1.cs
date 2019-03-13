@@ -279,7 +279,68 @@ namespace MergeImage
                     }
 
                 }
+                drawImage(filterSlidesFullName);
             }
+        }
+        
+        public void drawImage(List<string> pathParams){
+
+
+            Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
+            imageSize = parsingXY(pathParams);
+
+            //Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
+            //int index = 0;
+            //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
+            //foreach (string filename in pathParams)
+            //{
+            //    System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+            //    g.DrawImage(img, 0, 224 * index, 224, 224);
+            //    index++;
+            //}
+
+            //Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
+
+            //DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
+            //DataPanelSmar.Image = DataPanel.Image;
+            //imgOriginal = DataPanel.Image;
+        }
+
+        public Dictionary<string, Int32> parsingXY(List<string> pathParams)
+        {
+            Dictionary<string, Int32> imageSize = new Dictionary<string, Int32>();
+            string itemName;
+            Int32 maxX = 0;
+            Int32 maxY = 0;
+            Int32 tempX;
+            Int32 tempY;
+            Boolean firstCheck = true;
+
+            foreach (string item in pathParams)
+            {
+                itemName= item.Split('\\').Last();
+                itemName = itemName.Split('.')[0];
+                tempY = Convert.ToInt32(itemName.Split('_')[1]);
+                tempX = Convert.ToInt32(itemName.Split('_')[2]);
+                if(maxX<= tempX)
+                {
+                    maxX = tempX;
+                }
+                if (maxY <= tempY)
+                {
+                    maxY = tempY;
+                }
+                if (firstCheck)
+                {
+                    maxX = tempX;
+                    maxY = tempY;
+                    firstCheck = false;
+                }
+                
+            }
+            imageSize.Add("maxX", maxX);
+            imageSize.Add("maxY", maxY);
+            return imageSize;
         }
     }
 }
