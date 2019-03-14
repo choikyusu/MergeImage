@@ -287,29 +287,34 @@ namespace MergeImage
 
             Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
             Dictionary<string, Int32> tempSize = new Dictionary<string, Int32>();
+            Dictionary<string, Int32> imagePixels= new Dictionary<string, Int32>();
             Int32 X;
             Int32 Y;
             imageSize = getMaxXY(pathParams);
-            
+
+
+            // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
+            imagePixels = pixelsXY(pathParams[0]);
+
             // 10은 Max X, Y좌표를 이용해서 계산한 x축 slide 개수& Y축 Slide 개수-> 추후 정식 좌표 왔을때값구하기 함수 구현
             // 현재 고정으로 10으로 설정함.
-            Bitmap canvas = new Bitmap(224 * 10, 224 * 10);
+            Bitmap canvas = new Bitmap(imagePixels["pixelX"] * 10, imagePixels["pixelY"] * 10);
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-            int index = 0;
+
+            // 이미지 Merge 하여 그려주기.
             foreach (string filename in pathParams)
             {
                 tempSize = parsingXY(filename);
                 Y = tempSize["pY"];
                 X = tempSize["pX"];
                 System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
-                g.DrawImage(img, X*224, Y*224, 224, 224);
-                index++;
+                g.DrawImage(img, X* imagePixels["pixelX"], Y* imagePixels["pixelY"], imagePixels["pixelX"], imagePixels["pixelY"]);
             }
             Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
-            DataPanel.Image = canvas.GetThumbnailImage(224*10, 224*10, myCallback, IntPtr.Zero);
+            DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * 10, imagePixels["pixelY"] * 10, myCallback, IntPtr.Zero);
             DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
         }
@@ -366,5 +371,17 @@ namespace MergeImage
             pXY.Add("pY", pY);
             return pXY;
         }
+
+        // 이미지 get XY pixels 
+        public Dictionary<string, Int32> pixelsXY(string pathParams)
+        {
+            Dictionary<string, Int32>  tempXY = new Dictionary<string, Int32>();
+            Bitmap img = new Bitmap(pathParams);
+            tempXY.Add("pixelX", img.Width);
+            tempXY.Add("pixelY", img.Height);
+            return tempXY;
+        }
+
+
     }
 }
