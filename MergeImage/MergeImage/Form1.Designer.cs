@@ -55,10 +55,12 @@
             this.gridMergeImage = new System.Windows.Forms.DataGridView();
             this.DataPanel = new System.Windows.Forms.PictureBox();
             this.imagePath = new System.Windows.Forms.FolderBrowserDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanelSmar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // DataPanelSmar
@@ -318,10 +320,11 @@
             this.gridMergeImage.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridMergeImage.Size = new System.Drawing.Size(115, 562);
             this.gridMergeImage.TabIndex = 201;
+            this.gridMergeImage.SelectionChanged += new System.EventHandler(this.gridMergeImageRowChange);
             // 
             // DataPanel
             // 
-            this.DataPanel.Location = new System.Drawing.Point(298, 44);
+            this.DataPanel.Location = new System.Drawing.Point(3, 4);
             this.DataPanel.Name = "DataPanel";
             this.DataPanel.Size = new System.Drawing.Size(856, 562);
             this.DataPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -333,12 +336,21 @@
             this.DataPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseUp);
             this.DataPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseWheel);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.DataPanel);
+            this.panel1.Location = new System.Drawing.Point(298, 45);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(869, 570);
+            this.panel1.TabIndex = 214;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1299, 618);
             this.Controls.Add(this.DataPanelSmar);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.tbxFolderPath);
             this.Controls.Add(this.btnConfirm);
             this.Controls.Add(this.button3);
@@ -351,7 +363,6 @@
             this.Controls.Add(this.btnA);
             this.Controls.Add(this.dtpDate);
             this.Controls.Add(this.gridMergeImage);
-            this.Controls.Add(this.DataPanel);
             this.Name = "Form1";
             this.Text = "이미지 병합";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -359,6 +370,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -387,6 +399,7 @@
         private System.Windows.Forms.DataGridView gridMergeImage;
         private System.Windows.Forms.PictureBox DataPanel;
         private System.Windows.Forms.FolderBrowserDialog imagePath;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
