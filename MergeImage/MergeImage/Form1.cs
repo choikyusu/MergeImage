@@ -296,9 +296,8 @@ namespace MergeImage
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
 
-            // 10은 Max X, Y좌표를 이용해서 계산한 x축 slide 개수& Y축 Slide 개수-> 추후 정식 좌표 왔을때값구하기 함수 구현
-            // 현재 고정으로 10으로 설정함.
-            Bitmap canvas = new Bitmap(imagePixels["pixelX"] * 10, imagePixels["pixelY"] * 10);
+            // Whole Image 크기에 따라 canvas size 가변하게 설정.
+            Bitmap canvas = new Bitmap(imagePixels["pixelX"] * (imageSize["maxX"] +1), imagePixels["pixelY"] * (imageSize["maxY"] + 1));
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
 
             // 이미지 Merge 하여 그려주기.
@@ -314,7 +313,7 @@ namespace MergeImage
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
-            DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * 10, imagePixels["pixelY"] * 10, myCallback, IntPtr.Zero);
+            DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * (imageSize["maxX"] + 1), imagePixels["pixelY"] * (imageSize["maxY"] + 1), myCallback, IntPtr.Zero);
             DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
         }
