@@ -290,6 +290,7 @@ namespace MergeImage
             Dictionary<string, Int32> imagePixels= new Dictionary<string, Int32>();
             Int32 X;
             Int32 Y;
+            string slideStyle;
             imageSize = getMaxXY(pathParams);
 
 
@@ -303,10 +304,12 @@ namespace MergeImage
             // 이미지 Merge 하여 그려주기.
             foreach (string filename in pathParams)
             {
+                slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
                 Y = tempSize["pY"];
                 X = tempSize["pX"];
-                System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+                //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+                Bitmap img = new Bitmap(filename);
                 g.DrawImage(img, X* imagePixels["pixelX"], Y* imagePixels["pixelY"], imagePixels["pixelX"], imagePixels["pixelY"]);
             }
             Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
