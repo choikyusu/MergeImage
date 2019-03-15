@@ -50,16 +50,16 @@ namespace MergeImage
         {
             if (e.Delta > 0)
             {
-                DataPanel.Width = DataPanel.Width + 50;
-                DataPanel.Height = DataPanel.Height + 50;
+                DataPanel.Width = DataPanel.Width + 200;
+                DataPanel.Height = DataPanel.Height + 200;
             }
             else
             {
                 //최소 사이즈 설정
                 if (DataPanel.Height >= 100 && DataPanel.Width >= 100)
                 {
-                    DataPanel.Width = DataPanel.Width - 50;
-                    DataPanel.Height = DataPanel.Height - 50;
+                    DataPanel.Width = DataPanel.Width - 200;
+                    DataPanel.Height = DataPanel.Height - 200;
                 }
 
                 
@@ -321,7 +321,10 @@ namespace MergeImage
                 wholeY = tempSize["wholeY"];
                 if (drawCanvas)
                 {
-                    canvas = new Bitmap(wholeX, 20000);
+                    if(canvas == null)
+                    {
+                        canvas = new Bitmap(wholeX, 20000);
+                    }
                     g = System.Drawing.Graphics.FromImage(canvas);
                     drawCanvas = false;
 
