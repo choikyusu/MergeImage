@@ -13,7 +13,16 @@ namespace MergeImage
 {
     public partial class Form1 : Form
     {
-
+        double zoomScale = 1;
+        int startPointX = 0;
+        int startPointY = 0;
+        int top = 0;
+        int left = 0;
+        int splitWidth = 250;
+        int splitHeight = 250;
+        int moveX = 0, moveY = 0;
+        int wholeX;
+        int wholeY;
         enum eMergeImageGridIndex
         {
             ID,
@@ -30,12 +39,36 @@ namespace MergeImage
         private List<string> filterSlidesFullName = new List<string>();
         private Bitmap canvas;
         System.Drawing.Graphics g;
-        int wholeX ;
-        int wholeY;
 
+        public int Top1
+        {
+            get
+            {
+                return top + startPointY;
+            }
+
+            set
+            {
+                top = value;
+            }
+        }
+
+        public int Left1
+        {
+            get
+            {
+                return left + startPointX;
+            }
+
+            set
+            {
+                left = value;
+            }
+        }
 
         public Form1()
         {
+
             InitializeComponent();
 
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
@@ -50,19 +83,21 @@ namespace MergeImage
         {
             if (e.Delta > 0)
             {
-                DataPanel.Width = DataPanel.Width + 250;
-                DataPanel.Height = DataPanel.Height + 250;
+                if (zoomScale < 1)
+                {
+                    zoomScale += 0.03;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    gridMergeImageRowChange(null, null);
+                }
             }
             else
             {
-                //최소 사이즈 설정
-                if (DataPanel.Height >= 100 && DataPanel.Width >= 100)
+                if (zoomScale > 0.03)
                 {
-                    DataPanel.Width = DataPanel.Width - 250;
-                    DataPanel.Height = DataPanel.Height - 250;
+                    zoomScale -= 0.03;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    gridMergeImageRowChange(null, null);
                 }
-
-                
             }
 
         }
@@ -117,15 +152,18 @@ namespace MergeImage
                 isMove = true;
                 DataPanel.Focus();
 
+                lbImagePosiont.Text = "left : " + Left1 + " top : " + Top1;
+
             }
 
         }
-
         private void DataPanel_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 isMove = false;
+
+                gridMergeImageRowChange(null, null);
             }
         }
 
@@ -134,15 +172,20 @@ namespace MergeImage
             DataPanel.Focus();
             if (isMove)
             {
-                int x, y;
-                int moveX, moveY;
+                //int x, y;
+
                 moveX = Cursor.Position.X - firstPoint.X;
                 moveY = Cursor.Position.Y - firstPoint.Y;
-                x = DataPanel.Location.X + moveX;
-                y = DataPanel.Location.Y + moveY;
-                DataPanel.Location = new Point(x, y);
+                left = left - (moveX + moveX * (int)((1 - zoomScale) * 10));
+
+                top = top - (moveY + moveX * (int)((1 - zoomScale) * 10));
+                //DataPanel.Location = new Point(x, y);
                 firstPoint.X = Cursor.Position.X;
                 firstPoint.Y = Cursor.Position.Y;
+
+                lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
+
+                //gridMergeImageRowChange(null, null);
             }
         }
 
@@ -192,7 +235,7 @@ namespace MergeImage
                             {
                                 slidesFullName.Add(File.FullName); // 타일 Full Name(Path+ Image Name) 저장
                                 fullName = File.Name;              // 타일 Name(Image Name)
-                                wordsName = fullName.Split('_','-');   // 타일 Name Parsing
+                                wordsName = fullName.Split('_', '-');   // 타일 Name Parsing
                                 uniqName.Add(wordsName[0]);        // 타일 ID(Image ID) 저장
                             }
                         }
@@ -214,10 +257,7 @@ namespace MergeImage
 
             //선택한 병합이미지 리스트에서 확인을 했다는 의미의 Y로 변경
             gridMergeImage.CurrentRow.Cells[(int)eMergeImageGridIndex.CONFIRM].Value = "Y";
-
             saveFileMergeImageStatus();
-
-
         }
 
         public void readFileMergeImageStatus()
@@ -292,12 +332,32 @@ namespace MergeImage
                 drawImage(filterSlidesFullName);
             }
         }
-        
-        public void drawImage(List<string> pathParams){
+
+        public bool getIntersection(int x1, int width1, int y1, int height1, int x2, int width2, int y2, int height2)
+        {
+            if (x1 > x2 + width2) return false;
+            if (x1 + width1 < x2) return false;
+            if (y1 > y2 + height2) return false;
+            if (y1 + height1 < y2) return false;
+
+            return true;
+        }
+
+
+        public void drawImage(List<string> pathParams)
+        {
+            List<string> tempParams = new List<string>();
+            foreach (string filename in pathParams)
+            {
+                Dictionary<string, int> location = parsingXY(filename);
+
+                if (getIntersection((int)(location["pX"] * zoomScale), (int)(splitWidth * zoomScale), (int)(location["pY"] * zoomScale), (int)(splitHeight * zoomScale), (int)(Left1 * zoomScale), DataPanel.Width, (int)(Top1 * zoomScale), DataPanel.Height) == true)
+                    tempParams.Add(filename);
+            }
 
             //Dictionary<string, int> imageSize= new Dictionary<string, int>();
-            Dictionary<string, int> tempSize = new Dictionary<string, int>();
-            Dictionary<string, int> imagePixels= new Dictionary<string, int>();
+            Dictionary<string, int> tempSize = null;
+            Dictionary<string, int> imagePixels = null;
 
             string slideStyle;
             Boolean drawCanvas = true;
@@ -310,26 +370,20 @@ namespace MergeImage
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
             //Bitmap canvas = new Bitmap(imagePixels["pixelX"] * (imagePixels["maxX"] +1), imagePixels["pixelY"] * (imagePixels["maxY"] + 1));
             //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-            
+            canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
+            g = System.Drawing.Graphics.FromImage(canvas);
             // 이미지 Merge 하여 그려주기.
-            foreach (string filename in pathParams)
+            foreach (string filename in tempParams)
             {
 
                 slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
                 wholeX = tempSize["wholeX"];
-                wholeY = tempSize["wholeX"];
-                if (drawCanvas)
-                {
-                    canvas = new Bitmap(wholeX, wholeY);
-                    g = System.Drawing.Graphics.FromImage(canvas);
-                    drawCanvas = false;
-
-                }
+                wholeY = tempSize["wholeY"];
 
                 //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
                 Bitmap img = new Bitmap(filename);
-                float w = (float)(imagePixels["pixelX"] * 0.05);//border size，
+                float w = (float)(imagePixels["width"] * 0.05);//border size，
                 Pen whitePen = new Pen(Color.White, w);
                 Pen greenPen = new Pen(Color.Green, w);
                 Pen bluePen = new Pen(Color.Blue, w);
@@ -337,35 +391,29 @@ namespace MergeImage
                 switch (slideStyle)
                 {
                     case "N":
-                        g.DrawRectangle(whitePen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(whitePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
                         break;
                     case "A":
-                        g.DrawRectangle(greenPen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(greenPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
                         break;
                     case "D":
-                        g.DrawRectangle(bluePen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(bluePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
                         break;
                     case "M":
-                        g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
                         break;
                 }
-
-                g.DrawImage(img, tempSize["pX"] , tempSize["pY"] , imagePixels["pixelX"], imagePixels["pixelY"]);
+                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
 
             }
-            Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
             //DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * (imageSize["maxX"] + 1), imagePixels["pixelY"] * (imageSize["maxY"] + 1), myCallback, IntPtr.Zero);
-            DataPanel.Image = canvas.GetThumbnailImage(wholeX, wholeY, myCallback, IntPtr.Zero);
-            DataPanelSmar.Image = DataPanel.Image;
+            //DataPanel.Image = canvas.GetThumbnailImage(wholeX, 20000, myCallback, IntPtr.Zero);
+            DataPanel.Image = canvas as Image;
+            //DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
-            canvas.Dispose();
-
-
-
-
 
         }
 
@@ -399,7 +447,7 @@ namespace MergeImage
                     maxY = tempY;
                     firstCheck = false;
                 }
-                tempSize.Clear();        
+                tempSize.Clear(); 
             }
             imageSize.Add("maxX", maxX);
             imageSize.Add("maxY", maxY);
@@ -411,7 +459,8 @@ namespace MergeImage
         {
             Dictionary<string, int> pXY = new Dictionary<string, int>();
             string itemName = pathParams;
-           
+
+
             int wholeX = 0;
             int wholeY = 0;
             int pX = 0;
@@ -438,8 +487,8 @@ namespace MergeImage
         {
             Dictionary<string, int>  tempXY = new Dictionary<string, int>();
             Bitmap img = new Bitmap(pathParams);
-            tempXY.Add("pixelX", img.Width);
-            tempXY.Add("pixelY", img.Height);
+            tempXY.Add("width", img.Width);
+            tempXY.Add("height", img.Height);
             return tempXY;
         }
 
