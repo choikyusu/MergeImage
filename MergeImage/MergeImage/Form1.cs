@@ -30,8 +30,8 @@ namespace MergeImage
         private List<string> filterSlidesFullName = new List<string>();
         private Bitmap canvas;
         System.Drawing.Graphics g;
-        Int32 wholeX ;
-        Int32 wholeY;
+        int wholeX ;
+        int wholeY;
 
 
         public Form1()
@@ -50,16 +50,16 @@ namespace MergeImage
         {
             if (e.Delta > 0)
             {
-                DataPanel.Width = DataPanel.Width + 200;
-                DataPanel.Height = DataPanel.Height + 200;
+                DataPanel.Width = DataPanel.Width + 250;
+                DataPanel.Height = DataPanel.Height + 250;
             }
             else
             {
                 //최소 사이즈 설정
                 if (DataPanel.Height >= 100 && DataPanel.Width >= 100)
                 {
-                    DataPanel.Width = DataPanel.Width - 200;
-                    DataPanel.Height = DataPanel.Height - 200;
+                    DataPanel.Width = DataPanel.Width - 250;
+                    DataPanel.Height = DataPanel.Height - 250;
                 }
 
                 
@@ -295,9 +295,9 @@ namespace MergeImage
         
         public void drawImage(List<string> pathParams){
 
-            //Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
-            Dictionary<string, Int32> tempSize = new Dictionary<string, Int32>();
-            Dictionary<string, Int32> imagePixels= new Dictionary<string, Int32>();
+            //Dictionary<string, int> imageSize= new Dictionary<string, int>();
+            Dictionary<string, int> tempSize = new Dictionary<string, int>();
+            Dictionary<string, int> imagePixels= new Dictionary<string, int>();
 
             string slideStyle;
             Boolean drawCanvas = true;
@@ -318,13 +318,10 @@ namespace MergeImage
                 slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
                 wholeX = tempSize["wholeX"];
-                wholeY = tempSize["wholeY"];
+                wholeY = tempSize["wholeX"];
                 if (drawCanvas)
                 {
-                    if(canvas == null)
-                    {
-                        canvas = new Bitmap(wholeX, 20000);
-                    }
+                    canvas = new Bitmap(wholeX, wholeY);
                     g = System.Drawing.Graphics.FromImage(canvas);
                     drawCanvas = false;
 
@@ -352,6 +349,7 @@ namespace MergeImage
                         g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
                         break;
                 }
+
                 g.DrawImage(img, tempSize["pX"] , tempSize["pY"] , imagePixels["pixelX"], imagePixels["pixelY"]);
 
             }
@@ -360,21 +358,26 @@ namespace MergeImage
                 DataPanel.Image.Dispose();
 
             //DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * (imageSize["maxX"] + 1), imagePixels["pixelY"] * (imageSize["maxY"] + 1), myCallback, IntPtr.Zero);
-            DataPanel.Image = canvas.GetThumbnailImage(wholeX, 20000, myCallback, IntPtr.Zero);
+            DataPanel.Image = canvas.GetThumbnailImage(wholeX, wholeY, myCallback, IntPtr.Zero);
             DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
+            canvas.Dispose();
+
+
+
+
 
         }
 
         // 전체 이미지 size  구하기 함수.
-        public Dictionary<string, Int32> getMaxXY(List<string> pathParams)
+        public Dictionary<string, int> getMaxXY(List<string> pathParams)
         {
-            Dictionary<string, Int32> imageSize = new Dictionary<string, Int32>();
-            Dictionary<string, Int32> tempSize = new Dictionary<string, Int32>();
-            Int32 maxX = 0;
-            Int32 maxY = 0;
-            Int32 tempX;
-            Int32 tempY;
+            Dictionary<string, int> imageSize = new Dictionary<string, int>();
+            Dictionary<string, int> tempSize = new Dictionary<string, int>();
+            int maxX = 0;
+            int maxY = 0;
+            int tempX;
+            int tempY;
             Boolean firstCheck = true;
 
             foreach (string item in pathParams)
@@ -404,24 +407,24 @@ namespace MergeImage
         }
 
         // 이미지 좌표 파싱함수
-        public Dictionary<string, Int32> parsingXY(string pathParams)
+        public Dictionary<string, int> parsingXY(string pathParams)
         {
-            Dictionary<string, Int32> pXY = new Dictionary<string, Int32>();
+            Dictionary<string, int> pXY = new Dictionary<string, int>();
             string itemName = pathParams;
            
-            Int32 wholeX = 0;
-            Int32 wholeY = 0;
-            Int32 pX = 0;
-            Int32 pY = 0;
+            int wholeX = 0;
+            int wholeY = 0;
+            int pX = 0;
+            int pY = 0;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
             //itemName = itemName.Split('-','_')[0];
-            //pY = Convert.ToInt32(itemName.Split('_')[1]);
-            //pX = Convert.ToInt32(itemName.Split('_')[2]);
-            wholeX = Convert.ToInt32(itemName.Split('-', '_')[2]);
-            wholeY = Convert.ToInt32(itemName.Split('-', '_')[3]);
-            pX = Convert.ToInt32(itemName.Split('-', '_')[4]);
-            pY = Convert.ToInt32(itemName.Split('-', '_')[5]);
+            //pY = Convert.Toint(itemName.Split('_')[1]);
+            //pX = Convert.Toint(itemName.Split('_')[2]);
+            wholeX = int.Parse(itemName.Split('-', '_')[2]);
+            wholeY = int.Parse(itemName.Split('-', '_')[3]);
+            pX = int.Parse(itemName.Split('-', '_')[4]);
+            pY = int.Parse(itemName.Split('-', '_')[5]);
 
             pXY.Add("wholeX", wholeX);
             pXY.Add("wholeY", wholeY);
@@ -431,9 +434,9 @@ namespace MergeImage
         }
 
         // 이미지 get XY pixels 
-        public Dictionary<string, Int32> pixelsXY(string pathParams)
+        public Dictionary<string, int> pixelsXY(string pathParams)
         {
-            Dictionary<string, Int32>  tempXY = new Dictionary<string, Int32>();
+            Dictionary<string, int>  tempXY = new Dictionary<string, int>();
             Bitmap img = new Bitmap(pathParams);
             tempXY.Add("pixelX", img.Width);
             tempXY.Add("pixelY", img.Height);
