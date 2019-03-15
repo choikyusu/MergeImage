@@ -291,8 +291,8 @@ namespace MergeImage
             Int32 X;
             Int32 Y;
             string slideStyle;
-            imageSize = getMaxXY(pathParams);
 
+            imageSize = getMaxXY(pathParams);
 
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
@@ -300,7 +300,7 @@ namespace MergeImage
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
             Bitmap canvas = new Bitmap(imagePixels["pixelX"] * (imageSize["maxX"] +1), imagePixels["pixelY"] * (imageSize["maxY"] + 1));
             System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-
+            
             // 이미지 Merge 하여 그려주기.
             foreach (string filename in pathParams)
             {
@@ -310,6 +310,26 @@ namespace MergeImage
                 X = tempSize["pX"];
                 //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
                 Bitmap img = new Bitmap(filename);
+                float w = (float)(imagePixels["pixelX"] * 0.05);//border size，
+                Pen whitePen = new Pen(Color.White, w);
+                Pen greenPen = new Pen(Color.Green, w);
+                Pen bluePen = new Pen(Color.Blue, w);
+                Pen redPen = new Pen(Color.Red, w);
+                switch (slideStyle)
+                {
+                    case "N":
+                        g.DrawRectangle(whitePen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        break;
+                    case "A":
+                        g.DrawRectangle(greenPen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        break;
+                    case "D":
+                        g.DrawRectangle(bluePen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        break;
+                    case "M":
+                        g.DrawRectangle(redPen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        break;
+                }
                 g.DrawImage(img, X* imagePixels["pixelX"], Y* imagePixels["pixelY"], imagePixels["pixelX"], imagePixels["pixelY"]);
             }
             Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
