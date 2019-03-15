@@ -28,6 +28,10 @@ namespace MergeImage
         private List<string> uniqName = new List<string>();
         private List<string> slidesFullName = new List<string>();
         private List<string> filterSlidesFullName = new List<string>();
+        private Bitmap canvas;
+        System.Drawing.Graphics g;
+        Int32 wholeX ;
+        Int32 wholeY;
 
 
         public Form1()
@@ -188,7 +192,7 @@ namespace MergeImage
                             {
                                 slidesFullName.Add(File.FullName); // 타일 Full Name(Path+ Image Name) 저장
                                 fullName = File.Name;              // 타일 Name(Image Name)
-                                wordsName = fullName.Split('_');   // 타일 Name Parsing
+                                wordsName = fullName.Split('_','-');   // 타일 Name Parsing
                                 uniqName.Add(wordsName[0]);        // 타일 ID(Image ID) 저장
                             }
                         }
@@ -291,29 +295,38 @@ namespace MergeImage
         
         public void drawImage(List<string> pathParams){
 
-            Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
+            //Dictionary<string, Int32> imageSize= new Dictionary<string, Int32>();
             Dictionary<string, Int32> tempSize = new Dictionary<string, Int32>();
             Dictionary<string, Int32> imagePixels= new Dictionary<string, Int32>();
-            Int32 X;
-            Int32 Y;
-            string slideStyle;
 
-            imageSize = getMaxXY(pathParams);
+            string slideStyle;
+            Boolean drawCanvas = true;
+
+            //imageSize = getMaxXY(pathParams);
 
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
 
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
-            Bitmap canvas = new Bitmap(imagePixels["pixelX"] * (imageSize["maxX"] +1), imagePixels["pixelY"] * (imageSize["maxY"] + 1));
-            System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
+            //Bitmap canvas = new Bitmap(imagePixels["pixelX"] * (imagePixels["maxX"] +1), imagePixels["pixelY"] * (imagePixels["maxY"] + 1));
+            //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
             
             // 이미지 Merge 하여 그려주기.
             foreach (string filename in pathParams)
             {
+
                 slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
-                Y = tempSize["pY"];
-                X = tempSize["pX"];
+                wholeX = tempSize["wholeX"];
+                wholeY = tempSize["wholeY"];
+                if (drawCanvas)
+                {
+                    canvas = new Bitmap(wholeX, 20000);
+                    g = System.Drawing.Graphics.FromImage(canvas);
+                    drawCanvas = false;
+
+                }
+
                 //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
                 Bitmap img = new Bitmap(filename);
                 float w = (float)(imagePixels["pixelX"] * 0.05);//border size，
@@ -324,27 +337,30 @@ namespace MergeImage
                 switch (slideStyle)
                 {
                     case "N":
-                        g.DrawRectangle(whitePen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(whitePen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
                         break;
                     case "A":
-                        g.DrawRectangle(greenPen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(greenPen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
                         break;
                     case "D":
-                        g.DrawRectangle(bluePen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(bluePen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
                         break;
                     case "M":
-                        g.DrawRectangle(redPen, new Rectangle(X * imagePixels["pixelX"], Y * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
+                        g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["pixelX"], tempSize["pY"] * imagePixels["pixelY"], Math.Abs(imagePixels["pixelX"]), Math.Abs(imagePixels["pixelY"])));//border추가
                         break;
                 }
-                g.DrawImage(img, X* imagePixels["pixelX"], Y* imagePixels["pixelY"], imagePixels["pixelX"], imagePixels["pixelY"]);
+                g.DrawImage(img, tempSize["pX"] , tempSize["pY"] , imagePixels["pixelX"], imagePixels["pixelY"]);
+
             }
             Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
-            DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * (imageSize["maxX"] + 1), imagePixels["pixelY"] * (imageSize["maxY"] + 1), myCallback, IntPtr.Zero);
+            //DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * (imageSize["maxX"] + 1), imagePixels["pixelY"] * (imageSize["maxY"] + 1), myCallback, IntPtr.Zero);
+            DataPanel.Image = canvas.GetThumbnailImage(wholeX, 20000, myCallback, IntPtr.Zero);
             DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
+
         }
 
         // 전체 이미지 size  구하기 함수.
@@ -389,12 +405,23 @@ namespace MergeImage
         {
             Dictionary<string, Int32> pXY = new Dictionary<string, Int32>();
             string itemName = pathParams;
+           
+            Int32 wholeX = 0;
+            Int32 wholeY = 0;
             Int32 pX = 0;
             Int32 pY = 0;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
-            pY = Convert.ToInt32(itemName.Split('_')[1]);
-            pX = Convert.ToInt32(itemName.Split('_')[2]);
+            //itemName = itemName.Split('-','_')[0];
+            //pY = Convert.ToInt32(itemName.Split('_')[1]);
+            //pX = Convert.ToInt32(itemName.Split('_')[2]);
+            wholeX = Convert.ToInt32(itemName.Split('-', '_')[2]);
+            wholeY = Convert.ToInt32(itemName.Split('-', '_')[3]);
+            pX = Convert.ToInt32(itemName.Split('-', '_')[4]);
+            pY = Convert.ToInt32(itemName.Split('-', '_')[5]);
+
+            pXY.Add("wholeX", wholeX);
+            pXY.Add("wholeY", wholeY);
             pXY.Add("pX", pX);
             pXY.Add("pY", pY);
             return pXY;
