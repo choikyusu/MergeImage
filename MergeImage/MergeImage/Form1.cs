@@ -51,8 +51,14 @@ namespace MergeImage
             }
             else
             {
-                DataPanel.Width = DataPanel.Width - 50;
-                DataPanel.Height = DataPanel.Height - 50;
+                //최소 사이즈 설정
+                if (DataPanel.Height >= 100 && DataPanel.Width >= 100)
+                {
+                    DataPanel.Width = DataPanel.Width - 50;
+                    DataPanel.Height = DataPanel.Height - 50;
+                }
+
+                
             }
 
         }
