@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace MergeImage
 {
     public partial class Form1 : Form
     {
+        int drawCount = 0;
         double zoomScale = 1;
         int startPointX = 4080;
         int startPointY = 2040;
@@ -20,9 +22,9 @@ namespace MergeImage
         int left = 0;
         int splitWidth = 250;
         int splitHeight = 250;
-        int moveX = 0, moveY = 0;
         int wholeX;
         int wholeY;
+        List<string> drawnImage = new List<string>();
         enum eMergeImageGridIndex
         {
             ID,
@@ -75,6 +77,8 @@ namespace MergeImage
 
             getDateImageList();
             readFileMergeImageStatus();
+
+            drawnImage.Clear();
         }
 
 
@@ -85,18 +89,18 @@ namespace MergeImage
             {
                 if (zoomScale < 1)
                 {
-                    zoomScale += 0.03;
-                    zoomScale = Math.Round(zoomScale * 100) / 100;
-                    gridMergeImageRowChange(null, null);
+                    zoomScale += 0.1;
+                    zoomScale = Math.Round(zoomScale * 10) / 10;
+                    drawImage(filterSlidesFullName);
                 }
             }
             else
             {
-                if (zoomScale > 0.03)
+                if (zoomScale > 0.1)
                 {
-                    zoomScale -= 0.03;
-                    zoomScale = Math.Round(zoomScale * 100) / 100;
-                    gridMergeImageRowChange(null, null);
+                    zoomScale -= 0.1;
+                    zoomScale = Math.Round(zoomScale * 10) / 10;
+                    drawImage(filterSlidesFullName);
                 }
             }
 
@@ -161,11 +165,13 @@ namespace MergeImage
         {
             if (e.Button == MouseButtons.Left)
             {
-                left = left - (DataPanel.Left - 3) - (int)((DataPanel.Left - 3) * 10 * (1.00 - zoomScale)) ;
-                top = top - (DataPanel.Top - 4) - (int)((DataPanel.Top - 4) * 10 * (1.00 - zoomScale));
-                gridMergeImageRowChange(null, null);
-                DataPanel.Left = 3;
-                DataPanel.Top = 4;
+                left = left - (int)((DataPanel.Left + 500)/zoomScale) ;
+                top = top - (int)((DataPanel.Top + 500) / zoomScale);
+                //left = left - (DataPanel.Left + 500) - (int)((DataPanel.Left + 500) * 10 * (1.00 - zoomScale)) ;
+                //top = top - (DataPanel.Top + 500) - (int)((DataPanel.Top + 500) * 10 * (1.00 - zoomScale));
+                drawImage(filterSlidesFullName);
+                DataPanel.Left = -500;
+                DataPanel.Top = -500;
                 isMove = false;
 
                 
@@ -177,31 +183,17 @@ namespace MergeImage
             DataPanel.Focus();
             if (isMove)
             {
-                int x, y;
                 int moveX, moveY;
                 moveX = Cursor.Position.X - firstPoint.X;
                 moveY = Cursor.Position.Y - firstPoint.Y;
-                x = DataPanel.Location.X + moveX;
-                y = DataPanel.Location.Y + moveY;
-                DataPanel.Location = new Point(x, y);
+                DataPanel.Location = new Point(DataPanel.Location.X + moveX, DataPanel.Location.Y + moveY);
                 firstPoint.X = Cursor.Position.X;
                 firstPoint.Y = Cursor.Position.Y;
 
-
-                //int x, y;
-
-                //moveX = Cursor.Position.X - firstPoint.X;
-                //moveY = Cursor.Position.Y - firstPoint.Y;
-                //left = left - (moveX + moveX * (int)((1 - zoomScale) * 10));
-
-                //top = top - (moveY + moveX * (int)((1 - zoomScale) * 10));
-                ////DataPanel.Location = new Point(x, y);
-                //firstPoint.X = Cursor.Position.X;
-                //firstPoint.Y = Cursor.Position.Y;
+                //gridMergeImageRowChange(null, null);
 
                 lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
-                //gridMergeImageRowChange(null, null);
             }
         }
 
@@ -346,6 +338,34 @@ namespace MergeImage
 
                 }
                 drawImage(filterSlidesFullName);
+
+                //랜더링해야하는 이미지 리스트가 변화가 있는지 체크
+
+                //List<string> newDrawnImage = new List<string>();
+
+
+                //int movedLeft = Left1 - (DataPanel.Left - 3);
+                //int movedTop = Top1 - (DataPanel.Top - 4);
+
+                //foreach (string filename in filterSlidesFullName)
+                //{
+                //    Dictionary<string, int> location = parsingXY(filename);
+                //    if (getIntersection(
+                //        x1: (int)(location["pX"] * zoomScale), width1: (int)(splitWidth * zoomScale), y1: (int)(location["pY"] * zoomScale), height1: (int)(splitHeight * zoomScale), 
+                //        x2: (int)(movedLeft * zoomScale), width2: DataPanel.Width, y2: (int)(movedTop * zoomScale),height2: DataPanel.Height) == true)
+                //    {
+                //        newDrawnImage.Add(filename);
+                //    }
+                //}
+                //List<string> inter = drawnImage.Except(newDrawnImage).ToList();
+
+                //if (drawnImage.Count == 0 || inter.Count > 0)
+                //{
+                //    drawCount++;
+                //drawImage(filterSlidesFullName);
+                //    System.Console.WriteLine("그림" + drawCount);
+                //}
+
             }
         }
 
@@ -361,7 +381,7 @@ namespace MergeImage
 
         public void drawImage(List<string> pathParams)
         {
-            List<string> tempParams = new List<string>();
+            drawnImage.Clear();
             foreach (string filename in pathParams)
             {
                 Dictionary<string, int> location = parsingXY(filename);
@@ -370,28 +390,25 @@ namespace MergeImage
                     height1: (int)(splitHeight * zoomScale), x2: (int)(Left1 * zoomScale), width2: DataPanel.Width, y2: (int)(Top1 * zoomScale),
                     height2: DataPanel.Height) == true)
 
-                    tempParams.Add(filename);
+                    drawnImage.Add(filename);
             }
 
-            //Dictionary<string, int> imageSize= new Dictionary<string, int>();
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
 
             string slideStyle;
-            Boolean drawCanvas = true;
-
-            //imageSize = getMaxXY(pathParams);
 
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
 
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
-            //Bitmap canvas = new Bitmap(imagePixels["pixelX"] * (imagePixels["maxX"] +1), imagePixels["pixelY"] * (imagePixels["maxY"] + 1));
-            //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
             canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
             g = System.Drawing.Graphics.FromImage(canvas);
             // 이미지 Merge 하여 그려주기.
-            foreach (string filename in tempParams)
+            Stopwatch stopwatch = new Stopwatch(); //객체 선언
+            stopwatch.Start(); // 시간측정 시작
+
+            foreach (string filename in drawnImage)
             {
 
                 slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
@@ -400,31 +417,40 @@ namespace MergeImage
                 wholeY = tempSize["wholeY"];
 
                 //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+
+                
+
                 Bitmap img = new Bitmap(filename);
-                float w = (float)(imagePixels["width"] * 0.05);//border size，
-                Pen whitePen = new Pen(Color.White, w);
-                Pen greenPen = new Pen(Color.Green, w);
-                Pen bluePen = new Pen(Color.Blue, w);
-                Pen redPen = new Pen(Color.Red, w);
-                switch (slideStyle)
-                {
-                    case "N":
-                        g.DrawRectangle(whitePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                        break;
-                    case "A":
-                        g.DrawRectangle(greenPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                        break;
-                    case "D":
-                        g.DrawRectangle(bluePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                        break;
-                    case "M":
-                        g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                        break;
-                }
+
+                
+                //float w = (float)(imagePixels["width"] * 0.05);//border size，
+                //Pen whitePen = new Pen(Color.White, w);
+                //Pen greenPen = new Pen(Color.Green, w);
+                //Pen bluePen = new Pen(Color.Blue, w);
+                //Pen redPen = new Pen(Color.Red, w);
+                //switch (slideStyle)
+                //{
+                //    case "N":
+                //        g.DrawRectangle(whitePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
+                //        break;
+                //    case "A":
+                //        g.DrawRectangle(greenPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
+                //        break;
+                //    case "D":
+                //        g.DrawRectangle(bluePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
+                //        break;
+                //    case "M":
+                //        g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
+                //        break;
+                //}
+
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), 
                     (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-
             }
+
+            stopwatch.Stop(); //시간측정 끝
+            System.Console.WriteLine("time : " + stopwatch.ElapsedMilliseconds + "ms");
+
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
@@ -499,6 +525,11 @@ namespace MergeImage
             pXY.Add("pX", pX);
             pXY.Add("pY", pY);
             return pXY;
+        }
+
+        private void process1_Exited(object sender, EventArgs e)
+        {
+
         }
 
         // 이미지 get XY pixels 
