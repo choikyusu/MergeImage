@@ -16,8 +16,8 @@ namespace MergeImage
     {
         int drawCount = 0;
         double zoomScale = 1;
-        int startPointX = 4080;
-        int startPointY = 2040;
+        int startPointX = 99999;
+        int startPointY = 99999;
         int top = 0;
         int left = 0;
         int splitWidth = 250;
@@ -89,8 +89,8 @@ namespace MergeImage
             {
                 if (zoomScale < 1)
                 {
-                    zoomScale += 0.1;
-                    zoomScale = Math.Round(zoomScale * 10) / 10;
+                    zoomScale += 0.01;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
                 }
             }
@@ -98,8 +98,8 @@ namespace MergeImage
             {
                 if (zoomScale > 0.1)
                 {
-                    zoomScale -= 0.1;
-                    zoomScale = Math.Round(zoomScale * 10) / 10;
+                    zoomScale -= 0.01;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
                 }
             }
@@ -323,10 +323,16 @@ namespace MergeImage
         {
             if (gridMergeImage.SelectedRows.Count > 0)
             {
+                startPointX = 99999;
+                startPointY = 99999;
+                top = 0;
+                left = 0;
                 filterSlidesFullName.Clear();
                 int rowindex = gridMergeImage.SelectedRows[0].Index;
                 DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
                 string currentId = Convert.ToString(selectedRow.Cells[0].Value);
+
+                Dictionary<string, int> tempSize = null;
 
                 // 특정 ID에 해당 하는 타일 FullName 가져오기.
                 foreach (string item in slidesFullName)
@@ -334,10 +340,18 @@ namespace MergeImage
                     if (item.Contains(currentId))
                     {
                         filterSlidesFullName.Add(item);
-                    }
 
+                        tempSize = parsingXY(item);
+
+                        startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
+                        startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
+                    }
                 }
+
                 drawImage(filterSlidesFullName);
+
+                drawThumbnailImage(filterSlidesFullName);
+
 
                 //랜더링해야하는 이미지 리스트가 변화가 있는지 체크
 
@@ -462,6 +476,42 @@ namespace MergeImage
 
         }
 
+        public void drawThumbnailImage(List<string> pathParams)
+        {
+            Dictionary<string, int> tempSize = null;
+            Dictionary<string, int> imagePixels = null;
+
+            string slideStyle;
+
+            // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
+            imagePixels = pixelsXY(pathParams[0]);
+
+            // Whole Image 크기에 따라 canvas size 가변하게 설정.
+            canvas = new Bitmap(ThumbnailImage.Width, ThumbnailImage.Height);
+            g = System.Drawing.Graphics.FromImage(canvas);
+            // 이미지 Merge 하여 그려주기.
+
+            foreach (string filename in pathParams)
+            {
+
+                slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                tempSize = parsingXY(filename);
+                wholeX = tempSize["wholeX"];
+                wholeY = tempSize["wholeY"];
+
+                Bitmap img = new Bitmap(filename);
+                g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * 0.01), (int)((tempSize["pY"] - startPointY) * 0.01),
+                    (int)(imagePixels["width"] * (0.01)), (int)(imagePixels["height"] * (0.01)));
+            }
+
+
+            if (ThumbnailImage.Image != null)
+                ThumbnailImage.Image.Dispose();
+
+            ThumbnailImage.Image = canvas as Image;
+
+        }
+
         // 전체 이미지 size  구하기 함수.
         public Dictionary<string, int> getMaxXY(List<string> pathParams)
         {
@@ -512,9 +562,6 @@ namespace MergeImage
             int pY = 0;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
-            //itemName = itemName.Split('-','_')[0];
-            //pY = Convert.Toint(itemName.Split('_')[1]);
-            //pX = Convert.Toint(itemName.Split('_')[2]);
             wholeX = int.Parse(itemName.Split('-', '_')[2]);
             wholeY = int.Parse(itemName.Split('-', '_')[3]);
             pX = int.Parse(itemName.Split('-', '_')[4]);
