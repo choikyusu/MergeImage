@@ -14,8 +14,8 @@ namespace MergeImage
     public partial class Form1 : Form
     {
         double zoomScale = 1;
-        int startPointX = 0;
-        int startPointY = 0;
+        int startPointX = 4080;
+        int startPointY = 2040;
         int top = 0;
         int left = 0;
         int splitWidth = 250;
@@ -161,9 +161,14 @@ namespace MergeImage
         {
             if (e.Button == MouseButtons.Left)
             {
+                left = left - (DataPanel.Left - 3) - (int)((DataPanel.Left - 3) * 10 * (1.00 - zoomScale)) ;
+                top = top - (DataPanel.Top - 4) - (int)((DataPanel.Top - 4) * 10 * (1.00 - zoomScale));
+                gridMergeImageRowChange(null, null);
+                DataPanel.Left = 3;
+                DataPanel.Top = 4;
                 isMove = false;
 
-                gridMergeImageRowChange(null, null);
+                
             }
         }
 
@@ -172,16 +177,27 @@ namespace MergeImage
             DataPanel.Focus();
             if (isMove)
             {
-                //int x, y;
-
+                int x, y;
+                int moveX, moveY;
                 moveX = Cursor.Position.X - firstPoint.X;
                 moveY = Cursor.Position.Y - firstPoint.Y;
-                left = left - (moveX + moveX * (int)((1 - zoomScale) * 10));
-
-                top = top - (moveY + moveX * (int)((1 - zoomScale) * 10));
-                //DataPanel.Location = new Point(x, y);
+                x = DataPanel.Location.X + moveX;
+                y = DataPanel.Location.Y + moveY;
+                DataPanel.Location = new Point(x, y);
                 firstPoint.X = Cursor.Position.X;
                 firstPoint.Y = Cursor.Position.Y;
+
+
+                //int x, y;
+
+                //moveX = Cursor.Position.X - firstPoint.X;
+                //moveY = Cursor.Position.Y - firstPoint.Y;
+                //left = left - (moveX + moveX * (int)((1 - zoomScale) * 10));
+
+                //top = top - (moveY + moveX * (int)((1 - zoomScale) * 10));
+                ////DataPanel.Location = new Point(x, y);
+                //firstPoint.X = Cursor.Position.X;
+                //firstPoint.Y = Cursor.Position.Y;
 
                 lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
@@ -339,7 +355,6 @@ namespace MergeImage
             if (x1 + width1 < x2) return false;
             if (y1 > y2 + height2) return false;
             if (y1 + height1 < y2) return false;
-
             return true;
         }
 
@@ -351,7 +366,10 @@ namespace MergeImage
             {
                 Dictionary<string, int> location = parsingXY(filename);
 
-                if (getIntersection((int)(location["pX"] * zoomScale), (int)(splitWidth * zoomScale), (int)(location["pY"] * zoomScale), (int)(splitHeight * zoomScale), (int)(Left1 * zoomScale), DataPanel.Width, (int)(Top1 * zoomScale), DataPanel.Height) == true)
+                if (getIntersection(x1: (int)(location["pX"] * zoomScale), width1: (int)(splitWidth * zoomScale), y1: (int)(location["pY"] * zoomScale),
+                    height1: (int)(splitHeight * zoomScale), x2: (int)(Left1 * zoomScale), width2: DataPanel.Width, y2: (int)(Top1 * zoomScale),
+                    height2: DataPanel.Height) == true)
+
                     tempParams.Add(filename);
             }
 
@@ -403,7 +421,8 @@ namespace MergeImage
                         g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
                         break;
                 }
-                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), 
+                    (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
 
             }
             if (DataPanel.Image != null)

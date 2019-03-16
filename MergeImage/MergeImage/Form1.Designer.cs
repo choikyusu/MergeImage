@@ -324,6 +324,7 @@
             // 
             // DataPanel
             // 
+            this.DataPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.DataPanel.Location = new System.Drawing.Point(3, 4);
             this.DataPanel.Name = "DataPanel";
             this.DataPanel.Size = new System.Drawing.Size(856, 562);
