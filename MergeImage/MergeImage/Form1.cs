@@ -25,7 +25,11 @@ namespace MergeImage
         int wholeX;
         int wholeY;
 
-        Dictionary<string, Bitmap> dicBitmap = new Dictionary<string, Bitmap>();
+        Dictionary<string, Bitmap> dicBitmap100 = new Dictionary<string, Bitmap>();
+        Dictionary<string, Bitmap> dicBitmap50 = new Dictionary<string, Bitmap>();
+        Dictionary<string, Bitmap> dicBitmap20 = new Dictionary<string, Bitmap>();
+        Dictionary<string, Bitmap> dicBitmap10 = new Dictionary<string, Bitmap>();
+        Dictionary<string, Bitmap> dicBitmap5 = new Dictionary<string, Bitmap>();
 
         List<string> drawnImage = new List<string>();
         enum eMergeImageGridIndex
@@ -108,7 +112,7 @@ namespace MergeImage
                 }
                 else if (zoomScale == 0.05)
                 {
-                    zoomScale = 0.2;
+                    zoomScale = 0.1;
                 }
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
@@ -354,12 +358,26 @@ namespace MergeImage
         {
             if (gridMergeImage.SelectedRows.Count > 0)
             {
-                foreach(Bitmap bitmap in dicBitmap.Values)
-                {
+                foreach(Bitmap bitmap in dicBitmap100.Values)
                     bitmap.Dispose();
-                }
-                dicBitmap.Clear();
 
+                foreach (Bitmap bitmap in dicBitmap50.Values)
+                    bitmap.Dispose();
+
+                foreach (Bitmap bitmap in dicBitmap20.Values)
+                    bitmap.Dispose();
+
+                foreach (Bitmap bitmap in dicBitmap10.Values)
+                    bitmap.Dispose();
+
+                foreach (Bitmap bitmap in dicBitmap5.Values)
+                    bitmap.Dispose();
+
+                dicBitmap100.Clear();
+                dicBitmap50.Clear();
+                dicBitmap20.Clear();
+                dicBitmap10.Clear();
+                dicBitmap5.Clear();
 
                 startPointX = 99999;
                 startPointY = 99999;
@@ -385,7 +403,31 @@ namespace MergeImage
                         startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
                         startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
                         Bitmap img = new Bitmap(item);
-                        dicBitmap.Add(item, img);
+                        dicBitmap100.Add(item, img);
+
+                        int width = (int)(img.Width * 0.5);
+                        int height = (int)(img.Height * 0.5);
+                        Size resize = new Size(width, height);
+                        Bitmap image50 = new Bitmap(img, resize);
+                        dicBitmap50.Add(item, image50);
+
+                        width = (int)(img.Width * 0.2);
+                        height = (int)(img.Height * 0.2);
+                        resize = new Size(width, height);
+                        Bitmap image20 = new Bitmap(img, resize);
+                        dicBitmap20.Add(item, image20);
+
+                        width = (int)(img.Width * 0.1);
+                        height = (int)(img.Height * 0.1);
+                        resize = new Size(width, height);
+                        Bitmap image10 = new Bitmap(img, resize);
+                        dicBitmap10.Add(item, image10);
+
+                        width = (int)(img.Width * 0.05);
+                        height = (int)(img.Height * 0.05);
+                        resize = new Size(width, height);
+                        Bitmap image5 = new Bitmap(img, resize);
+                        dicBitmap5.Add(item, image5);
                     }
                 }
 
@@ -393,7 +435,7 @@ namespace MergeImage
 
                 drawImage(filterSlidesFullName);
 
-                drawThumbnailImage(filterSlidesFullName);
+                //drawThumbnailImage(filterSlidesFullName);
 
 
                 //랜더링해야하는 이미지 리스트가 변화가 있는지 체크
@@ -474,10 +516,33 @@ namespace MergeImage
 
                 //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
                 
-                Bitmap img = dicBitmap[filename];
+                
+                Bitmap img = null;
+
+                if (zoomScale == 1)
+                {
+                    img = dicBitmap100[filename];
+                }
+                else if (zoomScale == 0.5)
+                {
+                    img = dicBitmap50[filename];
+                }
+                else if (zoomScale == 0.2)
+                {
+                    img = dicBitmap20[filename];
+                }
+                else if (zoomScale == 0.1)
+                {
+                    img = dicBitmap10[filename];
+                }
+                else if (zoomScale == 0.05)
+                {
+                    img = dicBitmap5[filename];
+                }
 
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                    (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                    img.Width, img.Height);
+
                 if (colorOnOff)
                 {
                     switch (slideStyle)
@@ -537,7 +602,7 @@ namespace MergeImage
                 wholeX = tempSize["wholeX"];
                 wholeY = tempSize["wholeY"];
 
-                Bitmap img = dicBitmap[filename];
+                Bitmap img = dicBitmap100[filename];
                 g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * 0.01), (int)((tempSize["pY"] - startPointY) * 0.01),
                     (int)(imagePixels["width"] * (0.01)), (int)(imagePixels["height"] * (0.01)));
             }
