@@ -436,30 +436,55 @@ namespace MergeImage
 
                 Bitmap img = new Bitmap(filename);
 
-                
+                Bitmap redColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\red.png");
+                Bitmap blueColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\blue.png");
+                Bitmap greenColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\green.png");
+
+
                 //float w = (float)(imagePixels["width"] * 0.05);//border size，
                 //Pen whitePen = new Pen(Color.White, w);
                 //Pen greenPen = new Pen(Color.Green, w);
                 //Pen bluePen = new Pen(Color.Blue, w);
                 //Pen redPen = new Pen(Color.Red, w);
-                //switch (slideStyle)
-                //{
-                //    case "N":
-                //        g.DrawRectangle(whitePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                //        break;
-                //    case "A":
-                //        g.DrawRectangle(greenPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                //        break;
-                //    case "D":
-                //        g.DrawRectangle(bluePen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                //        break;
-                //    case "M":
-                //        g.DrawRectangle(redPen, new Rectangle(tempSize["pX"] * imagePixels["width"], tempSize["pY"] * imagePixels["height"], Math.Abs(imagePixels["width"]), Math.Abs(imagePixels["height"])));//border추가
-                //        break;
-                //}
 
-                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), 
+
+                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
                     (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+
+                switch (slideStyle)
+                {
+                    case "N":
+                        break;
+                    case "A":
+                        g.DrawImage(greenColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                           (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                        break;
+                    case "D":
+                        g.DrawImage(blueColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                           (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                        break;
+                    case "M":
+                        g.DrawImage(redColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                            (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                        break;
+                }
+
+                // convert 방식이나 or Transparent red color image 시간 많이 소모.
+                //for (int y = 0; y < imagePixels["height"]; y++)
+                //{
+                //    for (int x = 0; x < imagePixels["width"]; x++)
+                //    {
+                //        Color p = img.GetPixel(x, y);
+                //        int a = p.A;
+                //        int r = p.R;
+                //        int g = p.G;
+                //        int b = p.B;
+                //        //img.SetPixel(x, y, Color.FromArgb(a, r, 0, 0));
+                //        img.SetPixel(x, y, Color.FromArgb(a, 0, g, 0));
+                //        //img.SetPixel(x, y, Color.FromArgb(a, 0, 0, b));
+                //    }
+                //}
+                
             }
 
             stopwatch.Stop(); //시간측정 끝
