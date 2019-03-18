@@ -87,21 +87,45 @@ namespace MergeImage
         {
             if (e.Delta > 0)
             {
-                if (zoomScale < 1)
+                if (zoomScale == 0.5)
                 {
-                    zoomScale += 0.01;
-                    zoomScale = Math.Round(zoomScale * 100) / 100;
-                    drawImage(filterSlidesFullName);
+                    zoomScale = 1;
                 }
+                else if (zoomScale == 0.2)
+                {
+                    zoomScale = 0.5;
+                }
+                else if (zoomScale == 0.1)
+                {
+                    zoomScale = 0.2;
+                }
+                else if (zoomScale == 0.05)
+                {
+                    zoomScale = 0.2;
+                }
+                zoomScale = Math.Round(zoomScale * 100) / 100;
+                drawImage(filterSlidesFullName);
             }
             else
             {
-                if (zoomScale > 0.1)
+                if (zoomScale == 1)
                 {
-                    zoomScale -= 0.01;
-                    zoomScale = Math.Round(zoomScale * 100) / 100;
-                    drawImage(filterSlidesFullName);
+                    zoomScale = 0.5;
                 }
+                else if (zoomScale == 0.5)
+                {
+                    zoomScale = 0.2;
+                }
+                else if (zoomScale == 0.2)
+                {
+                    zoomScale = 0.1;
+                }
+                else if (zoomScale == 0.1)
+                {
+                    zoomScale = 0.05;
+                }
+                zoomScale = Math.Round(zoomScale * 100) / 100;
+                drawImage(filterSlidesFullName);
             }
 
         }
@@ -446,7 +470,6 @@ namespace MergeImage
                 //Pen greenPen = new Pen(Color.Green, w);
                 //Pen bluePen = new Pen(Color.Blue, w);
                 //Pen redPen = new Pen(Color.Red, w);
-
 
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
                     (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
