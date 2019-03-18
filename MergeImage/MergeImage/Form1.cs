@@ -41,6 +41,12 @@ namespace MergeImage
         private List<string> filterSlidesFullName = new List<string>();
         private Bitmap canvas;
         System.Drawing.Graphics g;
+        private Boolean colorOnOff = true;
+        Bitmap redColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\red.png");
+        Bitmap blueColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\blue.png");
+        Bitmap greenColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\green.png");
+
+
 
         public int Top1
         {
@@ -460,11 +466,6 @@ namespace MergeImage
 
                 Bitmap img = new Bitmap(filename);
 
-                Bitmap redColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\red.png");
-                Bitmap blueColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\blue.png");
-                Bitmap greenColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\green.png");
-
-
                 //float w = (float)(imagePixels["width"] * 0.05);//border size，
                 //Pen whitePen = new Pen(Color.White, w);
                 //Pen greenPen = new Pen(Color.Green, w);
@@ -473,24 +474,27 @@ namespace MergeImage
 
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
                     (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-
-                switch (slideStyle)
+                if (colorOnOff)
                 {
-                    case "N":
-                        break;
-                    case "A":
-                        g.DrawImage(greenColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                           (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-                        break;
-                    case "D":
-                        g.DrawImage(blueColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                           (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-                        break;
-                    case "M":
-                        g.DrawImage(redColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                            (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-                        break;
+                    switch (slideStyle)
+                    {
+                        case "N":
+                            break;
+                        case "A":
+                            g.DrawImage(greenColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                               (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                            break;
+                        case "D":
+                            g.DrawImage(blueColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                               (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                            break;
+                        case "M":
+                            g.DrawImage(redColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                                (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
+                            break;
+                    }
                 }
+                
 
                 // convert 방식이나 or Transparent red color image 시간 많이 소모.
                 //for (int y = 0; y < imagePixels["height"]; y++)
@@ -637,6 +641,19 @@ namespace MergeImage
             return tempXY;
         }
 
-
+        private void btnOnOff_Click(object sender, EventArgs e)
+        {
+            if (colorOnOff)
+            {
+                colorOnOff = false;
+                btnOnOff.Text = "Off";
+            }
+            else
+            {
+                colorOnOff = true;
+                btnOnOff.Text = "On";
+            }
+            drawImage(filterSlidesFullName);
+        }
     }
 }
