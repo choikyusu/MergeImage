@@ -42,11 +42,9 @@ namespace MergeImage
         private Bitmap canvas;
         System.Drawing.Graphics g;
         private Boolean colorOnOff = true;
-        Bitmap redColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\red.png");
-        Bitmap blueColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\blue.png");
-        Bitmap greenColor = new Bitmap(@"C:\Users\tgHan\Desktop\HistopathologicalImage\backColor\250\green.png");
-
-
+        Bitmap redColor = new Bitmap(Properties.Resources.red);
+        Bitmap blueColor = new Bitmap(Properties.Resources.blue);
+        Bitmap greenColor = new Bitmap(Properties.Resources.green);
 
         public int Top1
         {
