@@ -51,9 +51,8 @@ namespace MergeImage
         System.Drawing.Graphics g;
         private Boolean colorOnOff = true;
         private Boolean isFirst = true;
-        Bitmap redColor = new Bitmap(Properties.Resources._250red);
-        Bitmap blueColor = new Bitmap(Properties.Resources._250blue);
-        Bitmap greenColor = new Bitmap(Properties.Resources._250green);
+
+        Dictionary<string, Bitmap> dicMask = new Dictionary<string, Bitmap>();
 
         public int Top1
         {
@@ -90,6 +89,100 @@ namespace MergeImage
 
             getDateImageList();
             readFileMergeImageStatus();
+
+            Bitmap img = new Bitmap(Properties.Resources.blue100);
+            dicMask.Add("blue100", img);
+
+            img = new Bitmap(Properties.Resources.red100);
+            dicMask.Add("red100", img);
+
+            img = new Bitmap(Properties.Resources.green100);
+            dicMask.Add("green100", img);
+
+            img = new Bitmap(Properties.Resources.blue100);
+            int width = (int)(img.Width * 0.5);
+            int height = (int)(img.Height * 0.5);
+            Size resize = new Size(width, height);
+            Bitmap image50 = new Bitmap(img, resize);
+            dicMask.Add("blue50", image50);
+
+            img = new Bitmap(Properties.Resources.red100);
+            width = (int)(img.Width * 0.5);
+            height = (int)(img.Height * 0.5);
+            resize = new Size(width, height);
+            image50 = new Bitmap(img, resize);
+            dicMask.Add("red50", image50);
+
+            img = new Bitmap(Properties.Resources.green100);
+            width = (int)(img.Width * 0.5);
+            height = (int)(img.Height * 0.5);
+            resize = new Size(width, height);
+            image50 = new Bitmap(img, resize);
+            dicMask.Add("green50", image50);
+
+            img = new Bitmap(Properties.Resources.blue100);
+            width = (int)(img.Width * 0.2);
+            height = (int)(img.Height * 0.2);
+            resize = new Size(width, height);
+            Bitmap image20 = new Bitmap(img, resize);
+            dicMask.Add("blue20", image20);
+
+            img = new Bitmap(Properties.Resources.red100);
+            width = (int)(img.Width * 0.2);
+            height = (int)(img.Height * 0.2);
+            resize = new Size(width, height);
+            image20 = new Bitmap(img, resize);
+            dicMask.Add("red20", image20);
+
+            img = new Bitmap(Properties.Resources.green100);
+            width = (int)(img.Width * 0.2);
+            height = (int)(img.Height * 0.2);
+            resize = new Size(width, height);
+            image20 = new Bitmap(img, resize);
+            dicMask.Add("green20", image20);
+
+            img = new Bitmap(Properties.Resources.blue100);
+            width = (int)(img.Width * 0.1);
+            height = (int)(img.Height * 0.1);
+            resize = new Size(width, height);
+            Bitmap image10 = new Bitmap(img, resize);
+            dicMask.Add("blue10", image10);
+
+            img = new Bitmap(Properties.Resources.red100);
+            width = (int)(img.Width * 0.1);
+            height = (int)(img.Height * 0.1);
+            resize = new Size(width, height);
+            image10 = new Bitmap(img, resize);
+            dicMask.Add("red10", image10);
+
+            img = new Bitmap(Properties.Resources.green100);
+            width = (int)(img.Width * 0.1);
+            height = (int)(img.Height * 0.1);
+            resize = new Size(width, height);
+            image10 = new Bitmap(img, resize);
+            dicMask.Add("green10", image10);
+
+            img = new Bitmap(Properties.Resources.blue100);
+            width = (int)(img.Width * 0.05);
+            height = (int)(img.Height * 0.05);
+            resize = new Size(width, height);
+            Bitmap image5 = new Bitmap(img, resize);
+            dicMask.Add("blue5", image5);
+
+            img = new Bitmap(Properties.Resources.red100);
+            width = (int)(img.Width * 0.05);
+            height = (int)(img.Height * 0.05);
+            resize = new Size(width, height);
+            image5 = new Bitmap(img, resize);
+            dicMask.Add("red5", image5);
+
+            img = new Bitmap(Properties.Resources.green100);
+            width = (int)(img.Width * 0.05);
+            height = (int)(img.Height * 0.05);
+            resize = new Size(width, height);
+            image5 = new Bitmap(img, resize);
+            dicMask.Add("green5", image5);
+
 
             drawnImage.Clear();
         }
@@ -481,6 +574,9 @@ namespace MergeImage
 
         public void drawImage(List<string> pathParams)
         {
+            Dictionary<string, int> tempSize = null;
+            Dictionary<string, int> imagePixels = null;
+
             drawnImage.Clear();
             foreach (string filename in pathParams)
             {
@@ -498,12 +594,6 @@ namespace MergeImage
                 isFirst = false;
             }
 
-
-            Dictionary<string, int> tempSize = null;
-            Dictionary<string, int> imagePixels = null;
-
-            string slideStyle;
-
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
 
@@ -516,61 +606,19 @@ namespace MergeImage
 
             foreach (string filename in drawnImage)
             {
-
-                slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
-                wholeX = tempSize["wholeX"];
-                wholeY = tempSize["wholeY"];
 
-                //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
+                Bitmap img = getSplitImage(filename);
+
+                if (img == null)
+                    continue;
                 
-                
-                Bitmap img = null;
-
-                if (zoomScale == 1)
-                {
-                    img = dicBitmap100[filename];
-                }
-                else if (zoomScale == 0.5)
-                {
-                    img = dicBitmap50[filename];
-                }
-                else if (zoomScale == 0.2)
-                {
-                    img = dicBitmap20[filename];
-                }
-                else if (zoomScale == 0.1)
-                {
-                    img = dicBitmap10[filename];
-                }
-                else if (zoomScale == 0.05)
-                {
-                    img = dicBitmap5[filename];
-                }
-
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
                     img.Width, img.Height);
 
-                if (colorOnOff)
-                {
-                    switch (slideStyle)
-                    {
-                        case "N":
-                            break;
-                        case "A":
-                            g.DrawImage(greenColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                               (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-                            break;
-                        case "D":
-                            g.DrawImage(blueColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                               (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-                            break;
-                        case "M":
-                            g.DrawImage(redColor, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                                (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
-                            break;
-                    }
-                }
+                //분할이미지에 NADM으로 색칠하기.
+                setMaskNADM(slideStyle, tempSize, imagePixels);
             }
 
             stopwatch.Stop(); //시간측정 끝
@@ -579,16 +627,67 @@ namespace MergeImage
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
-            //DataPanel.Image = canvas.GetThumbnailImage(imagePixels["pixelX"] * (imageSize["maxX"] + 1), imagePixels["pixelY"] * (imageSize["maxY"] + 1), myCallback, IntPtr.Zero);
-            //DataPanel.Image = canvas.GetThumbnailImage(wholeX, 20000, myCallback, IntPtr.Zero);
             DataPanel.Image = canvas as Image;
-            //DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
             if (ThumbnailImage.Image != null)
             {
                 drawThumbnailImageViewborder();
             }
 
+        }
+
+        public Bitmap getSplitImage(string filename)
+        {
+            if (zoomScale == 1)
+            {
+                return dicBitmap100[filename];
+            }
+            else if (zoomScale == 0.5)
+            {
+                return dicBitmap50[filename];
+            }
+            else if (zoomScale == 0.2)
+            {
+                return dicBitmap20[filename];
+            }
+            else if (zoomScale == 0.1)
+            {
+                return dicBitmap10[filename];
+            }
+            else if (zoomScale == 0.05)
+            {
+                return dicBitmap5[filename];
+            }
+
+            return null;
+        }
+
+        public void setMaskNADM(string slideStyle, Dictionary<string, int> tempSize, Dictionary<string, int> imagePixels)
+        {
+            if (colorOnOff)
+            {
+                switch (slideStyle)
+                {
+                    case "N":
+                        break;
+                    case "A":
+                    case "D":
+                    case "M":
+                        {
+                            Bitmap mask = getMaskImage("green");
+                            if (mask == null)
+                                return;
+
+                            g.DrawImage(mask, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                               mask.Width, mask.Height);
+                        }
+                        break;
+                }
+            }
+        }
+        public Bitmap getMaskImage(string color)
+        {
+            return dicMask.ContainsKey(color + (zoomScale * 100)) ? dicMask[color + (zoomScale * 100)] : null;
         }
 
         public void drawThumbnailImage(List<string> pathParams)

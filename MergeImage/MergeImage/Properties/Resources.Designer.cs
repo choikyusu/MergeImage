@@ -19,7 +19,7 @@ namespace MergeImage.Properties {
     // 클래스에서 자동으로 생성되었습니다.
     // 멤버를 추가하거나 제거하려면 .ResX 파일을 편집한 다음 /str 옵션을 사용하여 ResGen을
     // 다시 실행하거나 VS 프로젝트를 다시 빌드하십시오.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -47,8 +47,8 @@ namespace MergeImage.Properties {
         }
         
         /// <summary>
-        ///   이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대해 현재 스레드의 CurrentUICulture 속성을
-        ///   재정의합니다.
+        ///   이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대한 현재 스레드의 CurrentUICulture
+        ///   속성을 재정의합니다.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
@@ -63,9 +63,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _1000blue {
+        internal static System.Drawing.Bitmap blue10 {
             get {
-                object obj = ResourceManager.GetObject("_1000blue", resourceCulture);
+                object obj = ResourceManager.GetObject("blue10", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _1000green {
+        internal static System.Drawing.Bitmap blue100 {
             get {
-                object obj = ResourceManager.GetObject("_1000green", resourceCulture);
+                object obj = ResourceManager.GetObject("blue100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _1000red {
+        internal static System.Drawing.Bitmap blue1001 {
             get {
-                object obj = ResourceManager.GetObject("_1000red", resourceCulture);
+                object obj = ResourceManager.GetObject("blue1001", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,9 +93,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _100blue {
+        internal static System.Drawing.Bitmap blue20 {
             get {
-                object obj = ResourceManager.GetObject("_100blue", resourceCulture);
+                object obj = ResourceManager.GetObject("blue20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _100green {
+        internal static System.Drawing.Bitmap blue5 {
             get {
-                object obj = ResourceManager.GetObject("_100green", resourceCulture);
+                object obj = ResourceManager.GetObject("blue5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _100red {
+        internal static System.Drawing.Bitmap blue50 {
             get {
-                object obj = ResourceManager.GetObject("_100red", resourceCulture);
+                object obj = ResourceManager.GetObject("blue50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _250blue {
+        internal static System.Drawing.Bitmap blue501 {
             get {
-                object obj = ResourceManager.GetObject("_250blue", resourceCulture);
+                object obj = ResourceManager.GetObject("blue501", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _250green {
+        internal static System.Drawing.Bitmap green10 {
             get {
-                object obj = ResourceManager.GetObject("_250green", resourceCulture);
+                object obj = ResourceManager.GetObject("green10", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _250red {
+        internal static System.Drawing.Bitmap green100 {
             get {
-                object obj = ResourceManager.GetObject("_250red", resourceCulture);
+                object obj = ResourceManager.GetObject("green100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _25blue {
+        internal static System.Drawing.Bitmap green1001 {
             get {
-                object obj = ResourceManager.GetObject("_25blue", resourceCulture);
+                object obj = ResourceManager.GetObject("green1001", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -163,9 +163,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _25green {
+        internal static System.Drawing.Bitmap green20 {
             get {
-                object obj = ResourceManager.GetObject("_25green", resourceCulture);
+                object obj = ResourceManager.GetObject("green20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -173,9 +173,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _25red {
+        internal static System.Drawing.Bitmap green5 {
             get {
-                object obj = ResourceManager.GetObject("_25red", resourceCulture);
+                object obj = ResourceManager.GetObject("green5", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -183,9 +183,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _500blue {
+        internal static System.Drawing.Bitmap green50 {
             get {
-                object obj = ResourceManager.GetObject("_500blue", resourceCulture);
+                object obj = ResourceManager.GetObject("green50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -193,9 +193,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _500green {
+        internal static System.Drawing.Bitmap red10 {
             get {
-                object obj = ResourceManager.GetObject("_500green", resourceCulture);
+                object obj = ResourceManager.GetObject("red10", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -203,9 +203,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _500red {
+        internal static System.Drawing.Bitmap red100 {
             get {
-                object obj = ResourceManager.GetObject("_500red", resourceCulture);
+                object obj = ResourceManager.GetObject("red100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -213,9 +213,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _50blue {
+        internal static System.Drawing.Bitmap red1001 {
             get {
-                object obj = ResourceManager.GetObject("_50blue", resourceCulture);
+                object obj = ResourceManager.GetObject("red1001", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -223,9 +223,9 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _50green {
+        internal static System.Drawing.Bitmap red20 {
             get {
-                object obj = ResourceManager.GetObject("_50green", resourceCulture);
+                object obj = ResourceManager.GetObject("red20", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -233,9 +233,19 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
-        internal static System.Drawing.Bitmap _50red {
+        internal static System.Drawing.Bitmap red5 {
             get {
-                object obj = ResourceManager.GetObject("_50red", resourceCulture);
+                object obj = ResourceManager.GetObject("red5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap red50 {
+            get {
+                object obj = ResourceManager.GetObject("red50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

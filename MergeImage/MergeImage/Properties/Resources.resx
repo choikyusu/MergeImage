@@ -118,58 +118,61 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="_1000blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1000blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_1000green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1000green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_1000red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1000red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue1001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_100blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\100blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_100green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\100green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_100red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\100red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_250blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\250blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blue501" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blue50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_250green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\250green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="green10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_250red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\250red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="green100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_25blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\25blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="green1001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_25green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\25green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="green20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_25red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\25red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="green5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_500blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\500blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="green50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\green50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_500green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\500green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="red10" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_500red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\500red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="red100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_50blue" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\50blue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="red1001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red100.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_50green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\50green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="red20" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red20.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_50red" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\50red.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="red5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="red50" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\red50.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
