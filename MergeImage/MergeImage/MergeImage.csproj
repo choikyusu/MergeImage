@@ -66,6 +66,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -79,6 +80,69 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\25blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\25green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\25red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\50blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\50green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\50red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\100blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\100green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\100red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\250blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\250green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\250red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\500blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\500green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\500red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1000blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1000green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1000red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

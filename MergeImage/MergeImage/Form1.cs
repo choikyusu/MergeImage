@@ -46,12 +46,14 @@ namespace MergeImage
         private List<string> uniqName = new List<string>();
         private List<string> slidesFullName = new List<string>();
         private List<string> filterSlidesFullName = new List<string>();
+        private Dictionary<string, int> thumbImageSize = new Dictionary<string, int>();
         private Bitmap canvas;
         System.Drawing.Graphics g;
         private Boolean colorOnOff = true;
-        Bitmap redColor = new Bitmap(Properties.Resources.red);
-        Bitmap blueColor = new Bitmap(Properties.Resources.blue);
-        Bitmap greenColor = new Bitmap(Properties.Resources.green);
+        private Boolean isFirst = true;
+        Bitmap redColor = new Bitmap(Properties.Resources._250red);
+        Bitmap blueColor = new Bitmap(Properties.Resources._250blue);
+        Bitmap greenColor = new Bitmap(Properties.Resources._250green);
 
         public int Top1
         {
@@ -434,9 +436,8 @@ namespace MergeImage
                 System.Console.WriteLine("end");
 
                 drawImage(filterSlidesFullName);
-
-                //drawThumbnailImage(filterSlidesFullName);
-
+                drawThumbnailImage(filterSlidesFullName);
+                drawThumbnailImageViewborder();
 
                 //랜더링해야하는 이미지 리스트가 변화가 있는지 체크
 
@@ -490,6 +491,13 @@ namespace MergeImage
                     height2: DataPanel.Height) == true)
                     drawnImage.Add(filename);
             }
+            if (isFirst)
+            {
+                getMaxXY(drawnImage);
+                getMinXY(drawnImage);
+                isFirst = false;
+            }
+
 
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
@@ -576,6 +584,10 @@ namespace MergeImage
             DataPanel.Image = canvas as Image;
             //DataPanelSmar.Image = DataPanel.Image;
             imgOriginal = DataPanel.Image;
+            if (ThumbnailImage.Image != null)
+            {
+                drawThumbnailImageViewborder();
+            }
 
         }
 
@@ -615,10 +627,9 @@ namespace MergeImage
 
         }
 
-        // 전체 이미지 size  구하기 함수.
+        // max size  구하기 함수.
         public Dictionary<string, int> getMaxXY(List<string> pathParams)
         {
-            Dictionary<string, int> imageSize = new Dictionary<string, int>();
             Dictionary<string, int> tempSize = new Dictionary<string, int>();
             int maxX = 0;
             int maxY = 0;
@@ -631,7 +642,7 @@ namespace MergeImage
                 tempSize = parsingXY(item);
                 tempY = tempSize["pY"];
                 tempX = tempSize["pX"];
-                if (maxX<= tempX)
+                if (maxX <= tempX)
                 {
                     maxX = tempX;
                 }
@@ -645,13 +656,50 @@ namespace MergeImage
                     maxY = tempY;
                     firstCheck = false;
                 }
-                tempSize.Clear(); 
+                tempSize.Clear();
             }
-            imageSize.Add("maxX", maxX);
-            imageSize.Add("maxY", maxY);
-            return imageSize;
+            thumbImageSize.Add("maxX", maxX-250);
+            thumbImageSize.Add("maxY", maxY-250);
+            return thumbImageSize;
         }
 
+
+        // min size  구하기 함수.
+        public Dictionary<string, int> getMinXY(List<string> pathParams)
+        {
+
+            Dictionary<string, int> tempSize = new Dictionary<string, int>();
+            int minX = 0;
+            int minY = 0;
+            int tempX;
+            int tempY;
+            Boolean firstCheck = true;
+
+            foreach (string item in pathParams)
+            {
+                tempSize = parsingXY(item);
+                tempY = tempSize["pY"];
+                tempX = tempSize["pX"];
+                if (minX >= tempX)
+                {
+                    minX = tempX;
+                }
+                if (minY >= tempY)
+                {
+                    minY = tempY;
+                }
+                if (firstCheck)
+                {
+                    minX = tempX;
+                    minY = tempY;
+                    firstCheck = false;
+                }
+                tempSize.Clear();
+            }
+            thumbImageSize.Add("minX", minX+500);
+            thumbImageSize.Add("minY", minY+500);
+            return thumbImageSize;
+        }
         // 이미지 좌표 파싱함수
         public Dictionary<string, int> parsingXY(string pathParams)
         {
@@ -705,6 +753,21 @@ namespace MergeImage
                 btnOnOff.Text = "On";
             }
             drawImage(filterSlidesFullName);
+        }
+
+        public void drawThumbnailImageViewborder()
+        {
+            Graphics g = Graphics.FromImage(ThumbnailImage.Image);
+            //float w = (float)(wholeX * 0.5);//border size，
+            Pen RedPen = new Pen(Color.Red,2);
+            int xFloat = ThumbnailImage.Image.Width * thumbImageSize["minX"] / wholeX;//border size，
+            int yFloat = ThumbnailImage.Image.Height * thumbImageSize["minY"] / wholeY;//border size，
+            int xmFloat = ThumbnailImage.Image.Width * thumbImageSize["maxX"] / wholeX;//border size，
+            int ymFloat = ThumbnailImage.Image.Height * thumbImageSize["maxY"] / wholeY;//border size，
+            g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
+            //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
+
+            ThumbnailImage.Refresh();
         }
     }
 }
