@@ -24,6 +24,9 @@ namespace MergeImage
         int splitHeight = 250;
         int wholeX;
         int wholeY;
+
+        Dictionary<string, Bitmap> dicBitmap = new Dictionary<string, Bitmap>();
+
         List<string> drawnImage = new List<string>();
         enum eMergeImageGridIndex
         {
@@ -351,6 +354,13 @@ namespace MergeImage
         {
             if (gridMergeImage.SelectedRows.Count > 0)
             {
+                foreach(Bitmap bitmap in dicBitmap.Values)
+                {
+                    bitmap.Dispose();
+                }
+                dicBitmap.Clear();
+
+
                 startPointX = 99999;
                 startPointY = 99999;
                 top = 0;
@@ -362,6 +372,7 @@ namespace MergeImage
 
                 Dictionary<string, int> tempSize = null;
 
+                System.Console.WriteLine("start");
                 // 특정 ID에 해당 하는 타일 FullName 가져오기.
                 foreach (string item in slidesFullName)
                 {
@@ -373,8 +384,12 @@ namespace MergeImage
 
                         startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
                         startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
+                        Bitmap img = new Bitmap(item);
+                        dicBitmap.Add(item, img);
                     }
                 }
+
+                System.Console.WriteLine("end");
 
                 drawImage(filterSlidesFullName);
 
@@ -431,7 +446,6 @@ namespace MergeImage
                 if (getIntersection(x1: (int)(location["pX"] * zoomScale), width1: (int)(splitWidth * zoomScale), y1: (int)(location["pY"] * zoomScale),
                     height1: (int)(splitHeight * zoomScale), x2: (int)(Left1 * zoomScale), width2: DataPanel.Width, y2: (int)(Top1 * zoomScale),
                     height2: DataPanel.Height) == true)
-
                     drawnImage.Add(filename);
             }
 
@@ -459,16 +473,8 @@ namespace MergeImage
                 wholeY = tempSize["wholeY"];
 
                 //System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
-
                 
-
-                Bitmap img = new Bitmap(filename);
-
-                //float w = (float)(imagePixels["width"] * 0.05);//border size，
-                //Pen whitePen = new Pen(Color.White, w);
-                //Pen greenPen = new Pen(Color.Green, w);
-                //Pen bluePen = new Pen(Color.Blue, w);
-                //Pen redPen = new Pen(Color.Red, w);
+                Bitmap img = dicBitmap[filename];
 
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
                     (int)(imagePixels["width"] * (zoomScale)), (int)(imagePixels["height"] * (zoomScale)));
@@ -492,24 +498,6 @@ namespace MergeImage
                             break;
                     }
                 }
-                
-
-                // convert 방식이나 or Transparent red color image 시간 많이 소모.
-                //for (int y = 0; y < imagePixels["height"]; y++)
-                //{
-                //    for (int x = 0; x < imagePixels["width"]; x++)
-                //    {
-                //        Color p = img.GetPixel(x, y);
-                //        int a = p.A;
-                //        int r = p.R;
-                //        int g = p.G;
-                //        int b = p.B;
-                //        //img.SetPixel(x, y, Color.FromArgb(a, r, 0, 0));
-                //        img.SetPixel(x, y, Color.FromArgb(a, 0, g, 0));
-                //        //img.SetPixel(x, y, Color.FromArgb(a, 0, 0, b));
-                //    }
-                //}
-                
             }
 
             stopwatch.Stop(); //시간측정 끝
@@ -549,7 +537,7 @@ namespace MergeImage
                 wholeX = tempSize["wholeX"];
                 wholeY = tempSize["wholeY"];
 
-                Bitmap img = new Bitmap(filename);
+                Bitmap img = dicBitmap[filename];
                 g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * 0.01), (int)((tempSize["pY"] - startPointY) * 0.01),
                     (int)(imagePixels["width"] * (0.01)), (int)(imagePixels["height"] * (0.01)));
             }
