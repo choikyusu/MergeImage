@@ -960,7 +960,7 @@ namespace MergeImage
                         zoomScale = 0.2;
 
                     }
-                    else if (zoomScale == 2)
+                    else if (i == 2)
                     {
                         top -= (int)((DataPanel.Height / 2) / zoomScale);
                         left -= (int)((DataPanel.Width / 2) / zoomScale);
