@@ -201,32 +201,31 @@ namespace MergeImage
             {
                 if (zoomScale == 0.5)
                 {
-                    //top += (int)((500) / zoomScale);
-                    //left += (int)((500) / zoomScale);
                     zoomScale = 1;
+                    top += (int)((785) / zoomScale);
+                    left += (int)((935) / zoomScale);
                 }
                 else if (zoomScale == 0.2)
                 {
-                    //top += (int)((500) / zoomScale);
-                    //left += (int)((500) / zoomScale);
                     zoomScale = 0.5;
-                    
+                    top += (int)((785) / 0.33);
+                    left += (int)((935) / 0.33);
                 }
                 else if (zoomScale == 0.1)
                 {
-                    //top += (int)((500) / zoomScale);
-                    //left += (int)((500) / zoomScale);
                     zoomScale = 0.2;
-                    
+                    top += (int)((785) / zoomScale);
+                    left += (int)((935) / zoomScale);
+
                 }
                 else if (zoomScale == 0.05)
                 {
-                    //top += (int)((500) / zoomScale);
-                    //left += (int)((500) / zoomScale);
                     zoomScale = 0.1;
-                    
+                    top += (int)((785) / zoomScale);
+                    left += (int)((935) / zoomScale);
+
                 }
-                
+
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
@@ -234,29 +233,33 @@ namespace MergeImage
             {
                 if (zoomScale == 1)
                 {
+                    top -= (int)((785) / zoomScale);
+                    left -= (int)((935) / zoomScale);
                     zoomScale = 0.5;
-                    //top -= (int)((500) / zoomScale);
-                    //left -= (int)((500) / zoomScale);
+
                 }
                 else if (zoomScale == 0.5)
                 {
+                    top -= (int)((785) / 0.33);
+                    left -= (int)((935) / 0.33);
                     zoomScale = 0.2;
-                    //top -= (int)((500) / zoomScale);
-                    //left -= (int)((500) / zoomScale);
+
                 }
                 else if (zoomScale == 0.2)
                 {
+                    top -= (int)((785) / zoomScale);
+                    left -= (int)((935) / zoomScale);
                     zoomScale = 0.1;
-                    //top -= (int)((500) / zoomScale);
-                    //left -= (int)((500) / zoomScale);
+
                 }
                 else if (zoomScale == 0.1)
                 {
+                    top -= (int)((785) / zoomScale);
+                    left -= (int)((935) / zoomScale);
                     zoomScale = 0.05;
-                    //top -= (int)((500) / zoomScale);
-                    //left -= (int)((500) / zoomScale);
+
                 }
-                
+
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
