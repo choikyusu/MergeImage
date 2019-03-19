@@ -24,6 +24,8 @@ namespace MergeImage
         int wholeX;
         int wholeY;
         int preZoomScale = 0;
+        float scales = 0;
+        Image thumbOriginalimg= null;
 
         const int hiddenLeft = 500;
         const int hiddenTop = 500;
@@ -57,6 +59,7 @@ namespace MergeImage
         private List<string> slidesFullName = new List<string>();
         private List<string> filterSlidesFullName = new List<string>();
         private Dictionary<string, int> thumbImageSize = new Dictionary<string, int>();
+
         private Bitmap canvas;
         System.Drawing.Graphics g;
         private Boolean colorOnOff = true;
@@ -295,21 +298,6 @@ namespace MergeImage
 
                 getDateImageList();
                 readFileMergeImageStatus();
-                //Bitmap canvas = new Bitmap(224, 224 * openFileDialog1.FileNames.Length);
-                //int index = 0;
-                //System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(canvas);
-                //foreach (string filename in openFileDialog1.FileNames)
-                //{
-                //    System.Drawing.Image img = System.Drawing.Image.FromFile(filename);
-                //    g.DrawImage(img, 0, 224 * index, 224, 224);
-                //    index++;
-                //}
-
-                //Image.GetThumbnailImageAbort myCallback = new Image.GetThumbnailImageAbort(thumbnailCallback);
-
-                //DataPanel.Image = canvas.GetThumbnailImage(224, 224 * openFileDialog1.FileNames.Length, myCallback, IntPtr.Zero);
-                //DataPanelSmar.Image = DataPanel.Image;
-                //imgOriginal = DataPanel.Image;
             }
         }
 
@@ -629,6 +617,7 @@ namespace MergeImage
                 return;
 
             drawnImage.Clear();
+            
             foreach (string filename in pathParams)
             {
                 Dictionary<string, int> location = parsingXY(filename);
@@ -637,11 +626,12 @@ namespace MergeImage
                     height1: (int)(splitHeight * zoomScale), x2: (int)(Left1 * zoomScale), width2: DataPanel.Width, y2: (int)(Top1 * zoomScale),
                     height2: DataPanel.Height) == true)
                     drawnImage.Add(filename);
+                 
             }
+           
             if (isFirst)
             {
-                getMaxXY(pathParams);
-                getMinXY(pathParams);
+                thumbImageSize = getMinMaxXY(pathParams);
                 isFirst = false;
             }
 
@@ -760,7 +750,7 @@ namespace MergeImage
             // 이미지 Merge 하여 그려주기.
             float scalesX = (float)(ThumbnailImage.Width) / (thumbImageSize["maxX"] - thumbImageSize["minX"]);
             float scalesY = (float)(ThumbnailImage.Height) / (thumbImageSize["maxY"] - thumbImageSize["minY"]);
-            float scales=0;
+            
             if(scalesX<= scalesY)
             {
                 scales = scalesX;
@@ -787,17 +777,21 @@ namespace MergeImage
                 ThumbnailImage.Image.Dispose();
 
             ThumbnailImage.Image = canvas as Image;
-
+            thumbOriginalimg = canvas as Image;
             g.Dispose();
 
         }
 
         // max size  구하기 함수.
-        public Dictionary<string, int> getMaxXY(List<string> pathParams)
+        public Dictionary<string, int> getMinMaxXY(List<string> pathParams)
         {
             Dictionary<string, int> tempSize = new Dictionary<string, int>();
+            Dictionary<string, int> tempImageSize = new Dictionary<string, int>();
             int maxX = 0;
             int maxY = 0;
+            int minX = 0;
+            int minY = 0;
+
             int tempX;
             int tempY;
             Boolean firstCheck = true;
@@ -811,60 +805,35 @@ namespace MergeImage
                 {
                     maxX = tempX;
                 }
-                if (maxY <= tempY)
+                else if (maxY <= tempY)
                 {
                     maxY = tempY;
+                }
+                if (minX >= tempX)
+                {
+                    minX = tempX;
+                }
+                else if (minY >= tempY)
+                {
+                    minY = tempY;
                 }
                 if (firstCheck)
                 {
                     maxX = tempX;
                     maxY = tempY;
-                    firstCheck = false;
-                }
-                tempSize.Clear();
-            }
-            thumbImageSize.Add("maxX", maxX+250);
-            thumbImageSize.Add("maxY", maxY+250);
-            return thumbImageSize;
-        }
-
-
-        // min size  구하기 함수.
-        public Dictionary<string, int> getMinXY(List<string> pathParams)
-        {
-
-            Dictionary<string, int> tempSize = new Dictionary<string, int>();
-            int minX = 0;
-            int minY = 0;
-            int tempX;
-            int tempY;
-            Boolean firstCheck = true;
-
-            foreach (string item in pathParams)
-            {
-                tempSize = parsingXY(item);
-                tempY = tempSize["pY"];
-                tempX = tempSize["pX"];
-                if (minX >= tempX)
-                {
-                    minX = tempX;
-                }
-                if (minY >= tempY)
-                {
-                    minY = tempY;
-                }
-                if (firstCheck)
-                {
                     minX = tempX;
                     minY = tempY;
                     firstCheck = false;
                 }
                 tempSize.Clear();
             }
-            thumbImageSize.Add("minX", minX);
-            thumbImageSize.Add("minY", minY);
-            return thumbImageSize;
+            tempImageSize.Add("maxX", maxX+250);
+            tempImageSize.Add("maxY", maxY+250);
+            tempImageSize.Add("minX", minX);
+            tempImageSize.Add("minY", minY);
+            return tempImageSize;
         }
+        
         // 이미지 좌표 파싱함수
         public Dictionary<string, int> parsingXY(string pathParams)
         {
@@ -922,18 +891,23 @@ namespace MergeImage
 
         public void drawThumbnailImageViewborder()
         {
-            Graphics g = Graphics.FromImage(ThumbnailImage.Image);
+            Bitmap tempBitmap = new Bitmap(thumbOriginalimg);
+            Graphics g = Graphics.FromImage(tempBitmap);
             //float w = (float)(wholeX * 0.5);//border size，
             Pen RedPen = new Pen(Color.Red,2);
-            int xFloat = ThumbnailImage.Image.Width * thumbImageSize["minX"] / wholeX;//border size，
-            int yFloat = ThumbnailImage.Image.Height * thumbImageSize["minY"] / wholeY;//border size，
-            int xmFloat = ThumbnailImage.Image.Width * thumbImageSize["maxX"] / wholeX;//border size，
-            int ymFloat = ThumbnailImage.Image.Height * thumbImageSize["maxY"] / wholeY;//border size，
-            g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
-            //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
+            int xFloat = (int)((left + 500 * zoomScale) * scales);//border size，
+            int yFloat = (int)((top + 500 * zoomScale) * scales);//border size，
 
+            int xmFloat = (int)((DataPanel.Width / zoomScale - 1000) * scales);//border size，
+            int ymFloat = (int)((DataPanel.Height  / zoomScale - 1000 ) * scales);//border size，
+            g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
+                                                                                     //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
+
+            ThumbnailImage.InitialImage = null;
+            ThumbnailImage.Image = tempBitmap;
             ThumbnailImage.Refresh();
 
+            
             RedPen.Dispose();
             g.Dispose();
         }
