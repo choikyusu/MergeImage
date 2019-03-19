@@ -473,7 +473,8 @@ namespace MergeImage
                 dicBitmap20.Clear();
                 dicBitmap10.Clear();
                 dicBitmap5.Clear();
-
+                isFirst = true;
+                thumbImageSize.Clear();
                 startPointX = 99999;
                 startPointY = 99999;
                 top = 0;
@@ -589,8 +590,8 @@ namespace MergeImage
             }
             if (isFirst)
             {
-                getMaxXY(drawnImage);
-                getMinXY(drawnImage);
+                getMaxXY(pathParams);
+                getMinXY(pathParams);
                 isFirst = false;
             }
 
@@ -704,7 +705,18 @@ namespace MergeImage
             canvas = new Bitmap(ThumbnailImage.Width, ThumbnailImage.Height);
             g = System.Drawing.Graphics.FromImage(canvas);
             // 이미지 Merge 하여 그려주기.
+            float scalesX = (float)(ThumbnailImage.Width) / (thumbImageSize["maxX"] - thumbImageSize["minX"]);
+            float scalesY = (float)(ThumbnailImage.Height) / (thumbImageSize["maxY"] - thumbImageSize["minY"]);
+            float scales=0;
+            if(scalesX<= scalesY)
+            {
+                scales = scalesX;
+            }
+            else
+            {
+                scales = scalesY;
 
+            }
             foreach (string filename in pathParams)
             {
 
@@ -712,10 +724,9 @@ namespace MergeImage
                 tempSize = parsingXY(filename);
                 wholeX = tempSize["wholeX"];
                 wholeY = tempSize["wholeY"];
-
                 Bitmap img = dicBitmap100[filename];
-                g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * 0.01), (int)((tempSize["pY"] - startPointY) * 0.01),
-                    (int)(imagePixels["width"] * (0.01)), (int)(imagePixels["height"] * (0.01)));
+                g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * scales), (int)((tempSize["pY"] - startPointY) * scales),
+                    (int)(imagePixels["width"] * (scales)), (int)(imagePixels["height"] * (scales)));
             }
 
 
@@ -757,8 +768,8 @@ namespace MergeImage
                 }
                 tempSize.Clear();
             }
-            thumbImageSize.Add("maxX", maxX-250);
-            thumbImageSize.Add("maxY", maxY-250);
+            thumbImageSize.Add("maxX", maxX+250);
+            thumbImageSize.Add("maxY", maxY+250);
             return thumbImageSize;
         }
 
@@ -795,8 +806,8 @@ namespace MergeImage
                 }
                 tempSize.Clear();
             }
-            thumbImageSize.Add("minX", minX+500);
-            thumbImageSize.Add("minY", minY+500);
+            thumbImageSize.Add("minX", minX);
+            thumbImageSize.Add("minY", minY);
             return thumbImageSize;
         }
         // 이미지 좌표 파싱함수
