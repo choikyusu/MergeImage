@@ -14,7 +14,6 @@ namespace MergeImage
 {
     public partial class Form1 : Form
     {
-        int drawCount = 0;
         double zoomScale = 1;
         int startPointX = 99999;
         int startPointY = 99999;
@@ -32,10 +31,17 @@ namespace MergeImage
         Dictionary<string, Bitmap> dicBitmap5 = new Dictionary<string, Bitmap>();
 
         List<string> drawnImage = new List<string>();
-        enum eMergeImageGridIndex
+        public enum eMergeImageGridIndex
         {
             ID,
             CONFIRM
+        }
+
+        public enum eZoomScale
+        {
+            NONE,
+            ZOOM_IN,
+            ZOOM_OUT
         }
 
         Image imgOriginal;
@@ -195,20 +201,32 @@ namespace MergeImage
             {
                 if (zoomScale == 0.5)
                 {
+                    //top += (int)((500) / zoomScale);
+                    //left += (int)((500) / zoomScale);
                     zoomScale = 1;
                 }
                 else if (zoomScale == 0.2)
                 {
+                    //top += (int)((500) / zoomScale);
+                    //left += (int)((500) / zoomScale);
                     zoomScale = 0.5;
+                    
                 }
                 else if (zoomScale == 0.1)
                 {
+                    //top += (int)((500) / zoomScale);
+                    //left += (int)((500) / zoomScale);
                     zoomScale = 0.2;
+                    
                 }
                 else if (zoomScale == 0.05)
                 {
+                    //top += (int)((500) / zoomScale);
+                    //left += (int)((500) / zoomScale);
                     zoomScale = 0.1;
+                    
                 }
+                
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
@@ -217,19 +235,28 @@ namespace MergeImage
                 if (zoomScale == 1)
                 {
                     zoomScale = 0.5;
+                    //top -= (int)((500) / zoomScale);
+                    //left -= (int)((500) / zoomScale);
                 }
                 else if (zoomScale == 0.5)
                 {
                     zoomScale = 0.2;
+                    //top -= (int)((500) / zoomScale);
+                    //left -= (int)((500) / zoomScale);
                 }
                 else if (zoomScale == 0.2)
                 {
                     zoomScale = 0.1;
+                    //top -= (int)((500) / zoomScale);
+                    //left -= (int)((500) / zoomScale);
                 }
                 else if (zoomScale == 0.1)
                 {
                     zoomScale = 0.05;
+                    //top -= (int)((500) / zoomScale);
+                    //left -= (int)((500) / zoomScale);
                 }
+                
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
@@ -297,8 +324,6 @@ namespace MergeImage
             {
                 left = left - (int)((DataPanel.Left + 500)/zoomScale) ;
                 top = top - (int)((DataPanel.Top + 500) / zoomScale);
-                //left = left - (DataPanel.Left + 500) - (int)((DataPanel.Left + 500) * 10 * (1.00 - zoomScale)) ;
-                //top = top - (DataPanel.Top + 500) - (int)((DataPanel.Top + 500) * 10 * (1.00 - zoomScale));
                 drawImage(filterSlidesFullName);
                 DataPanel.Left = -500;
                 DataPanel.Top = -500;
@@ -353,6 +378,9 @@ namespace MergeImage
         public void getDateImageList()
         {
             gridMergeImage.Rows.Clear();
+            slidesFullName.Clear();
+            filterSlidesFullName.Clear();
+            uniqName.Clear();
 
             // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
             string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
@@ -578,6 +606,9 @@ namespace MergeImage
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
 
+            if (pathParams.Count == 0)
+                return;
+
             drawnImage.Clear();
             foreach (string filename in pathParams)
             {
@@ -615,8 +646,7 @@ namespace MergeImage
                 if (img == null)
                     continue;
                 
-                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
-                    img.Width, img.Height);
+                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
 
                 //분할이미지에 NADM으로 색칠하기.
                 setMaskNADM(slideStyle, tempSize, imagePixels);
