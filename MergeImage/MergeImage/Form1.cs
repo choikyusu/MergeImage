@@ -792,7 +792,7 @@ namespace MergeImage
                 ThumbnailImage.Image.Dispose();
 
             ThumbnailImage.Image = canvas as Image;
-            thumbOriginalimg = canvas as Image;
+            thumbOriginalimg = canvas.Clone() as Image;
             g.Dispose();
 
         }
@@ -916,7 +916,11 @@ namespace MergeImage
             int xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft*2) * scales);//border size，
             int ymFloat = (int)((DataPanel.Height  / zoomScale - hiddenTop*2) * scales);//border size，
             g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
-                                                                                     //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
+            //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
+
+
+            if (ThumbnailImage.Image != null)
+                ThumbnailImage.Image.Dispose();
 
             ThumbnailImage.InitialImage = null;
             ThumbnailImage.Image = tempBitmap;
