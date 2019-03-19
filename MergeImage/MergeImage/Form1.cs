@@ -912,9 +912,38 @@ namespace MergeImage
             Pen RedPen = new Pen(Color.Red,2);
             int xFloat = (int)((left + hiddenLeft * zoomScale) * scales);//border size，
             int yFloat = (int)((top + hiddenTop * zoomScale) * scales);//border size，
+            int xmFloat = 0;
+            int ymFloat = 0;
+            if (xFloat < 0)
+            {
+                xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft * 2) * scales) + xFloat;//border size，
+                xFloat =  0;
+            }
+            else
+            {
+                xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft * 2) * scales);//border size，
+            }
 
-            int xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft*2) * scales);//border size，
-            int ymFloat = (int)((DataPanel.Height  / zoomScale - hiddenTop*2) * scales);//border size，
+            if (yFloat < 0)
+            {
+                ymFloat = (int)((DataPanel.Height / zoomScale - hiddenTop * 2) * scales) + yFloat;//border size，
+                yFloat = 0;
+            }
+            else
+            {
+                ymFloat = (int)((DataPanel.Height / zoomScale - hiddenTop * 2) * scales);//border size，
+            }
+
+            if (xmFloat < 0)
+            {
+                xmFloat = 1;
+            }
+
+            if (ymFloat < 0)
+            {
+                ymFloat = 1;
+            }
+
             g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
             //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
 
