@@ -26,6 +26,7 @@ namespace MergeImage
         int preZoomScale = 0;
         float scales = 0;
         Image thumbOriginalimg= null;
+        string tailsStatus = "";
 
         const int hiddenLeft = 500;
         const int hiddenTop = 500;
@@ -371,7 +372,21 @@ namespace MergeImage
         {
             if (e.Button == MouseButtons.Right)
             {
-                lbImagePosiont.Text = "이미지 Position : X =  " + e.X + "; Y = " + e.Y;
+                lbImagePosiont.Text = "이미지 Position : X =  " + e.X / zoomScale + "; Y = " + e.Y / zoomScale;
+
+                switch (tailsStatus)
+                {
+                    case "N":
+                        break;
+                    case "A":
+                        break;
+                    case "D":
+                        break;
+                    case "M":
+                        break;
+                }
+                tailsStatus = "";
+
             }
         }
 
@@ -827,8 +842,8 @@ namespace MergeImage
                 }
                 tempSize.Clear();
             }
-            tempImageSize.Add("maxX", maxX+250);
-            tempImageSize.Add("maxY", maxY+250);
+            tempImageSize.Add("maxX", maxX + splitWidth);
+            tempImageSize.Add("maxY", maxY + splitHeight);
             tempImageSize.Add("minX", minX);
             tempImageSize.Add("minY", minY);
             return tempImageSize;
@@ -895,11 +910,11 @@ namespace MergeImage
             Graphics g = Graphics.FromImage(tempBitmap);
             //float w = (float)(wholeX * 0.5);//border size，
             Pen RedPen = new Pen(Color.Red,2);
-            int xFloat = (int)((left + 500 * zoomScale) * scales);//border size，
-            int yFloat = (int)((top + 500 * zoomScale) * scales);//border size，
+            int xFloat = (int)((left + hiddenLeft * zoomScale) * scales);//border size，
+            int yFloat = (int)((top + hiddenTop * zoomScale) * scales);//border size，
 
-            int xmFloat = (int)((DataPanel.Width / zoomScale - 1000) * scales);//border size，
-            int ymFloat = (int)((DataPanel.Height  / zoomScale - 1000 ) * scales);//border size，
+            int xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft*2) * scales);//border size，
+            int ymFloat = (int)((DataPanel.Height  / zoomScale - hiddenTop*2) * scales);//border size，
             g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
                                                                                      //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
 
@@ -989,6 +1004,26 @@ namespace MergeImage
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
+        }
+
+        private void btnN_Click(object sender, EventArgs e)
+        {
+            tailsStatus = "N";
+        }
+
+        private void btnA_Click(object sender, EventArgs e)
+        {
+            tailsStatus = "A";
+        }
+
+        private void btnD_Click(object sender, EventArgs e)
+        {
+            tailsStatus = "D";
+        }
+
+        private void btnM_Click(object sender, EventArgs e)
+        {
+            tailsStatus = "M";
         }
     }
 }
