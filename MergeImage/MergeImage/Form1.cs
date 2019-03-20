@@ -1105,7 +1105,7 @@ namespace MergeImage
                     destImage = System.IO.Path.Combine(path, item.Split('\\').Last());
                     System.IO.File.Copy(item, destImage, true);
                 }
-
+                saveTailsImagesLog(pTails);
 
             }
             catch (Exception ex)
@@ -1114,6 +1114,30 @@ namespace MergeImage
             }
         }
 
+
+        private void saveTailsImagesLog(List<string> pTails)
+        {
+            try
+            {
+                string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modifyTailsLog.txt";
+                string contents = "";
+                string slideStyle;
+
+                using (StreamWriter outputFile = File.AppendText(path))
+                {
+                    foreach (string item in pTails)
+                    {
+                        slideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                        contents = item + "\t" + slideStyle + "\t" + tailsStatus;
+                        outputFile.WriteLine(contents);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("저장하다 오류가 발생했습니다.");
+            }
+        }
 
     }
 }
