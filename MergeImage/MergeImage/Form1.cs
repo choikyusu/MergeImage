@@ -376,22 +376,24 @@ namespace MergeImage
             {
 
                 lbImagePosiont.Text = "이미지 Position : X =  " + (e.X / zoomScale + Left1) + "; Y = " + (e.Y / zoomScale + Top1);
-
-                slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
-                slectedImage = pointSlides(slidePiont);
-                switch (tailsStatus)
+                if (tailsStatus != "")
                 {
-                    case "N":
-                        break;
-                    case "A":
-                        break;
-                    case "D":
-                        break;
-                    case "M":
-                        break;
+                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    slectedImage = pointSlides(slidePiont);
+                    saveSelectedTailsImages(slectedImage);
+                    switch (tailsStatus)
+                    {
+                        case "N":
+                            break;
+                        case "A":
+                            break;
+                        case "D":
+                            break;
+                        case "M":
+                            break;
+                    }
+                    tailsStatus = "";
                 }
-                tailsStatus = "";
-
             }
         }
 
@@ -1082,6 +1084,36 @@ namespace MergeImage
             }
             return slectedImage;
         }
+
+        //
+        private void saveSelectedTailsImages(List<string> pTails)
+        {
+            try
+            {
+                string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
+                string path;
+                string destImage;
+                // string slideStyle;
+                foreach (string item in pTails)
+                {
+                    //slideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                    path = basePath + "\\" + tailsStatus;
+                    if (!System.IO.Directory.Exists(path))
+                    {
+                        System.IO.Directory.CreateDirectory(path);
+                    }
+                    destImage = System.IO.Path.Combine(path, item.Split('\\').Last());
+                    System.IO.File.Copy(item, destImage, true);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("저장하다 오류가 발생했습니다.");
+            }
+        }
+
 
     }
 }
