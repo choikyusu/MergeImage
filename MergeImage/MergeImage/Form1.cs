@@ -104,6 +104,7 @@ namespace MergeImage
 
             getDateImageList();
             readFileMergeImageStatus();
+            readTailsImagesLog();
 
             Bitmap img = new Bitmap(Properties.Resources.blue100);
             dicMask.Add("blue100", img);
@@ -300,6 +301,7 @@ namespace MergeImage
 
                 getDateImageList();
                 readFileMergeImageStatus();
+                readTailsImagesLog();
             }
         }
 
@@ -402,6 +404,7 @@ namespace MergeImage
             //이미지 리스트 다시 불러오기
             getDateImageList();
             readFileMergeImageStatus();
+            readTailsImagesLog();
         }
 
         public void getDateImageList()
@@ -617,6 +620,7 @@ namespace MergeImage
                 //    System.Console.WriteLine("그림" + drawCount);
                 //}
 
+                readTailsImagesLog();
             }
         }
 
@@ -1132,12 +1136,45 @@ namespace MergeImage
                         outputFile.WriteLine(contents);
                     }
                 }
+                readTailsImagesLog();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("저장하다 오류가 발생했습니다.");
             }
         }
+
+        public void readTailsImagesLog()
+        {
+            dataGridView1.Rows.Clear();
+            FileInfo fi = new FileInfo(tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modifyTailsLog.txt");
+            string lineLog = "";
+            Dictionary<string, int> location ;
+            if (gridMergeImage.SelectedRows.Count > 0)
+            {
+                int rowindex = gridMergeImage.SelectedRows[0].Index;
+                DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
+                string currentId = Convert.ToString(selectedRow.Cells[0].Value);
+
+                if (fi.Exists == false)
+                    return;
+                               
+                System.IO.StreamReader file = fi.OpenText();
+                while ((lineLog = file.ReadLine()) != null)
+                {
+                    if (!lineLog.Contains(currentId))
+                        continue;
+                    
+                    location = parsingXY(lineLog);
+                    dataGridView1.Rows.Add(location["pX"], location["pY"], lineLog.Split('\t')[1], lineLog.Split('\t')[2]); ;
+                    
+                }
+                file.Close();
+            }
+
+        }
+
+
 
     }
 }
