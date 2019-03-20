@@ -38,6 +38,7 @@ namespace MergeImage
         Dictionary<string, Bitmap> dicBitmap5 = new Dictionary<string, Bitmap>();
 
         List<string> drawnImage = new List<string>();
+        Point slidePiont;
         public enum eMergeImageGridIndex
         {
             ID,
@@ -370,10 +371,14 @@ namespace MergeImage
 
         private void DataPanel_MouseClick(object sender, MouseEventArgs e)
         {
+            List<string> slectedImage = new List<string>();
             if (e.Button == MouseButtons.Right)
             {
-                lbImagePosiont.Text = "이미지 Position : X =  " + e.X / zoomScale + "; Y = " + e.Y / zoomScale;
 
+                lbImagePosiont.Text = "이미지 Position : X =  " + (e.X / zoomScale + Left1) + "; Y = " + (e.Y / zoomScale + Top1);
+
+                slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                slectedImage = pointSlides(slidePiont);
                 switch (tailsStatus)
                 {
                     case "N":
@@ -1058,5 +1063,25 @@ namespace MergeImage
         {
             tailsStatus = "M";
         }
+
+        // 이미지 Click Position tails 가져오기함수
+        public List<string> pointSlides(Point pParam)
+        {
+            List<string> slectedImage = new List<string>();
+            Dictionary<string, int> tempSize = null;
+            string seletedStyle;
+
+            foreach (string filename in drawnImage)
+            {
+                seletedStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                tempSize = parsingXY(filename);
+                if (pParam.X >= tempSize["pX"] && pParam.Y >= tempSize["pY"] && pParam.X <= tempSize["pX"] + splitWidth && pParam.Y <= tempSize["pY"] + splitHeight)
+                {
+                    slectedImage.Add(filename);
+                }
+            }
+            return slectedImage;
+        }
+
     }
 }
