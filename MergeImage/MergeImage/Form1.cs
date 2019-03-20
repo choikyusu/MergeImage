@@ -38,6 +38,8 @@ namespace MergeImage
         Dictionary<string, Bitmap> dicBitmap5 = new Dictionary<string, Bitmap>();
 
         List<string> drawnImage = new List<string>();
+        List<string> tailsImagesLog = new List<string>();
+        
         Point slidePiont;
         public enum eMergeImageGridIndex
         {
@@ -66,6 +68,8 @@ namespace MergeImage
         System.Drawing.Graphics g;
         private Boolean colorOnOff = true;
         private Boolean isFirst = true;
+        private Boolean checkTailsLog = false;
+        private Boolean firstLoadTailsLog = true;
 
         Dictionary<string, Bitmap> dicMask = new Dictionary<string, Bitmap>();
 
@@ -1127,21 +1131,27 @@ namespace MergeImage
                 string contents = "";
                 string slideStyle;
 
-                using (StreamWriter outputFile = File.AppendText(path))
+
+                foreach (string item in pTails)
                 {
-                    foreach (string item in pTails)
+                    checkTailsLog = false;
+                    slideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                    contents = item + "\t" + slideStyle + "\t" + tailsStatus;
+                    CheckLog(item, contents);
+                    if (checkTailsLog)
                     {
-                        slideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-                        contents = item + "\t" + slideStyle + "\t" + tailsStatus;
-                        outputFile.WriteLine(contents);
+                        continue;
                     }
+                    tailsImagesLog.Add(contents);
                 }
-                readTailsImagesLog();
+                System.IO.File.WriteAllLines(path, tailsImagesLog);
+                
             }
             catch (Exception ex)
             {
                 MessageBox.Show("저장하다 오류가 발생했습니다.");
             }
+            readTailsImagesLog();
         }
 
         public void readTailsImagesLog()
@@ -1164,7 +1174,11 @@ namespace MergeImage
                 {
                     if (!lineLog.Contains(currentId))
                         continue;
-                    
+                    if (firstLoadTailsLog)
+                    {
+                        tailsImagesLog.Add(lineLog);
+                        firstLoadTailsLog = false;
+                    }
                     location = parsingXY(lineLog);
                     dataGridView1.Rows.Add(location["pX"], location["pY"], lineLog.Split('\t')[1], lineLog.Split('\t')[2]); ;
                     
@@ -1174,6 +1188,18 @@ namespace MergeImage
 
         }
 
+        public Boolean CheckLog(string pTail,string contents)
+        {
+            for (int i=0 ; i < tailsImagesLog.Count; i++)
+            {
+                if (tailsImagesLog[i].Contains(pTail))
+                {
+                    tailsImagesLog[i] = contents;
+                    checkTailsLog = true;
+                }
+            }
+            return checkTailsLog;
+        }
 
 
     }
