@@ -1194,11 +1194,41 @@ namespace MergeImage
             {
                 if (tailsImagesLog[i].Contains(pTail))
                 {
+                    deleteTailsImages(tailsImagesLog[i]);
                     tailsImagesLog[i] = contents;
                     checkTailsLog = true;
                 }
             }
             return checkTailsLog;
+        }
+
+        // Modify 폴드아래 동일 tails 있을시 삭제 하는 함수
+        private void deleteTailsImages(string itemLog)
+        {
+            try
+            {
+                string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
+                string deleteItemFold = itemLog.Split('\t').Last();
+                string deleteItemImageName = itemLog.Split('\t').First().Split('\\').Last();
+                string path = basePath + "\\" + deleteItemFold + "\\" + deleteItemImageName;
+
+                if (System.IO.File.Exists(path))
+                {
+                    try
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    catch (System.IO.IOException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("삭제하다 오류가 발생했습니다.");
+            }
         }
 
 
