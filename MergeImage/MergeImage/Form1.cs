@@ -39,7 +39,7 @@ namespace MergeImage
 
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
-        
+
         Point slidePiont;
         public enum eMergeImageGridIndex
         {
@@ -63,6 +63,7 @@ namespace MergeImage
         private List<string> slidesFullName = new List<string>();
         private List<string> filterSlidesFullName = new List<string>();
         private Dictionary<string, int> thumbImageSize = new Dictionary<string, int>();
+        private Dictionary<string, int> uniqName_piecesNum = new Dictionary<string, int>();
 
         private Bitmap canvas;
         System.Drawing.Graphics g;
@@ -212,7 +213,7 @@ namespace MergeImage
         private void DataPanel_MouseWheel(object sender, MouseEventArgs e)
         {
             this.ZoomController.ValueChanged -= new System.EventHandler(this.ZoomController_ValueChanged);
-            if (e.Delta > 0)
+            if (e.Delta < 0)
             {
                 //확대
 
@@ -417,6 +418,8 @@ namespace MergeImage
             slidesFullName.Clear();
             filterSlidesFullName.Clear();
             uniqName.Clear();
+            uniqName_piecesNum.Clear();
+
 
             // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
             string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
@@ -437,12 +440,14 @@ namespace MergeImage
                             {
                                 slidesFullName.Add(File.FullName); // 타일 Full Name(Path+ Image Name) 저장
                                 fullName = File.Name;              // 타일 Name(Image Name)
+                                getUniqIDPiecesNum(fullName.Split('_').First());
                                 wordsName = fullName.Split('_', '-');   // 타일 Name Parsing
                                 uniqName.Add(wordsName[0]);        // 타일 ID(Image ID) 저장
                             }
                         }
                     }
                 }
+                                
                 uniqName = uniqName.Distinct().ToList();
                 uniqName.Sort();
                 foreach (string uniq in uniqName) // 선택 폴더의 파일 목록을 스캔합니다.
@@ -547,6 +552,7 @@ namespace MergeImage
                 int rowindex = gridMergeImage.SelectedRows[0].Index;
                 DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
                 string currentId = Convert.ToString(selectedRow.Cells[0].Value);
+                
 
                 Dictionary<string, int> tempSize = null;
 
@@ -559,9 +565,10 @@ namespace MergeImage
                         filterSlidesFullName.Add(item);
 
                         tempSize = parsingXY(item);
-
+                 
                         startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
-                        startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
+                        startPointY = startPointY > tempSize["pY"] + tempSize["addUnitY"] * tempSize["pNum"] ? tempSize["pY"] + tempSize["addUnitY"] * tempSize["pNum"] : startPointY;
+                        
                         Bitmap img = new Bitmap(item);
                         dicBitmap100.Add(item, img);
 
@@ -651,8 +658,8 @@ namespace MergeImage
             foreach (string filename in pathParams)
             {
                 Dictionary<string, int> location = parsingXY(filename);
-
-                if (getIntersection(x1: (int)(location["pX"] * zoomScale), width1: (int)(splitWidth * zoomScale), y1: (int)(location["pY"] * zoomScale),
+                               
+                if (getIntersection(x1: (int)(location["pX"] * zoomScale), width1: (int)(splitWidth * zoomScale), y1: (int)((location["pY"]+ location["addUnitY"] * location["pNum"]) * zoomScale),
                     height1: (int)(splitHeight * zoomScale), x2: (int)(Left1 * zoomScale), width2: DataPanel.Width, y2: (int)(Top1 * zoomScale),
                     height2: DataPanel.Height) == true)
                     drawnImage.Add(filename);
@@ -682,13 +689,13 @@ namespace MergeImage
             {
                 string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
-
+                
                 Bitmap img = getSplitImage(filename);
 
                 if (img == null)
                     continue;
                 
-                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
+                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] + tempSize["addUnitY"] * tempSize["pNum"] - Top1) * zoomScale), img.Width, img.Height);
 
                 //분할이미지에 NADM으로 색칠하기.
                 setMaskNADM(slideStyle, tempSize, imagePixels);
@@ -753,7 +760,7 @@ namespace MergeImage
                             if (mask == null)
                                 return;
 
-                            g.DrawImage(mask, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale),
+                            g.DrawImage(mask, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] + tempSize["addUnitY"] * tempSize["pNum"] - Top1) * zoomScale),
                                mask.Width, mask.Height);
                         }
                         break;
@@ -798,7 +805,8 @@ namespace MergeImage
                 wholeX = tempSize["wholeX"];
                 wholeY = tempSize["wholeY"];
                 Bitmap img = dicBitmap100[filename];
-                g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * scales), (int)((tempSize["pY"] - startPointY) * scales),
+                
+                g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * scales), (int)((tempSize["pY"]+ tempSize["addUnitY"] * tempSize["pNum"] - startPointY) * scales),
                     (int)(imagePixels["width"] * (scales)), (int)(imagePixels["height"] * (scales)));
             }
 
@@ -829,7 +837,8 @@ namespace MergeImage
             foreach (string item in pathParams)
             {
                 tempSize = parsingXY(item);
-                tempY = tempSize["pY"];
+                
+                tempY = tempSize["pY"] + tempSize["addUnitY"] * tempSize["pNum"];
                 tempX = tempSize["pX"];
                 if (maxX <= tempX)
                 {
@@ -875,17 +884,26 @@ namespace MergeImage
             int wholeY = 0;
             int pX = 0;
             int pY = 0;
+            int pNum = 0;
+            string slideName;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
+            slideName = itemName.Split('-')[0];
+            pNum = int.Parse(itemName.Split('-', '_')[1]);
             wholeX = int.Parse(itemName.Split('-', '_')[2]);
             wholeY = int.Parse(itemName.Split('-', '_')[3]);
             pX = int.Parse(itemName.Split('-', '_')[4]);
             pY = int.Parse(itemName.Split('-', '_')[5]);
 
+            int addUnitY = wholeY / (uniqName_piecesNum[slideName] + 1);
+
             pXY.Add("wholeX", wholeX);
             pXY.Add("wholeY", wholeY);
             pXY.Add("pX", pX);
             pXY.Add("pY", pY);
+            pXY.Add("pNum", pNum);
+            pXY.Add("addUnitY", addUnitY);
+
             return pXY;
         }
 
@@ -1231,6 +1249,35 @@ namespace MergeImage
             }
         }
 
+        private void getUniqIDPiecesNum(string pUniqName)
+        {
+            string slideID = pUniqName.Split('-').First();
+            int piecesNum = int.Parse(pUniqName.Split('-').Last());
+            Boolean isAdd = true;
+
+            if (uniqName_piecesNum == null)
+            {
+                uniqName_piecesNum.Add(slideID, piecesNum);
+            }
+            else
+            {
+                foreach(KeyValuePair<string, int> item in uniqName_piecesNum)
+                {
+                    if(item.Key== slideID && item.Value <= piecesNum)
+                    {
+                        uniqName_piecesNum[item.Key] = piecesNum;
+                        isAdd = false;
+                        break;
+                    }
+                }
+                if (isAdd)
+                {
+                    uniqName_piecesNum.Add(slideID, piecesNum);
+                }
+            }
+                      
+                
+        }
 
     }
 }
