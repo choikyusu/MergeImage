@@ -1099,12 +1099,24 @@ namespace MergeImage
             List<string> slectedImage = new List<string>();
             Dictionary<string, int> tempSize = null;
             string seletedStyle;
+            int wholeYsize = parsingXY(drawnImage[0])["wholeY"];
+            int addUnitY = parsingXY(drawnImage[0])["addUnitY"];
+            int pNum = 0;
+            do
+            {
+                pParam.Y -= addUnitY;
+                pNum += 1;
+            } while (pParam.Y >= 0);
+            pNum -= 1;
+            pParam.Y += addUnitY;
+
+
 
             foreach (string filename in drawnImage)
             {
                 seletedStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                 tempSize = parsingXY(filename);
-                if (pParam.X >= tempSize["pX"] && pParam.Y >= tempSize["pY"] && pParam.X <= tempSize["pX"] + splitWidth && pParam.Y <= tempSize["pY"] + splitHeight)
+                if (pParam.X >= tempSize["pX"] && pParam.Y >= tempSize["pY"] && pParam.X <= tempSize["pX"] + splitWidth && pParam.Y <= tempSize["pY"] + splitHeight && tempSize["pNum"]== pNum)
                 {
                     slectedImage.Add(filename);
                 }
