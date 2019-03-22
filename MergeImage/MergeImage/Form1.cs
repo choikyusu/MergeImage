@@ -517,7 +517,7 @@ namespace MergeImage
 
         private void gridMergeImageRowChange(object sender, EventArgs e)
         {
-            readTailsImagesLog();
+            
             if (gridMergeImage.SelectedRows.Count > 0)
             {
                 foreach (Bitmap bitmap in dicBitmap100.Values)
@@ -646,7 +646,7 @@ namespace MergeImage
         {
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
-
+            readTailsImagesLog();
             if (pathParams.Count == 0)
                 return;
 
