@@ -1263,9 +1263,12 @@ namespace MergeImage
             {
                 foreach(KeyValuePair<string, int> item in uniqName_piecesNum)
                 {
-                    if(item.Key== slideID && item.Value <= piecesNum)
+                    if(item.Key== slideID)
                     {
-                        uniqName_piecesNum[item.Key] = piecesNum;
+                        if(item.Value <= piecesNum)
+                        {
+                            uniqName_piecesNum[item.Key] = piecesNum;
+                        }
                         isAdd = false;
                         break;
                     }
