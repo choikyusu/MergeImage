@@ -877,7 +877,8 @@ namespace MergeImage
         public Dictionary<string, int> parsingXY(string pathParams)
         {
             Dictionary<string, int> pXY = new Dictionary<string, int>();
-            string itemName = pathParams;
+            string itemName = "";
+            itemName = pathParams;
 
 
             int wholeX = 0;
