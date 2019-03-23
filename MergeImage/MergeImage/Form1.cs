@@ -555,8 +555,8 @@ namespace MergeImage
 
                 System.Console.WriteLine("start");
                 // 특정 ID에 해당 하는 타일 FullName 가져오기.
-                //foreach (string item in slidesFullName)
-                Parallel.ForEach(slidesFullName, (item) =>
+                //Parallel.ForEach(slidesFullName, (item) =>
+                foreach (string item in slidesFullName)
                 {
                     if (item.Contains(currentId))
                     {
@@ -593,7 +593,8 @@ namespace MergeImage
                         Bitmap image5 = new Bitmap(img, resize);
                         dicBitmap5.Add(item, image5);
                     }
-                });
+                }
+                //);
 
                 System.Console.WriteLine("end");
 
