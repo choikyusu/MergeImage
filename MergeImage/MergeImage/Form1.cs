@@ -111,8 +111,6 @@ namespace MergeImage
             readFileMergeImageStatus();
             getDateModifyImageList();
             loadMaskColor();
-
-
             drawnImage.Clear();
         }
 
@@ -611,6 +609,7 @@ namespace MergeImage
                 drawImage(filterSlidesFullName);
                 drawThumbnailImage(filterSlidesFullName);
                 drawThumbnailImageViewborder();
+                
             }
         }
 
@@ -1126,16 +1125,16 @@ namespace MergeImage
                 foreach (string item in pTails)
                 {
                     string preStatus = new DirectoryInfo(item).Parent.Name;
-
-                    if (preStatus == tailsStatus)
-                        continue;
-
                     path = basePath + "\\" + tailsStatus;
                     if (!System.IO.Directory.Exists(path))
                     {
                         System.IO.Directory.CreateDirectory(path);
                     }
                     CheckLog(item);
+
+                    if (preStatus == tailsStatus)
+                        continue;
+
                     destImage = System.IO.Path.Combine(path, item.Split('\\').Last());
                     System.IO.File.Copy(item, destImage, true);
                 }
@@ -1225,6 +1224,8 @@ namespace MergeImage
         }
         public void addModifyImageListToDataGridView1()
         {
+            this.dataGridView1.SelectionChanged -= new System.EventHandler(this.dataGridView1_SelectionChanged);
+            
             dataGridView1.Rows.Clear();
             int rowindex = gridMergeImage.SelectedRows[0].Index;
             DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
@@ -1248,8 +1249,14 @@ namespace MergeImage
                 }
                 dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle);
             }
-
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
         }
 
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            left = Int32.Parse(dataGridView1.CurrentRow.Cells[0].Value.ToString()) - (int)(hiddenLeft / zoomScale) - startPointX;
+            top = Int32.Parse(dataGridView1.CurrentRow.Cells[1].Value.ToString()) - (int)(hiddenTop / zoomScale) - startPointY;
+            drawImage(filterSlidesFullName);
+        }
     }
 }
