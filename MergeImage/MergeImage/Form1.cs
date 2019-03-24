@@ -108,7 +108,14 @@ namespace MergeImage
             getDateImageList();
             readFileMergeImageStatus();
             getDateModifyImageList();
+            loadMaskColor();
 
+
+            drawnImage.Clear();
+        }
+
+        private void loadMaskColor()
+        {
             Bitmap img = new Bitmap(Properties.Resources.blue100);
             dicMask.Add("blue100", img);
 
@@ -201,9 +208,6 @@ namespace MergeImage
             resize = new Size(width, height);
             image5 = new Bitmap(img, resize);
             dicMask.Add("green5", image5);
-
-
-            drawnImage.Clear();
         }
 
 
@@ -308,10 +312,6 @@ namespace MergeImage
             }
         }
 
-        public bool thumbnailCallback()
-        {
-            return false;
-        }
         /**
         * 마우스를 이용한 이미지 Move 힘수
         *  - DataPanel :최도 마우스 Cursor 취치 확정.
@@ -342,8 +342,6 @@ namespace MergeImage
                 DataPanel.Left = -hiddenLeft;
                 DataPanel.Top = -hiddenTop;
                 isMove = false;
-
-
             }
         }
 
@@ -358,8 +356,6 @@ namespace MergeImage
                 DataPanel.Location = new Point(DataPanel.Location.X + moveX, DataPanel.Location.Y + moveY);
                 firstPoint.X = Cursor.Position.X;
                 firstPoint.Y = Cursor.Position.Y;
-
-                //gridMergeImageRowChange(null, null);
 
                 lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
@@ -408,6 +404,7 @@ namespace MergeImage
         {
             //readTailsImagesLog();
             //이미지 리스트 다시 불러오기
+            dataGridView1.Rows.Clear();
             getDateImageList();
             readFileMergeImageStatus();
 
@@ -602,35 +599,6 @@ namespace MergeImage
                 drawImage(filterSlidesFullName);
                 drawThumbnailImage(filterSlidesFullName);
                 drawThumbnailImageViewborder();
-
-                //랜더링해야하는 이미지 리스트가 변화가 있는지 체크
-
-                //List<string> newDrawnImage = new List<string>();
-
-
-                //int movedLeft = Left1 - (DataPanel.Left - 3);
-                //int movedTop = Top1 - (DataPanel.Top - 4);
-
-                //foreach (string filename in filterSlidesFullName)
-                //{
-                //    Dictionary<string, int> location = parsingXY(filename);
-                //    if (getIntersection(
-                //        x1: (int)(location["pX"] * zoomScale), width1: (int)(splitWidth * zoomScale), y1: (int)(location["pY"] * zoomScale), height1: (int)(splitHeight * zoomScale), 
-                //        x2: (int)(movedLeft * zoomScale), width2: DataPanel.Width, y2: (int)(movedTop * zoomScale),height2: DataPanel.Height) == true)
-                //    {
-                //        newDrawnImage.Add(filename);
-                //    }
-                //}
-                //List<string> inter = drawnImage.Except(newDrawnImage).ToList();
-
-                //if (drawnImage.Count == 0 || inter.Count > 0)
-                //{
-                //    drawCount++;
-                //drawImage(filterSlidesFullName);
-                //    System.Console.WriteLine("그림" + drawCount);
-                //}
-
-
             }
         }
 
@@ -647,13 +615,7 @@ namespace MergeImage
         public void drawImage(List<string> pathParams)
         {
             Stopwatch stopwatch = new Stopwatch(); //객체 선언
-            Stopwatch stopwatch1 = new Stopwatch(); //객체 선언
-            Stopwatch stopwatch2 = new Stopwatch(); //객체 선언
-            Stopwatch stopwatch3 = new Stopwatch(); //객체 선언
             stopwatch.Start(); // 시간측정 시작
-            stopwatch1.Start(); // 시간측정 시작
-            stopwatch2.Start(); // 시간측정 시작
-            stopwatch3.Start(); // 시간측정 시작
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
             //readTailsImagesLog();
@@ -673,8 +635,6 @@ namespace MergeImage
                     drawnImage.Add(filename);
 
             }
-            stopwatch2.Stop(); //시간측정 끝
-            System.Console.WriteLine("1 time : " + stopwatch2.ElapsedMilliseconds + "ms");
 
             if (isFirst)
             {
@@ -688,15 +648,10 @@ namespace MergeImage
             if (canvas != null)
                 canvas.Dispose();
 
-            stopwatch3.Stop(); //시간측정 끝
-            System.Console.WriteLine("2 time : " + stopwatch3.ElapsedMilliseconds + "ms");
 
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
             canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
             g = System.Drawing.Graphics.FromImage(canvas);
-            // 이미지 Merge 하여 그려주기.
-            stopwatch1.Stop(); //시간측정 끝
-            System.Console.WriteLine("3 time : " + stopwatch1.ElapsedMilliseconds + "ms");
 
             foreach (string filename in drawnImage)
             {
@@ -722,8 +677,7 @@ namespace MergeImage
                 setMaskNADM(slideStyle, tempSize, imagePixels);
             }
 
-            stopwatch.Stop(); //시간측정 끝
-            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
+           
 
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
@@ -736,6 +690,9 @@ namespace MergeImage
             }
 
             g.Dispose();
+
+            stopwatch.Stop(); //시간측정 끝
+            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
         }
 
@@ -1156,6 +1113,11 @@ namespace MergeImage
 
                 foreach (string item in pTails)
                 {
+                    string preStatus = new DirectoryInfo(item).Parent.Name;
+
+                    if (preStatus == tailsStatus)
+                        continue;
+
                     path = basePath + "\\" + tailsStatus;
                     if (!System.IO.Directory.Exists(path))
                     {
