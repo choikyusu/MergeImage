@@ -1256,7 +1256,19 @@ namespace MergeImage
         {
             left = Int32.Parse(dataGridView1.CurrentRow.Cells[0].Value.ToString()) - (int)(hiddenLeft / zoomScale) - startPointX;
             top = Int32.Parse(dataGridView1.CurrentRow.Cells[1].Value.ToString()) - (int)(hiddenTop / zoomScale) - startPointY;
+            
+        }
+
+        private void ThumbnailImage_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
+            int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height/2) / zoomScale);
+
+            left = xFloat;
+            top = yFloat;
             drawImage(filterSlidesFullName);
+
         }
     }
 }
