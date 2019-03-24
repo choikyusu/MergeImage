@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -31,11 +33,11 @@ namespace MergeImage
         const int hiddenLeft = 500;
         const int hiddenTop = 500;
 
-        Dictionary<string, Bitmap> dicBitmap100 = new Dictionary<string, Bitmap>();
-        Dictionary<string, Bitmap> dicBitmap50 = new Dictionary<string, Bitmap>();
-        Dictionary<string, Bitmap> dicBitmap20 = new Dictionary<string, Bitmap>();
-        Dictionary<string, Bitmap> dicBitmap10 = new Dictionary<string, Bitmap>();
-        Dictionary<string, Bitmap> dicBitmap5 = new Dictionary<string, Bitmap>();
+        ConcurrentDictionary<string, Bitmap> dicBitmap100 = new ConcurrentDictionary<string, Bitmap>();
+        ConcurrentDictionary<string, Bitmap> dicBitmap50 = new ConcurrentDictionary<string, Bitmap>();
+        ConcurrentDictionary<string, Bitmap> dicBitmap20 = new ConcurrentDictionary<string, Bitmap>();
+        ConcurrentDictionary<string, Bitmap> dicBitmap10 = new ConcurrentDictionary<string, Bitmap>();
+        ConcurrentDictionary<string, Bitmap> dicBitmap5 = new ConcurrentDictionary<string, Bitmap>();
 
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
@@ -571,47 +573,36 @@ namespace MergeImage
                 Parallel.ForEach(filterSlidesFullName, (item) =>
                 //foreach (string item in slidesFullName)
                 {
-                    if (item.Contains(currentId))
-                    {
                         Bitmap img = new Bitmap(item);
-                        dicBitmap100.Add(item, img);
+                        dicBitmap100.TryAdd(item, img);
 
                         int width = (int)(img.Width * 0.5);
                         int height = (int)(img.Height * 0.5);
                         Size resize = new Size(width, height);
                         Bitmap image50 = new Bitmap(img, resize);
-                        dicBitmap50.Add(item, image50);
+                        dicBitmap50.TryAdd(item, image50);
 
                         width = (int)(img.Width * 0.2);
                         height = (int)(img.Height * 0.2);
                         resize = new Size(width, height);
                         Bitmap image20 = new Bitmap(img, resize);
-                        dicBitmap20.Add(item, image20);
+                        dicBitmap20.TryAdd(item, image20);
 
                         width = (int)(img.Width * 0.1);
                         height = (int)(img.Height * 0.1);
                         resize = new Size(width, height);
                         Bitmap image10 = new Bitmap(img, resize);
-                        dicBitmap10.Add(item, image10);
+                        dicBitmap10.TryAdd(item, image10);
 
                         width = (int)(img.Width * 0.05);
                         height = (int)(img.Height * 0.05);
                         resize = new Size(width, height);
                         Bitmap image5 = new Bitmap(img, resize);
-                        dicBitmap5.Add(item, image5);
-                    }
+                        dicBitmap5.TryAdd(item, image5);
                 }
                 );
 
-                while(true)
-                {
-                    if (dicBitmap100.Count == filterSlidesFullName.Count && dicBitmap100.Count == dicBitmap50.Count && dicBitmap100.Count == dicBitmap20.Count &&
-                        dicBitmap100.Count == dicBitmap10.Count && dicBitmap100.Count == dicBitmap5.Count)
-                    {
-                        break;
-                    }
-                }
-
+               
                 stopwatch.Stop(); //시간측정 끝
                 System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
