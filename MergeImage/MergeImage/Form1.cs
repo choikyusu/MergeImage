@@ -39,7 +39,7 @@ namespace MergeImage
 
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
-
+        string pStyle="";
         Point slidePiont;
         public enum eMergeImageGridIndex
         {
@@ -105,10 +105,9 @@ namespace MergeImage
             InitializeComponent();
 
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
-            readTailsImagesLog();
             getDateImageList();
             readFileMergeImageStatus();
-
+            getDateModifyImageList();
 
             Bitmap img = new Bitmap(Properties.Resources.blue100);
             dicMask.Add("blue100", img);
@@ -302,7 +301,7 @@ namespace MergeImage
                 tbxFolderPath.Text = imagePath.SelectedPath;
                 Properties.Settings.Default.imagePath = tbxFolderPath.Text = imagePath.SelectedPath;
                 Properties.Settings.Default.Save();
-                readTailsImagesLog();
+                //readTailsImagesLog();
                 getDateImageList();
                 readFileMergeImageStatus();
 
@@ -399,6 +398,7 @@ namespace MergeImage
                             break;
                     }
                     tailsStatus = "";
+                    addModifyImageListToDataGridView1();
                     drawImage(filterSlidesFullName);
                 }
             }
@@ -406,7 +406,7 @@ namespace MergeImage
 
         private void dtpDate_ValueChanged(object sender, EventArgs e)
         {
-            readTailsImagesLog();
+            //readTailsImagesLog();
             //이미지 리스트 다시 불러오기
             getDateImageList();
             readFileMergeImageStatus();
@@ -597,7 +597,8 @@ namespace MergeImage
                 //);
 
                 System.Console.WriteLine("end");
-
+                getDateModifyImageList();
+                addModifyImageListToDataGridView1();
                 drawImage(filterSlidesFullName);
                 drawThumbnailImage(filterSlidesFullName);
                 drawThumbnailImageViewborder();
@@ -645,13 +646,22 @@ namespace MergeImage
 
         public void drawImage(List<string> pathParams)
         {
+            Stopwatch stopwatch = new Stopwatch(); //객체 선언
+            Stopwatch stopwatch1 = new Stopwatch(); //객체 선언
+            Stopwatch stopwatch2 = new Stopwatch(); //객체 선언
+            Stopwatch stopwatch3 = new Stopwatch(); //객체 선언
+            stopwatch.Start(); // 시간측정 시작
+            stopwatch1.Start(); // 시간측정 시작
+            stopwatch2.Start(); // 시간측정 시작
+            stopwatch3.Start(); // 시간측정 시작
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
-            readTailsImagesLog();
+            //readTailsImagesLog();
             if (pathParams.Count == 0)
                 return;
 
             drawnImage.Clear();
+            getDateModifyImageList(); // get modify Image Lisge
 
             foreach (string filename in pathParams)
             {
@@ -663,6 +673,8 @@ namespace MergeImage
                     drawnImage.Add(filename);
 
             }
+            stopwatch2.Stop(); //시간측정 끝
+            System.Console.WriteLine("1 time : " + stopwatch2.ElapsedMilliseconds + "ms");
 
             if (isFirst)
             {
@@ -676,27 +688,29 @@ namespace MergeImage
             if (canvas != null)
                 canvas.Dispose();
 
+            stopwatch3.Stop(); //시간측정 끝
+            System.Console.WriteLine("2 time : " + stopwatch3.ElapsedMilliseconds + "ms");
+
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
             canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
             g = System.Drawing.Graphics.FromImage(canvas);
             // 이미지 Merge 하여 그려주기.
-            Stopwatch stopwatch = new Stopwatch(); //객체 선언
-            stopwatch.Start(); // 시간측정 시작
+            stopwatch1.Stop(); //시간측정 끝
+            System.Console.WriteLine("3 time : " + stopwatch1.ElapsedMilliseconds + "ms");
 
             foreach (string filename in drawnImage)
             {
                 string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+
                 foreach (string item in tailsImagesLog)
                 {
-                    if (item.Contains(filename))
+                    if (item.Contains(filename.Split('\\').Last()))
                     {
-                        slideStyle = item.Split('\t').Last();
+                        slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     }
                 }
 
-
                 tempSize = parsingXY(filename);
-
                 Bitmap img = getSplitImage(filename);
 
                 if (img == null)
@@ -709,7 +723,7 @@ namespace MergeImage
             }
 
             stopwatch.Stop(); //시간측정 끝
-            System.Console.WriteLine("time : " + stopwatch.ElapsedMilliseconds + "ms");
+            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
@@ -1120,20 +1134,20 @@ namespace MergeImage
                 string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
                 string path;
                 string destImage;
-                // string slideStyle;
+
                 foreach (string item in pTails)
                 {
-                    //slideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     path = basePath + "\\" + tailsStatus;
                     if (!System.IO.Directory.Exists(path))
                     {
                         System.IO.Directory.CreateDirectory(path);
                     }
+                    CheckLog(item);
                     destImage = System.IO.Path.Combine(path, item.Split('\\').Last());
                     System.IO.File.Copy(item, destImage, true);
                 }
-                saveTailsImagesLog(pTails);
 
+                getDateModifyImageList();
             }
             catch (Exception ex)
             {
@@ -1141,102 +1155,34 @@ namespace MergeImage
             }
         }
 
-
-        private void saveTailsImagesLog(List<string> pTails)
-        {
-            try
-            {
-                readTailsImagesLog();
-                string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modifyTailsLog.txt";
-                string contents = "";
-                string slideStyle;
-
-
-                foreach (string item in pTails)
-                {
-                    checkTailsLog = false;
-                    slideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-                    contents = item + "\t" + slideStyle + "\t" + tailsStatus;
-                    CheckLog(item, contents);
-                    if (checkTailsLog)
-                    {
-                        continue;
-                    }
-                    tailsImagesLog.Add(contents);
-                }
-                System.IO.File.WriteAllLines(path, tailsImagesLog);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("저장하다 오류가 발생했습니다.");
-            }
-
-        }
-
-        public void readTailsImagesLog()
-        {
-            dataGridView1.Rows.Clear();
-            FileInfo fi = new FileInfo(tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modifyTailsLog.txt");
-            string lineLog = "";
-            Dictionary<string, int> location;
-            if (gridMergeImage.SelectedRows.Count > 0)
-            {
-                int rowindex = gridMergeImage.SelectedRows[0].Index;
-                DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
-                string currentId = Convert.ToString(selectedRow.Cells[0].Value);
-
-                if (fi.Exists == false)
-                    return;
-
-                System.IO.StreamReader file = fi.OpenText();
-                while ((lineLog = file.ReadLine()) != null)
-                {
-                    if (!lineLog.Contains(currentId))
-                        continue;
-                    //if (firstLoadTailsLog)
-                    //{
-                    tailsImagesLog.Add(lineLog);
-                    //firstLoadTailsLog = false;
-                    //}
-                    location = parsingXY(lineLog);
-                    dataGridView1.Rows.Add(location["pX"], location["pY"], lineLog.Split('\t')[1], lineLog.Split('\t')[2]); ;
-
-                }
-                file.Close();
-            }
-
-        }
-
-        public Boolean CheckLog(string pTail, string contents)
+        public void CheckLog(string pTail)
         {
             for (int i = 0; i < tailsImagesLog.Count; i++)
             {
-                if (tailsImagesLog[i].Contains(pTail))
+                if (tailsImagesLog[i].Contains(pTail.Split('\\').Last()))
                 {
                     deleteTailsImages(tailsImagesLog[i]);
-                    tailsImagesLog[i] = contents;
-                    checkTailsLog = true;
                 }
             }
-            return checkTailsLog;
+
         }
 
-        // Modify 폴드아래 동일 tails 있을시 삭제 하는 함수
-        private void deleteTailsImages(string itemLog)
+        /// <summary>
+        /// 2019.03.24
+        /// 동일 tails 중복 작업시 ID 이미지를 삭제.
+        /// </summary>
+        /// <param name="item">삭제할 파일</param>
+
+
+        private void deleteTailsImages(string item)
         {
             try
             {
-                string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
-                string deleteItemFold = itemLog.Split('\t').Last();
-                string deleteItemImageName = itemLog.Split('\t').First().Split('\\').Last();
-                string path = basePath + "\\" + deleteItemFold + "\\" + deleteItemImageName;
-
-                if (System.IO.File.Exists(path))
+                if (System.IO.File.Exists(item))
                 {
                     try
                     {
-                        System.IO.File.Delete(path);
+                        System.IO.File.Delete(item);
                     }
                     catch (System.IO.IOException e)
                     {
@@ -1251,20 +1197,66 @@ namespace MergeImage
             }
         }
 
-        //private void modifyImageMask(List<string> modifyList)
-        //{
-        //    Dictionary<string, int> tempSize = null;
-        //    Dictionary<string, int> imagePixels = pixelsXY(slectedImage[0]);
-        //    foreach (string filename in slectedImage)
-        //    {
-        //        string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-        //        tempSize = parsingXY(filename);
-        //        //분할이미지에 NADM으로 색칠하기.
-        //        setMaskNADM(slideStyle, tempSize, imagePixels);
-        //    }
-        //}
+        /// <summary>
+        /// 2019.03.24
+        /// Modify 이미지 List 가져오기.
+        /// </summary>
+        public void getDateModifyImageList()
+        {
+            //dataGridView1.Rows.Clear();
+            tailsImagesLog.Clear();
 
+            // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
+            string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
+            DirectoryInfo dirPath = new DirectoryInfo(@path);
+            if (dirPath.Exists == true)
+            {
+                DirectoryInfo[] dirs = dirPath.GetDirectories();
 
+                foreach (DirectoryInfo dir in dirs) // 하위 폴더목록을 스캔합니다.
+                {
+                    //폴더명이 N,A,D,M일때만 탐색
+                    if (dir.Name == "N" || dir.Name == "A" || dir.Name == "D" || dir.Name == "M")
+                    {
+                        foreach (FileInfo File in dir.GetFiles()) // 선택 폴더의 파일 목록을 스캔합니다.
+                        {
+                            if (File.Name.Contains("_") == true)
+                            {
+                                tailsImagesLog.Add(File.FullName);              // 타일 Name(Image Name)
+                            }
+                        }
+                    }
+                }
+            }
+            
+        }
+        public void addModifyImageListToDataGridView1()
+        {
+            dataGridView1.Rows.Clear();
+            int rowindex = gridMergeImage.SelectedRows[0].Index;
+            DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
+            string currentId = Convert.ToString(selectedRow.Cells[0].Value);
+            Dictionary<string, int> location;
+            string modifySlideStyle;
+
+            foreach (string item in tailsImagesLog)
+            {
+                if (!item.Contains(currentId))
+                    continue;
+                location = parsingXY(item);
+                modifySlideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+
+                foreach (string line in slidesFullName)
+                {
+                    if (line.Contains(item.Split('\\').Last()))
+                    {
+                        pStyle = new DirectoryInfo(line).Parent.Name;
+                    }  
+                }
+                dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle);
+            }
+
+        }
 
     }
 }
