@@ -950,7 +950,7 @@ namespace MergeImage
                 ymFloat = (int)((DataPanel.Height - hiddenTop * 2) / zoomScale * scales) + yFloat;//border size，
                 yFloat = 0;
             }
-            else if (xFloat > ThumbnailImage.Height)
+            else if (yFloat > ThumbnailImage.Height)
             {
                 ymFloat = ThumbnailImage.Height;
                 yFloat = ThumbnailImage.Height - 1;
