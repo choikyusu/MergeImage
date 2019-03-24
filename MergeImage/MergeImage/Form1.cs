@@ -539,6 +539,7 @@ namespace MergeImage
                 dicBitmap5.Clear();
                 isFirst = true;
                 thumbImageSize.Clear();
+                zoomScale = 1;
                 startPointX = 99999;
                 startPointY = 99999;
                 top = 0;
@@ -553,7 +554,21 @@ namespace MergeImage
                 Stopwatch stopwatch = new Stopwatch(); //객체 선언
                 stopwatch.Start(); // 시간측정 시작
                 // 특정 ID에 해당 하는 타일 FullName 가져오기.
-                Parallel.ForEach(slidesFullName, (item) =>
+
+                foreach (string item in slidesFullName)
+                {
+                    if (item.Contains(currentId))
+                    {
+                        filterSlidesFullName.Add(item);
+
+                        tempSize = parsingXY(item);
+
+                        startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
+                        startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
+                    }
+                }
+
+                Parallel.ForEach(filterSlidesFullName, (item) =>
                 //foreach (string item in slidesFullName)
                 {
                     if (item.Contains(currentId))
@@ -588,21 +603,17 @@ namespace MergeImage
                 }
                 );
 
-                stopwatch.Stop(); //시간측정 끝
-                System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
-
-                foreach (string item in slidesFullName)
+                while(true)
                 {
-                    if (item.Contains(currentId))
+                    if (dicBitmap100.Count == filterSlidesFullName.Count && dicBitmap100.Count == dicBitmap50.Count && dicBitmap100.Count == dicBitmap20.Count &&
+                        dicBitmap100.Count == dicBitmap10.Count && dicBitmap100.Count == dicBitmap5.Count)
                     {
-                        filterSlidesFullName.Add(item);
-
-                        tempSize = parsingXY(item);
-
-                        startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
-                        startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
+                        break;
                     }
                 }
+
+                stopwatch.Stop(); //시간측정 끝
+                System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
                 getDateModifyImageList();
                 addModifyImageListToDataGridView1();
