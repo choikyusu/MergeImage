@@ -550,19 +550,14 @@ namespace MergeImage
 
                 Dictionary<string, int> tempSize = null;
 
-                System.Console.WriteLine("start");
+                Stopwatch stopwatch = new Stopwatch(); //객체 선언
+                stopwatch.Start(); // 시간측정 시작
                 // 특정 ID에 해당 하는 타일 FullName 가져오기.
-                //Parallel.ForEach(slidesFullName, (item) =>
-                foreach (string item in slidesFullName)
+                Parallel.ForEach(slidesFullName, (item) =>
+                //foreach (string item in slidesFullName)
                 {
                     if (item.Contains(currentId))
                     {
-                        filterSlidesFullName.Add(item);
-
-                        tempSize = parsingXY(item);
-
-                        startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
-                        startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
                         Bitmap img = new Bitmap(item);
                         dicBitmap100.Add(item, img);
 
@@ -591,9 +586,24 @@ namespace MergeImage
                         dicBitmap5.Add(item, image5);
                     }
                 }
-                //);
+                );
 
-                System.Console.WriteLine("end");
+                stopwatch.Stop(); //시간측정 끝
+                System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
+
+                foreach (string item in slidesFullName)
+                {
+                    if (item.Contains(currentId))
+                    {
+                        filterSlidesFullName.Add(item);
+
+                        tempSize = parsingXY(item);
+
+                        startPointX = startPointX > tempSize["pX"] ? tempSize["pX"] : startPointX;
+                        startPointY = startPointY > tempSize["pY"] ? tempSize["pY"] : startPointY;
+                    }
+                }
+
                 getDateModifyImageList();
                 addModifyImageListToDataGridView1();
                 drawImage(filterSlidesFullName);
