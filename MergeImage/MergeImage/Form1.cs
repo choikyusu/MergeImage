@@ -223,30 +223,30 @@ namespace MergeImage
                 {
                     ZoomController.Value = 0;
                     zoomScale = 1;
-                    top += (int)((DataPanel.Height / 2) / zoomScale);
-                    left += (int)((DataPanel.Width / 2) / zoomScale);
+                    top += (int)((e.Y ) / zoomScale);
+                    left += (int)((e.X ) / zoomScale);
                 }
                 else if (zoomScale == 0.2)
                 {
                     ZoomController.Value = 1;
                     zoomScale = 0.5;
-                    top += (int)((DataPanel.Height / 2) / 0.33);
-                    left += (int)((DataPanel.Width / 2) / 0.33);
+                    top += (int)((e.Y ) / 0.33);
+                    left += (int)((e.X ) / 0.33);
                 }
                 else if (zoomScale == 0.1)
                 {
                     ZoomController.Value = 2;
                     zoomScale = 0.2;
-                    top += (int)((DataPanel.Height / 2) / zoomScale);
-                    left += (int)((DataPanel.Width / 2) / zoomScale);
+                    top += (int)((e.Y ) / zoomScale);
+                    left += (int)((e.X ) / zoomScale);
 
                 }
                 else if (zoomScale == 0.05)
                 {
                     ZoomController.Value = 3;
                     zoomScale = 0.1;
-                    top += (int)((DataPanel.Height / 2) / zoomScale);
-                    left += (int)((DataPanel.Width / 2) / zoomScale);
+                    top += (int)((e.Y ) / zoomScale);
+                    left += (int)((e.X ) / zoomScale);
 
                 }
 
@@ -258,32 +258,32 @@ namespace MergeImage
                 //축소
                 if (zoomScale == 1)
                 {
-                    top -= (int)((DataPanel.Height / 2) / zoomScale);
-                    left -= (int)((DataPanel.Width / 2) / zoomScale);
+                    top -= (int)((e.Y) / zoomScale);
+                    left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.5;
                     ZoomController.Value = 1;
 
                 }
                 else if (zoomScale == 0.5)
                 {
-                    top -= (int)((DataPanel.Height / 2) / 0.33);
-                    left -= (int)((DataPanel.Width / 2) / 0.33);
+                    top -= (int)((e.Y) / 0.33);
+                    left -= (int)((e.X) / 0.33);
                     zoomScale = 0.2;
                     ZoomController.Value = 2;
 
                 }
                 else if (zoomScale == 0.2)
                 {
-                    top -= (int)((DataPanel.Height / 2) / zoomScale);
-                    left -= (int)((DataPanel.Width / 2) / zoomScale);
+                    top -= (int)((e.Y) / zoomScale);
+                    left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.1;
                     ZoomController.Value = 3;
 
                 }
                 else if (zoomScale == 0.1)
                 {
-                    top -= (int)((DataPanel.Height / 2) / zoomScale);
-                    left -= (int)((DataPanel.Width / 2) / zoomScale);
+                    top -= (int)((e.Y) / zoomScale);
+                    left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.05;
                     ZoomController.Value = 4;
 
@@ -1261,7 +1261,6 @@ namespace MergeImage
 
         private void ThumbnailImage_MouseClick(object sender, MouseEventArgs e)
         {
-
             int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
             int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height/2) / zoomScale);
 
