@@ -944,38 +944,57 @@ namespace MergeImage
             Graphics g = Graphics.FromImage(tempBitmap);
             //float w = (float)(wholeX * 0.5);//border size，
             Pen RedPen = new Pen(Color.Red, 2);
-            int xFloat = (int)((left + hiddenLeft * zoomScale) * scales);//border size，
-            int yFloat = (int)((top + hiddenTop * zoomScale) * scales);//border size，
+            int xFloat = (int)((left + hiddenLeft / zoomScale) * scales);//border size，
+            int yFloat = (int)((top + hiddenTop / zoomScale) * scales);//border size，
+
             int xmFloat = 0;
             int ymFloat = 0;
             if (xFloat < 0)
             {
-                xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft * 2) * scales) + xFloat;//border size，
+                xmFloat = (int)((DataPanel.Width - hiddenLeft * 2) / zoomScale * scales) + xFloat;//border size，
                 xFloat = 0;
+            }
+            else if (xFloat > ThumbnailImage.Width)
+            {
+                xmFloat = ThumbnailImage.Width;
+                xFloat = ThumbnailImage.Width - 1;
             }
             else
             {
-                xmFloat = (int)((DataPanel.Width / zoomScale - hiddenLeft * 2) * scales);//border size，
+                xmFloat = (int)((DataPanel.Width - hiddenLeft * 2) / zoomScale * scales);//border size，
             }
 
             if (yFloat < 0)
             {
-                ymFloat = (int)((DataPanel.Height / zoomScale - hiddenTop * 2) * scales) + yFloat;//border size，
+                ymFloat = (int)((DataPanel.Height - hiddenTop * 2) / zoomScale * scales) + yFloat;//border size，
                 yFloat = 0;
+            }
+            else if (xFloat > ThumbnailImage.Height)
+            {
+                ymFloat = ThumbnailImage.Height;
+                yFloat = ThumbnailImage.Height - 1;
             }
             else
             {
-                ymFloat = (int)((DataPanel.Height / zoomScale - hiddenTop * 2) * scales);//border size，
+                ymFloat = (int)((DataPanel.Height - hiddenTop * 2) / zoomScale * scales);//border size，
             }
 
             if (xmFloat < 0)
             {
                 xmFloat = 1;
             }
+            else if (xmFloat + xFloat > ThumbnailImage.Width)
+            {
+                xmFloat = ThumbnailImage.Width - xFloat;
+            }
 
             if (ymFloat < 0)
             {
                 ymFloat = 1;
+            }
+            else if (ymFloat + yFloat > ThumbnailImage.Height)
+            {
+                ymFloat = ThumbnailImage.Height - yFloat;
             }
 
             g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
