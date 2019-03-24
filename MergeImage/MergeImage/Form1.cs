@@ -1256,7 +1256,7 @@ namespace MergeImage
         {
             left = Int32.Parse(dataGridView1.CurrentRow.Cells[0].Value.ToString()) - (int)(hiddenLeft / zoomScale) - startPointX;
             top = Int32.Parse(dataGridView1.CurrentRow.Cells[1].Value.ToString()) - (int)(hiddenTop / zoomScale) - startPointY;
-            
+            drawImage(filterSlidesFullName);
         }
 
         private void ThumbnailImage_MouseClick(object sender, MouseEventArgs e)
