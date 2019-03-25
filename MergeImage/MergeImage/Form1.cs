@@ -43,6 +43,7 @@ namespace MergeImage
 
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
+        List<string> backTailsImagesLog = new List<string>();
         string pStyle="";
         Point slidePiont;
         public enum eMergeImageGridIndex
@@ -1157,6 +1158,7 @@ namespace MergeImage
                         continue;
 
                     destImage = System.IO.Path.Combine(path, item.Split('\\').Last());
+                    backTailsImagesLog.Add(destImage);
                     System.IO.File.Copy(item, destImage, true);
                 }
 
@@ -1270,6 +1272,10 @@ namespace MergeImage
                         pStyle = new DirectoryInfo(line).Parent.Name;
                     }  
                 }
+                if(pStyle== modifySlideStyle)
+                {
+                    continue;
+                }
                 dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle);
             }
 
@@ -1285,16 +1291,6 @@ namespace MergeImage
             drawImage(filterSlidesFullName);
         }
 
-        private void ThumbnailImage_MouseClick(object sender, MouseEventArgs e)
-        {
-            int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
-            int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height/2) / zoomScale);
-
-            left = xFloat;
-            top = yFloat;
-            drawImage(filterSlidesFullName);
-
-        }
 
         private void ThumbnailImage_MouseDown(object sender, MouseEventArgs e)
         {
@@ -1321,6 +1317,18 @@ namespace MergeImage
             int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height / 2) / zoomScale);
             left = xFloat;
             top = yFloat;
+            drawImage(filterSlidesFullName);
+        }
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            foreach (string item in backTailsImagesLog)
+            {
+                deleteTailsImages(item);
+                
+            }
+            backTailsImagesLog.Clear();
+            getDateModifyImageList();
+            addModifyImageListToDataGridView1();
             drawImage(filterSlidesFullName);
         }
     }
