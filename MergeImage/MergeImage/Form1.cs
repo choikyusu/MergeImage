@@ -822,6 +822,7 @@ namespace MergeImage
                 Rectangle rect = new Rectangle((int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
                 Pen RedPen = new Pen(Color.AntiqueWhite, 3);
                 g.DrawRectangle(RedPen, rect);
+                RedPen.Dispose();
 
             }
 
@@ -1441,6 +1442,7 @@ namespace MergeImage
             if (btnCursor.Text == "Cursor on")
             {
                 btnCursor.Text = "Cursor off";
+                drawImage(filterSlidesFullName);
             }
             else
             {
