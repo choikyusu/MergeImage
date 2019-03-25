@@ -372,6 +372,7 @@ namespace MergeImage
 
         private void DataPanel_MouseClick(object sender, MouseEventArgs e)
         {
+            
             List<string> slectedImage = new List<string>();
             if (e.Button == MouseButtons.Right)
             {
@@ -382,6 +383,8 @@ namespace MergeImage
                     slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
                     slectedImage = pointSlides(slidePiont);
                     saveSelectedTailsImages(slectedImage);
+
+
                     switch (tailsStatus)
                     {
                         case "N":
@@ -1225,6 +1228,8 @@ namespace MergeImage
         public void addModifyImageListToDataGridView1()
         {
             this.dataGridView1.SelectionChanged -= new System.EventHandler(this.dataGridView1_SelectionChanged);
+            Stopwatch stopwatch2 = new Stopwatch(); //객체 선언
+            stopwatch2.Start(); // 시간측정 시작
             
             dataGridView1.Rows.Clear();
             int rowindex = gridMergeImage.SelectedRows[0].Index;
@@ -1240,7 +1245,7 @@ namespace MergeImage
                 location = parsingXY(item);
                 modifySlideStyle = new DirectoryInfo(item).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
 
-                foreach (string line in slidesFullName)
+                foreach (string line in filterSlidesFullName)
                 {
                     if (line.Contains(item.Split('\\').Last()))
                     {
@@ -1249,6 +1254,9 @@ namespace MergeImage
                 }
                 dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle);
             }
+
+            stopwatch2.Stop();
+            System.Console.WriteLine("addModifyImageListToDataGridView1 time : " + stopwatch2.ElapsedMilliseconds + "ms");
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
         }
 
