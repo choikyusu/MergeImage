@@ -33,6 +33,8 @@ namespace MergeImage
         const int hiddenLeft = 500;
         const int hiddenTop = 500;
 
+        bool moveThumbnail = false;
+
         ConcurrentDictionary<string, Bitmap> dicBitmap100 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap50 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap20 = new ConcurrentDictionary<string, Bitmap>();
@@ -652,7 +654,7 @@ namespace MergeImage
                 return;
 
             drawnImage.Clear();
-            getDateModifyImageList(); // get modify Image Lisge
+            //getDateModifyImageList(); // get modify Image Lisge
 
             foreach (string filename in pathParams)
             {
@@ -691,6 +693,7 @@ namespace MergeImage
                     if (item.Contains(filename.Split('\\').Last()))
                     {
                         slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                        break;
                     }
                 }
 
@@ -1291,6 +1294,34 @@ namespace MergeImage
             top = yFloat;
             drawImage(filterSlidesFullName);
 
+        }
+
+        private void ThumbnailImage_MouseDown(object sender, MouseEventArgs e)
+        {
+            moveThumbnail = true;
+        }
+
+        private void ThumbnailImage_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moveThumbnail == true)
+            {
+                int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
+                int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height / 2) / zoomScale);
+                left = xFloat;
+                top = yFloat;
+                drawImage(filterSlidesFullName);
+            }
+        }
+
+        private void ThumbnailImage_MouseUp(object sender, MouseEventArgs e)
+        {
+            moveThumbnail = false;
+
+            int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
+            int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height / 2) / zoomScale);
+            left = xFloat;
+            top = yFloat;
+            drawImage(filterSlidesFullName);
         }
     }
 }
