@@ -75,7 +75,6 @@
             // 
             // ThumbnailImage
             // 
-            this.ThumbnailImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.ThumbnailImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ThumbnailImage.Location = new System.Drawing.Point(134, 663);
             this.ThumbnailImage.Name = "ThumbnailImage";
@@ -474,7 +473,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1884, 961);
-            this.Controls.Add(this.btnMove);
             this.Controls.Add(this.ThumbnailImage);
             this.Controls.Add(this.btnCursor);
             this.Controls.Add(this.label5);
@@ -511,7 +509,7 @@
 
         }
 
-        #endregion
+#endregion
 
         private System.Windows.Forms.PictureBox ThumbnailImage;
         private System.Windows.Forms.TextBox tbxFolderPath;
