@@ -226,6 +226,9 @@ namespace MergeImage
                     zoomScale = 1;
                     top += (int)((e.Y ) / zoomScale);
                     left += (int)((e.X ) / zoomScale);
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
                 }
                 else if (zoomScale == 0.2)
                 {
@@ -233,6 +236,9 @@ namespace MergeImage
                     zoomScale = 0.5;
                     top += (int)((e.Y ) / 0.33);
                     left += (int)((e.X ) / 0.33);
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
                 }
                 else if (zoomScale == 0.1)
                 {
@@ -240,7 +246,9 @@ namespace MergeImage
                     zoomScale = 0.2;
                     top += (int)((e.Y ) / zoomScale);
                     left += (int)((e.X ) / zoomScale);
-
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
                 }
                 else if (zoomScale == 0.05)
                 {
@@ -248,11 +256,10 @@ namespace MergeImage
                     zoomScale = 0.1;
                     top += (int)((e.Y ) / zoomScale);
                     left += (int)((e.X ) / zoomScale);
-
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
                 }
-
-                zoomScale = Math.Round(zoomScale * 100) / 100;
-                drawImage(filterSlidesFullName);
             }
             else
             {
@@ -263,6 +270,9 @@ namespace MergeImage
                     left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.5;
                     ZoomController.Value = 1;
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
 
                 }
                 else if (zoomScale == 0.5)
@@ -271,6 +281,9 @@ namespace MergeImage
                     left -= (int)((e.X) / 0.33);
                     zoomScale = 0.2;
                     ZoomController.Value = 2;
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
 
                 }
                 else if (zoomScale == 0.2)
@@ -279,7 +292,9 @@ namespace MergeImage
                     left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.1;
                     ZoomController.Value = 3;
-
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
                 }
                 else if (zoomScale == 0.1)
                 {
@@ -287,11 +302,11 @@ namespace MergeImage
                     left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.05;
                     ZoomController.Value = 4;
-
+                    preZoomScale = ZoomController.Value;
+                    zoomScale = Math.Round(zoomScale * 100) / 100;
+                    drawImage(filterSlidesFullName);
                 }
-                preZoomScale = ZoomController.Value;
-                zoomScale = Math.Round(zoomScale * 100) / 100;
-                drawImage(filterSlidesFullName);
+               
             }
             this.ZoomController.ValueChanged += new System.EventHandler(this.ZoomController_ValueChanged);
         }
