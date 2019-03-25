@@ -16,6 +16,20 @@ namespace MergeImage
 {
     public partial class Form1 : Form
     {
+        public enum eMergeImageGridIndex
+        {
+            ID,
+            CONFIRM
+        }
+
+        public enum eZoomScale
+        {
+            NONE,
+            ZOOM_IN,
+            ZOOM_OUT
+        }
+
+        
         double zoomScale = 1;
         int startPointX = 99999;
         int startPointY = 99999;
@@ -53,18 +67,7 @@ namespace MergeImage
         int modifyFirstX, modifyFirstY;
 
 
-        public enum eMergeImageGridIndex
-        {
-            ID,
-            CONFIRM
-        }
-
-        public enum eZoomScale
-        {
-            NONE,
-            ZOOM_IN,
-            ZOOM_OUT
-        }
+       
 
         Image imgOriginal;
         //-- FirstPoint use to move image
@@ -226,7 +229,11 @@ namespace MergeImage
         private void DataPanel_MouseWheel(object sender, MouseEventArgs e)
         {
             this.ZoomController.ValueChanged -= new System.EventHandler(this.ZoomController_ValueChanged);
+#if Surface
+            if (e.Delta > 0)
+#else
             if (e.Delta < 0)
+#endif
             {
                 //확대
 
@@ -346,7 +353,12 @@ namespace MergeImage
         **/
         private void DataPanel_MouseDown(object sender, MouseEventArgs e)
         {
+
+#if Surface
+            if (e.Button == MouseButtons.Left && btnMove.Text == "이동")
+#else
             if (e.Button == MouseButtons.Left)
+#endif
             {
                 firstPoint.X = Cursor.Position.X;
                 firstPoint.Y = Cursor.Position.Y;
@@ -356,8 +368,11 @@ namespace MergeImage
                 lbImagePosiont.Text = "left : " + Left1 + " top : " + Top1;
 
             }
-
+#if Surface
+            if (e.Button == MouseButtons.Left && btnMove.Text == "선택")
+#else
             if (e.Button == MouseButtons.Right)
+#endif
             {
                 if (tailsStatus != "")
                 {
@@ -370,7 +385,11 @@ namespace MergeImage
         {
             List<string> slectedImage = new List<string>();
             List<string> tempsSlide = new List<string>();
+#if Surface
+            if (e.Button == MouseButtons.Left && btnMove.Text =="이동")
+#else
             if (e.Button == MouseButtons.Left)
+#endif
             {
                 left = left - (int)((DataPanel.Left + hiddenLeft) / zoomScale);
                 top = top - (int)((DataPanel.Top + hiddenTop) / zoomScale);
@@ -379,7 +398,11 @@ namespace MergeImage
                 DataPanel.Top = -hiddenTop;
                 isMove = false;
             }
+#if Surface
+            if (e.Button == MouseButtons.Left && btnMove.Text == "선택")
+#else
             if (e.Button == MouseButtons.Right)
+#endif
             {
                 if (tailsStatus != "")
                 {
@@ -391,15 +414,19 @@ namespace MergeImage
                         tempsSlide = pointSlides(iPoint);
                         slectedImage.AddRange(tempsSlide);
                     }
-
+                     
                     slectedImage =  slectedImage.Distinct().ToList();
 
                     saveSelectedTailsImages(slectedImage);
+#if Surface
+#else
                     tailsStatus = "";
+#endif
                     addModifyImageListToDataGridView1();
                     drawImage(filterSlidesFullName);
                     modifyPointList.Clear();
                 }
+
             }
         }
 
@@ -419,8 +446,12 @@ namespace MergeImage
                 lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
             }
+#if Surface
+            else if (e.Button == MouseButtons.Left && isModifyMove && tailsStatus != "")
+#else
 
             else if(e.Button == MouseButtons.Right && isModifyMove && tailsStatus != "")
+#endif
             {
                 if (modifyFirst)
                 {
@@ -454,39 +485,6 @@ namespace MergeImage
             {
                 DataPanel.Dispose();
             }
-        }
-
-        private void DataPanel_MouseClick(object sender, MouseEventArgs e)
-        {
-            
-            //List<string> slectedImage = new List<string>();
-            //if (e.Button == MouseButtons.Right)
-            //{
-
-            //    lbImagePosiont.Text = "이미지 Position : X =  " + (e.X / zoomScale + Left1) + "; Y = " + (e.Y / zoomScale + Top1);
-            //    if (tailsStatus != "")
-            //    {
-            //        slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
-            //        slectedImage = pointSlides(slidePiont);
-            //        saveSelectedTailsImages(slectedImage);
-
-
-            //        switch (tailsStatus)
-            //        {
-            //            case "N":
-            //                break;
-            //            case "A":
-            //                break;
-            //            case "D":
-            //                break;
-            //            case "M":
-            //                break;
-            //        }
-            //        tailsStatus = "";
-            //        addModifyImageListToDataGridView1();
-            //        drawImage(filterSlidesFullName);
-            //    }
-            //}
         }
 
         private void dtpDate_ValueChanged(object sender, EventArgs e)
@@ -1203,21 +1201,34 @@ namespace MergeImage
         private void btnN_Click(object sender, EventArgs e)
         {
             tailsStatus = "N";
+
+#if Surface
+            btnMove.Text = "선택";
+#endif
         }
 
         private void btnA_Click(object sender, EventArgs e)
         {
             tailsStatus = "A";
+#if Surface
+            btnMove.Text = "선택";
+#endif
         }
 
         private void btnD_Click(object sender, EventArgs e)
         {
             tailsStatus = "D";
+#if Surface
+            btnMove.Text = "선택";
+#endif
         }
 
         private void btnM_Click(object sender, EventArgs e)
         {
             tailsStatus = "M";
+#if Surface
+            btnMove.Text = "선택";
+#endif
         }
 
         // 이미지 Click Position tails 가져오기함수
@@ -1435,6 +1446,22 @@ namespace MergeImage
             getDateModifyImageList();
             addModifyImageListToDataGridView1();
             drawImage(filterSlidesFullName);
+        }
+
+        private void btnMove_Click(object sender, EventArgs e)
+        {
+#if Surface
+            if (btnMove.Text == "이동")
+            {
+                btnMove.Text = "선택";
+                tailsStatus = "";
+            }
+            else
+            {
+                btnMove.Text = "이동";
+                tailsStatus = "";
+            }
+#endif
         }
 
         private void btnCursor_Click(object sender, EventArgs e)
