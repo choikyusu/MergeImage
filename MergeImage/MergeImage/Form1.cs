@@ -41,6 +41,9 @@ namespace MergeImage
         ConcurrentDictionary<string, Bitmap> dicBitmap10 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap5 = new ConcurrentDictionary<string, Bitmap>();
 
+
+        List<string> selectedCursor = new List<string>();
+
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
         List<string> backTailsImagesLog = new List<string>();
@@ -378,6 +381,13 @@ namespace MergeImage
                 lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
             }
+            else
+            {
+                if (btnCursor.Text == "Cursor on")
+                    drawCursor(e.X, e.Y);
+            }
+
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -716,7 +726,7 @@ namespace MergeImage
                 DataPanel.Image.Dispose();
 
             DataPanel.Image = canvas as Image;
-            imgOriginal = DataPanel.Image;
+            imgOriginal = DataPanel.Image.Clone() as Image;
             if (ThumbnailImage.Image != null)
             {
                 drawThumbnailImageViewborder();
@@ -727,6 +737,41 @@ namespace MergeImage
             stopwatch.Stop(); //시간측정 끝
             System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
+        }
+        public void drawCursor(int x, int y)
+        {
+            Point slidePiont = new Point((int)(x / zoomScale + Left1), (int)(y / zoomScale + Top1));
+            List<string> slectedImage = pointSlides(slidePiont);
+
+            if (slectedImage.Except(selectedCursor).ToList().Count == 0 && selectedCursor.Except(slectedImage).ToList().Count == 0)
+                return;
+
+            selectedCursor = slectedImage;
+
+            if (DataPanel.Image == null)
+                return;
+            Bitmap canvas = new Bitmap(imgOriginal.Clone() as Bitmap);
+            g = System.Drawing.Graphics.FromImage(canvas);
+
+            foreach (string filename in slectedImage)
+            {
+                Dictionary<string, int> tempSize = parsingXY(filename);
+                Bitmap img = getSplitImage(filename);
+
+                if (img == null)
+                    continue;
+
+                Rectangle rect = new Rectangle((int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
+                Pen RedPen = new Pen(Color.AntiqueWhite, 3);
+                g.DrawRectangle(RedPen, rect);
+
+            }
+
+            if (DataPanel.Image != null)
+                DataPanel.Image.Dispose();
+
+            DataPanel.Image = canvas;
+            g.Dispose();
         }
 
         public Bitmap getSplitImage(string filename)
@@ -1330,6 +1375,18 @@ namespace MergeImage
             getDateModifyImageList();
             addModifyImageListToDataGridView1();
             drawImage(filterSlidesFullName);
+        }
+
+        private void btnCursor_Click(object sender, EventArgs e)
+        {
+            if (btnCursor.Text == "Cursor on")
+            {
+                btnCursor.Text = "Cursor off";
+            }
+            else
+            {
+                btnCursor.Text = "Cursor on";
+            }
         }
     }
 }
