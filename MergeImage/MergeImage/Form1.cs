@@ -33,11 +33,16 @@ namespace MergeImage
         const int hiddenLeft = 500;
         const int hiddenTop = 500;
 
+        bool moveThumbnail = false;
+
         ConcurrentDictionary<string, Bitmap> dicBitmap100 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap50 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap20 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap10 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap5 = new ConcurrentDictionary<string, Bitmap>();
+
+
+        List<string> selectedCursor = new List<string>();
 
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
@@ -415,7 +420,7 @@ namespace MergeImage
 
             }
 
-            if(e.Button == MouseButtons.Right && isModifyMove && tailsStatus != "")
+            else if(e.Button == MouseButtons.Right && isModifyMove && tailsStatus != "")
             {
                 if (modifyFirst)
                 {
@@ -433,6 +438,13 @@ namespace MergeImage
                     modifyPointList.Add(slidePiont);
                 }
             }
+            else
+            {
+                if (btnCursor.Text == "Cursor on")
+                    drawCursor(e.X, e.Y);
+            }
+
+
 
         }
 
@@ -711,7 +723,7 @@ namespace MergeImage
                 return;
 
             drawnImage.Clear();
-            getDateModifyImageList(); // get modify Image Lisge
+            //getDateModifyImageList(); // get modify Image Lisge
 
             foreach (string filename in pathParams)
             {
@@ -750,6 +762,7 @@ namespace MergeImage
                     if (item.Contains(filename.Split('\\').Last()))
                     {
                         slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                        break;
                     }
                 }
 
@@ -771,7 +784,7 @@ namespace MergeImage
                 DataPanel.Image.Dispose();
 
             DataPanel.Image = canvas as Image;
-            imgOriginal = DataPanel.Image;
+            imgOriginal = DataPanel.Image.Clone() as Image;
             if (ThumbnailImage.Image != null)
             {
                 drawThumbnailImageViewborder();
@@ -782,6 +795,41 @@ namespace MergeImage
             stopwatch.Stop(); //시간측정 끝
             System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
+        }
+        public void drawCursor(int x, int y)
+        {
+            Point slidePiont = new Point((int)(x / zoomScale + Left1), (int)(y / zoomScale + Top1));
+            List<string> slectedImage = pointSlides(slidePiont);
+
+            if (slectedImage.Except(selectedCursor).ToList().Count == 0 && selectedCursor.Except(slectedImage).ToList().Count == 0)
+                return;
+
+            selectedCursor = slectedImage;
+
+            if (DataPanel.Image == null)
+                return;
+            Bitmap canvas = new Bitmap(imgOriginal.Clone() as Bitmap);
+            g = System.Drawing.Graphics.FromImage(canvas);
+
+            foreach (string filename in slectedImage)
+            {
+                Dictionary<string, int> tempSize = parsingXY(filename);
+                Bitmap img = getSplitImage(filename);
+
+                if (img == null)
+                    continue;
+
+                Rectangle rect = new Rectangle((int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
+                Pen RedPen = new Pen(Color.AntiqueWhite, 3);
+                g.DrawRectangle(RedPen, rect);
+
+            }
+
+            if (DataPanel.Image != null)
+                DataPanel.Image.Dispose();
+
+            DataPanel.Image = canvas;
+            g.Dispose();
         }
 
         public Bitmap getSplitImage(string filename)
@@ -1346,17 +1394,34 @@ namespace MergeImage
             drawImage(filterSlidesFullName);
         }
 
-        private void ThumbnailImage_MouseClick(object sender, MouseEventArgs e)
-        {
-            int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
-            int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height/2) / zoomScale);
 
+        private void ThumbnailImage_MouseDown(object sender, MouseEventArgs e)
+        {
+            moveThumbnail = true;
+        }
+
+        private void ThumbnailImage_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moveThumbnail == true)
+            {
+                int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
+                int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height / 2) / zoomScale);
+                left = xFloat;
+                top = yFloat;
+                drawImage(filterSlidesFullName);
+            }
+        }
+
+        private void ThumbnailImage_MouseUp(object sender, MouseEventArgs e)
+        {
+            moveThumbnail = false;
+
+            int xFloat = (int)(e.Location.X / scales) - (int)((DataPanel.Width / 2) / zoomScale);
+            int yFloat = (int)(e.Location.Y / scales) - (int)((DataPanel.Height / 2) / zoomScale);
             left = xFloat;
             top = yFloat;
             drawImage(filterSlidesFullName);
-
         }
-
         private void btnBack_Click(object sender, EventArgs e)
         {
             foreach (string item in backTailsImagesLog)
@@ -1368,6 +1433,18 @@ namespace MergeImage
             getDateModifyImageList();
             addModifyImageListToDataGridView1();
             drawImage(filterSlidesFullName);
+        }
+
+        private void btnCursor_Click(object sender, EventArgs e)
+        {
+            if (btnCursor.Text == "Cursor on")
+            {
+                btnCursor.Text = "Cursor off";
+            }
+            else
+            {
+                btnCursor.Text = "Cursor on";
+            }
         }
     }
 }
