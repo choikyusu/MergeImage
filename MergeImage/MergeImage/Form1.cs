@@ -44,6 +44,10 @@ namespace MergeImage
         List<string> backTailsImagesLog = new List<string>();
         string pStyle="";
         Point slidePiont;
+        List<Point> modifyPointList = new List<Point>();
+        int modifyFirstX, modifyFirstY;
+
+
         public enum eMergeImageGridIndex
         {
             ID,
@@ -61,6 +65,7 @@ namespace MergeImage
         //-- FirstPoint use to move image
         private Point firstPoint = new Point();
         private Boolean isMove = false;
+        private Boolean isModifyMove = false;
         private string[] wordsName;
         private List<string> uniqName = new List<string>();
         private List<string> slidesFullName = new List<string>();
@@ -347,9 +352,19 @@ namespace MergeImage
 
             }
 
+            if (e.Button == MouseButtons.Right)
+            {
+                if (tailsStatus != "")
+                {
+                    isModifyMove = true;
+                }
+            }
         }
+
         private void DataPanel_MouseUp(object sender, MouseEventArgs e)
         {
+            List<string> slectedImage = new List<string>();
+            List<string> tempsSlide = new List<string>();
             if (e.Button == MouseButtons.Left)
             {
                 left = left - (int)((DataPanel.Left + hiddenLeft) / zoomScale);
@@ -359,11 +374,34 @@ namespace MergeImage
                 DataPanel.Top = -hiddenTop;
                 isMove = false;
             }
+            if (e.Button == MouseButtons.Right)
+            {
+                if (tailsStatus != "")
+                {
+                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    modifyPointList.Add(slidePiont);
+
+                    foreach (Point iPoint in modifyPointList)
+                    {
+                        tempsSlide = pointSlides(iPoint);
+                        slectedImage.AddRange(tempsSlide);
+                    }
+
+                    slectedImage =  slectedImage.Distinct().ToList();
+
+                    saveSelectedTailsImages(slectedImage);
+                    tailsStatus = "";
+                    addModifyImageListToDataGridView1();
+                    drawImage(filterSlidesFullName);
+                    modifyPointList.Clear();
+                }
+            }
         }
 
         private void DataPanel_MouseMove(object sender, MouseEventArgs e)
         {
             DataPanel.Focus();
+            Boolean modifyFirst = true;
             if (isMove)
             {
                 int moveX, moveY;
@@ -376,6 +414,26 @@ namespace MergeImage
                 lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
             }
+
+            if(e.Button == MouseButtons.Right && isModifyMove && tailsStatus != "")
+            {
+                if (modifyFirst)
+                {
+                    modifyFirstX = e.X;
+                    modifyFirstY = e.Y;
+                    modifyFirst = false;
+                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    modifyPointList.Add(slidePiont);
+                }
+                if(modifyFirstX != Cursor.Position.X || modifyFirstY != Cursor.Position.Y)
+                {
+                    modifyFirstX = Cursor.Position.X;
+                    modifyFirstY = Cursor.Position.Y;
+                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    modifyPointList.Add(slidePiont);
+                }
+            }
+
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -389,34 +447,34 @@ namespace MergeImage
         private void DataPanel_MouseClick(object sender, MouseEventArgs e)
         {
             
-            List<string> slectedImage = new List<string>();
-            if (e.Button == MouseButtons.Right)
-            {
+            //List<string> slectedImage = new List<string>();
+            //if (e.Button == MouseButtons.Right)
+            //{
 
-                lbImagePosiont.Text = "이미지 Position : X =  " + (e.X / zoomScale + Left1) + "; Y = " + (e.Y / zoomScale + Top1);
-                if (tailsStatus != "")
-                {
-                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
-                    slectedImage = pointSlides(slidePiont);
-                    saveSelectedTailsImages(slectedImage);
+            //    lbImagePosiont.Text = "이미지 Position : X =  " + (e.X / zoomScale + Left1) + "; Y = " + (e.Y / zoomScale + Top1);
+            //    if (tailsStatus != "")
+            //    {
+            //        slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+            //        slectedImage = pointSlides(slidePiont);
+            //        saveSelectedTailsImages(slectedImage);
 
 
-                    switch (tailsStatus)
-                    {
-                        case "N":
-                            break;
-                        case "A":
-                            break;
-                        case "D":
-                            break;
-                        case "M":
-                            break;
-                    }
-                    tailsStatus = "";
-                    addModifyImageListToDataGridView1();
-                    drawImage(filterSlidesFullName);
-                }
-            }
+            //        switch (tailsStatus)
+            //        {
+            //            case "N":
+            //                break;
+            //            case "A":
+            //                break;
+            //            case "D":
+            //                break;
+            //            case "M":
+            //                break;
+            //        }
+            //        tailsStatus = "";
+            //        addModifyImageListToDataGridView1();
+            //        drawImage(filterSlidesFullName);
+            //    }
+            //}
         }
 
         private void dtpDate_ValueChanged(object sender, EventArgs e)
