@@ -41,6 +41,7 @@ namespace MergeImage
 
         List<string> drawnImage = new List<string>();
         List<string> tailsImagesLog = new List<string>();
+        List<string> backTailsImagesLog = new List<string>();
         string pStyle="";
         Point slidePiont;
         public enum eMergeImageGridIndex
@@ -1139,6 +1140,7 @@ namespace MergeImage
                         continue;
 
                     destImage = System.IO.Path.Combine(path, item.Split('\\').Last());
+                    backTailsImagesLog.Add(destImage);
                     System.IO.File.Copy(item, destImage, true);
                 }
 
@@ -1252,6 +1254,10 @@ namespace MergeImage
                         pStyle = new DirectoryInfo(line).Parent.Name;
                     }  
                 }
+                if(pStyle== modifySlideStyle)
+                {
+                    continue;
+                }
                 dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle);
             }
 
@@ -1276,6 +1282,19 @@ namespace MergeImage
             top = yFloat;
             drawImage(filterSlidesFullName);
 
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            foreach (string item in backTailsImagesLog)
+            {
+                deleteTailsImages(item);
+                
+            }
+            backTailsImagesLog.Clear();
+            getDateModifyImageList();
+            addModifyImageListToDataGridView1();
+            drawImage(filterSlidesFullName);
         }
     }
 }
