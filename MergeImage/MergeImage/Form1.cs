@@ -1246,6 +1246,7 @@ namespace MergeImage
                 string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
                 string path;
                 string destImage;
+                backTailsImagesLog.Clear();
 
                 foreach (string item in pTails)
                 {
@@ -1429,7 +1430,7 @@ namespace MergeImage
                 deleteTailsImages(item);
                 
             }
-            backTailsImagesLog.Clear();
+            
             getDateModifyImageList();
             addModifyImageListToDataGridView1();
             drawImage(filterSlidesFullName);
