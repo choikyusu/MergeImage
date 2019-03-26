@@ -114,6 +114,13 @@ namespace MergeImage
             readFileMergeImageStatus();
             getDateModifyImageList();
             loadMaskColor();
+
+#if Surface
+            btnMove.Visible = true;
+#else
+            btnMove.Visible = false;
+#endif
+
             drawnImage.Clear();
         }
 

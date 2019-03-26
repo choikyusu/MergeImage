@@ -493,6 +493,7 @@
             this.Controls.Add(this.btnType);
             this.Controls.Add(this.ThumbnailImage);
             this.Controls.Add(this.btnCursor);
+            this.Controls.Add(this.btnMove);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
