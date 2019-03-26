@@ -59,7 +59,7 @@ namespace MergeImage
         List<string> selectedCursor = new List<string>();
 
         List<string> drawnImage = new List<string>();
-        List<string> tailsImagesLog = new List<string>();
+        Dictionary<string, string> tailsImagesLog = new Dictionary<string, string>();
         List<string> backTailsImagesLog = new List<string>();
         string pStyle="";
         Point slidePiont;
@@ -701,6 +701,12 @@ namespace MergeImage
             return true;
         }
 
+        public string splitFileName(string fileName)
+        {
+            string[] fileNames = fileName.Split('\\');
+            return fileNames[fileNames.Length - 2];
+        }
+
 
         public void drawImage(List<string> pathParams)
         {
@@ -756,14 +762,11 @@ namespace MergeImage
 
                 if (btnType.Text == "B타입")
                 {
-                    string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-                    foreach (string item in tailsImagesLog)
+                    string slideStyle = splitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+
+                    if (tailsImagesLog.ContainsKey(filename.Split('\\').Last()))
                     {
-                        if (item.Contains(filename.Split('\\').Last()))
-                        {
-                            slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-                            break;
-                        }
+                        slideStyle = splitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     }
                     //분할이미지에 NADM으로 색칠하기.
                     setMaskNADM(slideStyle, tempSize, imagePixels);
@@ -775,15 +778,10 @@ namespace MergeImage
             {
                 foreach (string filename in drawnImage)
                 {
-                    string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-
-                    foreach (string item in tailsImagesLog)
+                    string slideStyle = splitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                    if (tailsImagesLog.ContainsKey(filename.Split('\\').Last()))
                     {
-                        if (item.Contains(filename.Split('\\').Last()))
-                        {
-                            slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-                            break;
-                        }
+                        slideStyle = splitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     }
                     tempSize = parsingXY(filename);
                     //분할이미지에 NADM으로 색칠하기.
@@ -1307,14 +1305,10 @@ namespace MergeImage
 
         public void CheckLog(string pTail)
         {
-            for (int i = 0; i < tailsImagesLog.Count; i++)
+            if (tailsImagesLog.ContainsKey(pTail.Split('\\').Last()))
             {
-                if (tailsImagesLog[i].Contains(pTail.Split('\\').Last()))
-                {
-                    deleteTailsImages(tailsImagesLog[i]);
-                }
+                deleteTailsImages(tailsImagesLog[pTail]);
             }
-
         }
 
         /// <summary>
@@ -1372,7 +1366,7 @@ namespace MergeImage
                         {
                             if (File.Name.Contains("_") == true)
                             {
-                                tailsImagesLog.Add(File.FullName);              // 타일 Name(Image Name)
+                                tailsImagesLog.Add(File.Name, File.FullName);              // 타일 Name(Image Name)
                             }
                         }
                     }
@@ -1393,7 +1387,7 @@ namespace MergeImage
             Dictionary<string, int> location;
             string modifySlideStyle;
 
-            foreach (string item in tailsImagesLog)
+            foreach (string item in tailsImagesLog.Values)
             {
                 if (!item.Contains(currentId))
                     continue;
@@ -1459,7 +1453,6 @@ namespace MergeImage
             foreach (string item in backTailsImagesLog)
             {
                 deleteTailsImages(item);
-                
             }
             
             getDateModifyImageList();
