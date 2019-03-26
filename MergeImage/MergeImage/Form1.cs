@@ -1519,5 +1519,47 @@ namespace MergeImage
                 btnCursor.Text = "Cursor on";
             }
         }
+
+        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
+        {
+            if (keyData == Keys.D1)
+            {
+                btnN_Click(null, null);
+            }
+            else if (keyData == Keys.D2)
+            {
+                btnA_Click(null, null);
+            }
+            else if (keyData == Keys.D3)
+            {
+                btnD_Click(null, null);
+            }
+            else if (keyData == Keys.D4)
+            {
+                btnM_Click(null, null);
+            }
+            else if (keyData == Keys.D5)
+            {
+                btnBack_Click(null, null);
+            }
+            else if (keyData == Keys.D6)
+            {
+                btnConfirm_Click(null, null);
+            }
+            else if (keyData == Keys.Q)
+            {
+                btnOnOff_Click(null, null);
+            }
+            else if (keyData == Keys.W)
+            {
+                btnCursor_Click(null, null);
+            }
+            else if (keyData == Keys.E)
+            {
+                btnType_Click(null, null);
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }
