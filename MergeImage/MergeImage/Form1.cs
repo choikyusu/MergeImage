@@ -1469,12 +1469,10 @@ namespace MergeImage
             if (btnMove.Text == "이동")
             {
                 btnMove.Text = "선택";
-                tailsStatus = "";
             }
             else
             {
                 btnMove.Text = "이동";
-                tailsStatus = "";
             }
 #endif
         }
