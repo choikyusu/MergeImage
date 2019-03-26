@@ -753,17 +753,7 @@ namespace MergeImage
 
             foreach (string filename in drawnImage)
             {
-                string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-
-                foreach (string item in tailsImagesLog)
-                {
-                    if (item.Contains(filename.Split('\\').Last()))
-                    {
-                        slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
-                        break;
-                    }
-                }
-
+                
                 tempSize = parsingXY(filename);
                 Bitmap img = getSplitImage(filename);
 
@@ -772,11 +762,44 @@ namespace MergeImage
 
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
 
-                //분할이미지에 NADM으로 색칠하기.
-                setMaskNADM(slideStyle, tempSize, imagePixels);
+                if (btnType.Text == "B타입")
+                {
+                    string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                    foreach (string item in tailsImagesLog)
+                    {
+                        if (item.Contains(filename.Split('\\').Last()))
+                        {
+                            slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                            break;
+                        }
+                    }
+                    //분할이미지에 NADM으로 색칠하기.
+                    setMaskNADM(slideStyle, tempSize, imagePixels);
+                }
+
             }
 
-           
+            if (btnType.Text == "A타입")
+            {
+                foreach (string filename in drawnImage)
+                {
+                    string slideStyle = new DirectoryInfo(filename).Parent.Name;  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+
+                    foreach (string item in tailsImagesLog)
+                    {
+                        if (item.Contains(filename.Split('\\').Last()))
+                        {
+                            slideStyle = new DirectoryInfo(item).Parent.Name;  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                            break;
+                        }
+                    }
+                    tempSize = parsingXY(filename);
+                    //분할이미지에 NADM으로 색칠하기.
+                    setMaskNADM(slideStyle, tempSize, imagePixels);
+
+                }
+            }
+
 
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
@@ -1462,6 +1485,20 @@ namespace MergeImage
                 tailsStatus = "";
             }
 #endif
+        }
+
+        private void btnType_Click(object sender, EventArgs e)
+        {
+            if (btnType.Text == "A타입")
+            {
+                btnType.Text = "B타입";
+            }
+            else
+            {
+                btnType.Text = "A타입";
+            }
+            drawImage(filterSlidesFullName);
+
         }
 
         private void btnCursor_Click(object sender, EventArgs e)

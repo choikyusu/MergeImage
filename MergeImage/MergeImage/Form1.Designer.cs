@@ -65,6 +65,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.btnCursor = new System.Windows.Forms.Button();
             this.btnMove = new System.Windows.Forms.Button();
+            this.btnType = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ThumbnailImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
@@ -468,11 +469,25 @@
             this.btnMove.UseVisualStyleBackColor = true;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
+            // btnType
+            // 
+            this.btnType.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnType.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnType.Location = new System.Drawing.Point(1746, 390);
+            this.btnType.Name = "btnType";
+            this.btnType.Size = new System.Drawing.Size(126, 35);
+            this.btnType.TabIndex = 220;
+            this.btnType.Text = "A타입";
+            this.btnType.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnType.UseVisualStyleBackColor = true;
+            this.btnType.Click += new System.EventHandler(this.btnType_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1884, 961);
+            this.Controls.Add(this.btnType);
             this.Controls.Add(this.ThumbnailImage);
             this.Controls.Add(this.btnCursor);
             this.Controls.Add(this.label5);
@@ -542,6 +557,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.Button btnMove;
+        private System.Windows.Forms.Button btnType;
     }
 }
 
