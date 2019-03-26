@@ -1504,6 +1504,27 @@ namespace MergeImage
             }
         }
 
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            if (gridMergeImage.CurrentRow == null)
+                return;
+
+            string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
+            string id = gridMergeImage.CurrentRow.Cells[0].Value.ToString();
+            id += "_" + wholeX + "-" + wholeY;
+
+            foreach(DataGridViewRow row in dataGridView1.Rows)
+            {
+                string fullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
+                fullPath += id + "_" + row.Cells[0].Value.ToString() + "-" + row.Cells[1].Value.ToString() + ".jpg";
+                deleteTailsImages(fullPath);
+            }
+
+            getDateModifyImageList();
+            addModifyImageListToDataGridView1();
+            drawImage(filterSlidesFullName);
+        }
+
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, Keys keyData)
         {
             if (keyData == Keys.D1)
