@@ -133,6 +133,16 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap BluePen {
+            get {
+                object obj = ResourceManager.GetObject("BluePen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap green10 {
             get {
                 object obj = ResourceManager.GetObject("green10", resourceCulture);
@@ -193,6 +203,16 @@ namespace MergeImage.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap GreenPen {
+            get {
+                object obj = ResourceManager.GetObject("GreenPen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap red10 {
             get {
                 object obj = ResourceManager.GetObject("red10", resourceCulture);
@@ -246,6 +266,26 @@ namespace MergeImage.Properties {
         internal static System.Drawing.Bitmap red50 {
             get {
                 object obj = ResourceManager.GetObject("red50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap RedPen {
+            get {
+                object obj = ResourceManager.GetObject("RedPen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap WhitePen {
+            get {
+                object obj = ResourceManager.GetObject("WhitePen", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

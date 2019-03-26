@@ -364,9 +364,6 @@ namespace MergeImage
                 firstPoint.Y = Cursor.Position.Y;
                 isMove = true;
                 DataPanel.Focus();
-
-                lbImagePosiont.Text = "left : " + Left1 + " top : " + Top1;
-
             }
 #if Surface
             if (e.Button == MouseButtons.Left && btnMove.Text == "선택")
@@ -418,10 +415,6 @@ namespace MergeImage
                     slectedImage =  slectedImage.Distinct().ToList();
 
                     saveSelectedTailsImages(slectedImage);
-#if Surface
-#else
-                    tailsStatus = "";
-#endif
                     addModifyImageListToDataGridView1();
                     drawImage(filterSlidesFullName);
                     modifyPointList.Clear();
@@ -443,7 +436,6 @@ namespace MergeImage
                 firstPoint.X = Cursor.Position.X;
                 firstPoint.Y = Cursor.Position.Y;
 
-                lbImagePosiont.Text = "left : " + left + " top : " + top + " moveX : " + (Cursor.Position.X - firstPoint.X) + "moveY : " + (Cursor.Position.Y - firstPoint.Y);
 
             }
 #if Surface
@@ -1057,12 +1049,12 @@ namespace MergeImage
             if (colorOnOff)
             {
                 colorOnOff = false;
-                btnOnOff.Text = "Off";
+                btnOnOff.Text = "Mask off";
             }
             else
             {
                 colorOnOff = true;
-                btnOnOff.Text = "On";
+                btnOnOff.Text = "Mask on";
             }
             drawImage(filterSlidesFullName);
         }
@@ -1224,7 +1216,7 @@ namespace MergeImage
         private void btnN_Click(object sender, EventArgs e)
         {
             tailsStatus = "N";
-
+            picPen.Image = Properties.Resources.WhitePen;
 #if Surface
             btnMove.Text = "선택";
 #endif
@@ -1233,6 +1225,7 @@ namespace MergeImage
         private void btnA_Click(object sender, EventArgs e)
         {
             tailsStatus = "A";
+            picPen.Image = Properties.Resources.GreenPen;
 #if Surface
             btnMove.Text = "선택";
 #endif
@@ -1241,6 +1234,7 @@ namespace MergeImage
         private void btnD_Click(object sender, EventArgs e)
         {
             tailsStatus = "D";
+            picPen.Image = Properties.Resources.BluePen;
 #if Surface
             btnMove.Text = "선택";
 #endif
@@ -1249,6 +1243,8 @@ namespace MergeImage
         private void btnM_Click(object sender, EventArgs e)
         {
             tailsStatus = "M";
+            picPen.Image = Properties.Resources.RedPen;
+
 #if Surface
             btnMove.Text = "선택";
 #endif

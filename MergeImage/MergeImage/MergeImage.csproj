@@ -149,6 +149,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\WhitePen.png" />
+    <None Include="Resources\RedPen.png" />
     <None Include="Resources\blue20.png" />
     <None Include="Resources\blue10.png" />
     <Content Include="Resources\blue100.png" />
@@ -161,8 +163,10 @@
     <None Include="Resources\green50.png" />
     <None Include="Resources\green20.png" />
     <None Include="Resources\green10.png" />
+    <None Include="Resources\BluePen.png" />
     <Content Include="Resources\green100.png" />
     <None Include="Resources\green5.png" />
+    <None Include="Resources\GreenPen.png" />
     <Content Include="Resources\red100.png" />
   </ItemGroup>
   <ItemGroup>
