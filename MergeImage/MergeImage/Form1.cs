@@ -710,8 +710,7 @@ namespace MergeImage
 
         public void drawImage(List<string> pathParams)
         {
-            Stopwatch stopwatch = new Stopwatch(); //객체 선언
-            stopwatch.Start(); // 시간측정 시작
+            
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
             //readTailsImagesLog();
@@ -749,29 +748,37 @@ namespace MergeImage
             canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
             g = System.Drawing.Graphics.FromImage(canvas);
 
+            Stopwatch stopwatch = new Stopwatch(); //객체 선언
+            
+
             foreach (string filename in drawnImage)
             {
-                
+                stopwatch.Start(); // 시간측정 시작
                 tempSize = parsingXY(filename);
                 Bitmap img = getSplitImage(filename);
 
                 if (img == null)
                     continue;
 
+                stopwatch.Stop(); //시간측정 끝
+
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
 
                 if (btnType.Text == "B타입")
                 {
+                    
                     string slideStyle = splitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
 
                     if (tailsImagesLog.ContainsKey(filename.Split('\\').Last()))
                     {
                         slideStyle = splitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     }
+                    
+                    
                     //분할이미지에 NADM으로 색칠하기.
                     setMaskNADM(slideStyle, tempSize, imagePixels);
+                    
                 }
-
             }
 
             if (btnType.Text == "A타입")
@@ -789,13 +796,17 @@ namespace MergeImage
 
                 }
             }
-
+            
+            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
             DataPanel.Image = canvas as Image;
             imgOriginal = DataPanel.Image.Clone() as Image;
+            if (moveThumbnail == true)
+                DataPanel.Refresh();
+
             if (ThumbnailImage.Image != null)
             {
                 drawThumbnailImageViewborder();
@@ -803,8 +814,7 @@ namespace MergeImage
 
             g.Dispose();
 
-            stopwatch.Stop(); //시간측정 끝
-            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
+            
 
         }
         public void drawCursor(int x, int y)
@@ -841,6 +851,7 @@ namespace MergeImage
                 DataPanel.Image.Dispose();
 
             DataPanel.Image = canvas;
+            DataPanel.Refresh();
             g.Dispose();
         }
 
