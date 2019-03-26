@@ -61,13 +61,8 @@ namespace MergeImage
         List<string> drawnImage = new List<string>();
         Dictionary<string, string> tailsImagesLog = new Dictionary<string, string>();
         List<string> backTailsImagesLog = new List<string>();
-        string pStyle="";
-        Point slidePiont;
         List<string> modifySlideList = new List<string>();
         int modifyFirstX, modifyFirstY;
-
-
-       
 
         Image imgOriginal;
         //-- FirstPoint use to move image
@@ -75,15 +70,11 @@ namespace MergeImage
         private Boolean isMove = false;
         private Boolean isModifyMove = false;
         private string[] wordsName;
-        private List<string> uniqName = new List<string>();
         private List<string> slidesFullName = new List<string>();
         private List<string> filterSlidesFullName = new List<string>();
         private Dictionary<string, int> thumbImageSize = new Dictionary<string, int>();
 
-        private Boolean colorOnOff = true;
         private Boolean isFirst = true;
-        private Boolean checkTailsLog = false;
-        private Boolean firstLoadTailsLog = true;
 
         Dictionary<string, Bitmap> dicMask = new Dictionary<string, Bitmap>();
 
@@ -401,7 +392,7 @@ namespace MergeImage
             {
                 if (tailsStatus != "")
                 {
-                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    Point slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
 
                     tempsSlide = pointSlides(slidePiont);
                     modifySlideList.AddRange(tempsSlide);
@@ -445,7 +436,7 @@ namespace MergeImage
                     modifyFirstX = e.X;
                     modifyFirstY = e.Y;
                     modifyFirst = false;
-                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    Point slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
                     tempsSlide = pointSlides(slidePiont);
                     modifySlideList.AddRange(tempsSlide);
 
@@ -457,7 +448,7 @@ namespace MergeImage
 
                     modifyFirstX = Cursor.Position.X;
                     modifyFirstY = Cursor.Position.Y;
-                    slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
+                    Point slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
 
                     tempsSlide = pointSlides(slidePiont);
                     modifySlideList.AddRange(tempsSlide);
@@ -492,10 +483,10 @@ namespace MergeImage
 
         public void getDateImageList()
         {
+            List<string> uniqName = new List<string>();
             gridMergeImage.Rows.Clear();
             slidesFullName.Clear();
             filterSlidesFullName.Clear();
-            uniqName.Clear();
 
             // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
             string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
@@ -876,7 +867,7 @@ namespace MergeImage
         public void setMaskNADM(Graphics g, string slideStyle, Dictionary<string, int> tempSize, Dictionary<string, int> imagePixels)
         {
             Bitmap mask = null;
-            if (colorOnOff)
+            if (btnOnOff.Text == "Mask on")
             {
                 switch (slideStyle)
                 {
@@ -1050,14 +1041,12 @@ namespace MergeImage
 
         private void btnOnOff_Click(object sender, EventArgs e)
         {
-            if (colorOnOff)
+            if (btnOnOff.Text == "Mask on")
             {
-                colorOnOff = false;
                 btnOnOff.Text = "Mask off";
             }
             else
             {
-                colorOnOff = true;
                 btnOnOff.Text = "Mask on";
             }
             drawImage(filterSlidesFullName);
@@ -1382,6 +1371,7 @@ namespace MergeImage
         }
         public void addModifyImageListToDataGridView1()
         {
+            string pStyle = "";
             this.dataGridView1.SelectionChanged -= new System.EventHandler(this.dataGridView1_SelectionChanged);
             Stopwatch stopwatch2 = new Stopwatch(); //객체 선언
             stopwatch2.Start(); // 시간측정 시작
