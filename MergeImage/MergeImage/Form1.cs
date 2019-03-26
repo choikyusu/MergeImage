@@ -80,8 +80,6 @@ namespace MergeImage
         private List<string> filterSlidesFullName = new List<string>();
         private Dictionary<string, int> thumbImageSize = new Dictionary<string, int>();
 
-        private Bitmap canvas;
-        System.Drawing.Graphics g;
         private Boolean colorOnOff = true;
         private Boolean isFirst = true;
         private Boolean checkTailsLog = false;
@@ -472,9 +470,6 @@ namespace MergeImage
                 if (btnCursor.Text == "Cursor on")
                     drawCursor(e.X, e.Y);
             }
-
-
-
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -597,31 +592,36 @@ namespace MergeImage
             }
         }
 
+        private void clearScaleBitmap()
+        {
+            foreach (Bitmap bitmap in dicBitmap100.Values)
+                bitmap.Dispose();
+
+            foreach (Bitmap bitmap in dicBitmap50.Values)
+                bitmap.Dispose();
+
+            foreach (Bitmap bitmap in dicBitmap20.Values)
+                bitmap.Dispose();
+
+            foreach (Bitmap bitmap in dicBitmap10.Values)
+                bitmap.Dispose();
+
+            foreach (Bitmap bitmap in dicBitmap5.Values)
+                bitmap.Dispose();
+
+            dicBitmap100.Clear();
+            dicBitmap50.Clear();
+            dicBitmap20.Clear();
+            dicBitmap10.Clear();
+            dicBitmap5.Clear();
+        }
+
         private void gridMergeImageRowChange(object sender, EventArgs e)
         {
             
             if (gridMergeImage.SelectedRows.Count > 0)
             {
-                foreach (Bitmap bitmap in dicBitmap100.Values)
-                    bitmap.Dispose();
-
-                foreach (Bitmap bitmap in dicBitmap50.Values)
-                    bitmap.Dispose();
-
-                foreach (Bitmap bitmap in dicBitmap20.Values)
-                    bitmap.Dispose();
-
-                foreach (Bitmap bitmap in dicBitmap10.Values)
-                    bitmap.Dispose();
-
-                foreach (Bitmap bitmap in dicBitmap5.Values)
-                    bitmap.Dispose();
-
-                dicBitmap100.Clear();
-                dicBitmap50.Clear();
-                dicBitmap20.Clear();
-                dicBitmap10.Clear();
-                dicBitmap5.Clear();
+                clearScaleBitmap();
                 isFirst = true;
                 thumbImageSize.Clear();
                 zoomScale = 1;
@@ -636,10 +636,7 @@ namespace MergeImage
 
                 Dictionary<string, int> tempSize = null;
 
-                Stopwatch stopwatch = new Stopwatch(); //객체 선언
-                stopwatch.Start(); // 시간측정 시작
                 // 특정 ID에 해당 하는 타일 FullName 가져오기.
-
                 foreach (string item in slidesFullName)
                 {
                     if (item.Contains(currentId))
@@ -654,7 +651,6 @@ namespace MergeImage
                 }
 
                 Parallel.ForEach(filterSlidesFullName, (item) =>
-                //foreach (string item in slidesFullName)
                 {
                         Bitmap img = new Bitmap(item);
                         dicBitmap100.TryAdd(item, img);
@@ -684,11 +680,6 @@ namespace MergeImage
                         dicBitmap5.TryAdd(item, image5);
                 }
                 );
-
-               
-                stopwatch.Stop(); //시간측정 끝
-                System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
-
                 getDateModifyImageList();
                 addModifyImageListToDataGridView1();
                 drawImage(filterSlidesFullName);
@@ -716,7 +707,9 @@ namespace MergeImage
 
         public void drawImage(List<string> pathParams)
         {
-            
+            Stopwatch stopwatch = new Stopwatch(); //객체 선언
+            stopwatch.Start(); // 시간측정 시작
+
             Dictionary<string, int> tempSize = null;
             Dictionary<string, int> imagePixels = null;
             //readTailsImagesLog();
@@ -746,27 +739,18 @@ namespace MergeImage
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
 
-            if (canvas != null)
-                canvas.Dispose();
-
-
             // Whole Image 크기에 따라 canvas size 가변하게 설정.
-            canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
-            g = System.Drawing.Graphics.FromImage(canvas);
-
-            Stopwatch stopwatch = new Stopwatch(); //객체 선언
-            
+            Bitmap canvas = new Bitmap(DataPanel.Width, DataPanel.Height);
+            Graphics g = System.Drawing.Graphics.FromImage(canvas);
 
             foreach (string filename in drawnImage)
             {
-                stopwatch.Start(); // 시간측정 시작
+               
                 tempSize = parsingXY(filename);
                 Bitmap img = getSplitImage(filename);
 
                 if (img == null)
                     continue;
-
-                stopwatch.Stop(); //시간측정 끝
 
                 g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
 
@@ -782,7 +766,7 @@ namespace MergeImage
                     
                     
                     //분할이미지에 NADM으로 색칠하기.
-                    setMaskNADM(slideStyle, tempSize, imagePixels);
+                    setMaskNADM(g, slideStyle, tempSize, imagePixels);
                     
                 }
             }
@@ -798,18 +782,20 @@ namespace MergeImage
                     }
                     tempSize = parsingXY(filename);
                     //분할이미지에 NADM으로 색칠하기.
-                    setMaskNADM(slideStyle, tempSize, imagePixels);
+                    setMaskNADM(g, slideStyle, tempSize, imagePixels);
 
                 }
             }
-            
-            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
             if (DataPanel.Image != null)
                 DataPanel.Image.Dispose();
 
+            if (imgOriginal != null)
+                imgOriginal.Dispose();
+
             DataPanel.Image = canvas as Image;
-            imgOriginal = DataPanel.Image.Clone() as Image;
+            imgOriginal = canvas.Clone() as Image;
+
             if (moveThumbnail == true)
                 DataPanel.Refresh();
 
@@ -819,8 +805,8 @@ namespace MergeImage
             }
 
             g.Dispose();
-
-            
+            stopwatch.Stop(); //시간측정 끝
+            System.Console.WriteLine("total time : " + stopwatch.ElapsedMilliseconds + "ms");
 
         }
         public void drawCursor(int x, int y)
@@ -836,7 +822,7 @@ namespace MergeImage
             if (DataPanel.Image == null)
                 return;
             Bitmap canvas = new Bitmap(imgOriginal.Clone() as Bitmap);
-            g = System.Drawing.Graphics.FromImage(canvas);
+            Graphics g = System.Drawing.Graphics.FromImage(canvas);
 
             foreach (string filename in slectedImage)
             {
@@ -887,7 +873,7 @@ namespace MergeImage
             return null;
         }
 
-        public void setMaskNADM(string slideStyle, Dictionary<string, int> tempSize, Dictionary<string, int> imagePixels)
+        public void setMaskNADM(Graphics g, string slideStyle, Dictionary<string, int> tempSize, Dictionary<string, int> imagePixels)
         {
             Bitmap mask = null;
             if (colorOnOff)
@@ -930,7 +916,7 @@ namespace MergeImage
             imagePixels = pixelsXY(pathParams[0]);
 
             Bitmap canvas = new Bitmap(ThumbnailImage.Width, ThumbnailImage.Height);
-            g = System.Drawing.Graphics.FromImage(canvas);
+            Graphics g = System.Drawing.Graphics.FromImage(canvas);
             // 이미지 Merge 하여 그려주기.
             float scalesX = (float)(ThumbnailImage.Width) / (thumbImageSize["maxX"] - thumbImageSize["minX"]);
             float scalesY = (float)(ThumbnailImage.Height) / (thumbImageSize["maxY"] - thumbImageSize["minY"]);
@@ -959,6 +945,9 @@ namespace MergeImage
 
             if (ThumbnailImage.Image != null)
                 ThumbnailImage.Image.Dispose();
+
+            if (thumbOriginalimg != null)
+                thumbOriginalimg.Dispose();
 
             ThumbnailImage.Image = canvas as Image;
             thumbOriginalimg = canvas.Clone() as Image;
