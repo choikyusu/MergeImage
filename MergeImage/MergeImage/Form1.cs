@@ -1318,7 +1318,7 @@ namespace MergeImage
         {
             if (tailsImagesLog.ContainsKey(pTail.Split('\\').Last()))
             {
-                deleteTailsImages(tailsImagesLog[pTail]);
+                deleteTailsImages(tailsImagesLog[pTail.Split('\\').Last()]);
             }
         }
 
