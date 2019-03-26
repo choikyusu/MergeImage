@@ -63,7 +63,7 @@ namespace MergeImage
         List<string> backTailsImagesLog = new List<string>();
         string pStyle="";
         Point slidePiont;
-        List<Point> modifyPointList = new List<Point>();
+        List<string> modifySlideList = new List<string>();
         int modifyFirstX, modifyFirstY;
 
 
@@ -404,20 +404,16 @@ namespace MergeImage
                 if (tailsStatus != "")
                 {
                     slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
-                    modifyPointList.Add(slidePiont);
 
-                    foreach (Point iPoint in modifyPointList)
-                    {
-                        tempsSlide = pointSlides(iPoint);
-                        slectedImage.AddRange(tempsSlide);
-                    }
-                     
-                    slectedImage =  slectedImage.Distinct().ToList();
+                    tempsSlide = pointSlides(slidePiont);
+                    modifySlideList.AddRange(tempsSlide);
 
-                    saveSelectedTailsImages(slectedImage);
+                    modifySlideList = modifySlideList.Distinct().ToList();
+
+                    saveSelectedTailsImages(modifySlideList);
                     addModifyImageListToDataGridView1();
                     drawImage(filterSlidesFullName);
-                    modifyPointList.Clear();
+                    modifySlideList.Clear();
                 }
 
             }
@@ -447,18 +443,28 @@ namespace MergeImage
             {
                 if (modifyFirst)
                 {
+                    List<string> tempsSlide = new List<string>();
                     modifyFirstX = e.X;
                     modifyFirstY = e.Y;
                     modifyFirst = false;
                     slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
-                    modifyPointList.Add(slidePiont);
+                    tempsSlide = pointSlides(slidePiont);
+                    modifySlideList.AddRange(tempsSlide);
+
+                    modifySlideList = modifySlideList.Distinct().ToList();
                 }
                 if(modifyFirstX != Cursor.Position.X || modifyFirstY != Cursor.Position.Y)
                 {
+                    List<string> tempsSlide = new List<string>();
+
                     modifyFirstX = Cursor.Position.X;
                     modifyFirstY = Cursor.Position.Y;
                     slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
-                    modifyPointList.Add(slidePiont);
+
+                    tempsSlide = pointSlides(slidePiont);
+                    modifySlideList.AddRange(tempsSlide);
+
+                    modifySlideList = modifySlideList.Distinct().ToList();
                 }
             }
             else
