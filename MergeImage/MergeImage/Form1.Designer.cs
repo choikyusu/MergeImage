@@ -67,6 +67,8 @@
             this.ThumbnailImage = new System.Windows.Forms.PictureBox();
             this.picPen = new System.Windows.Forms.PictureBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this.btnPreOne = new System.Windows.Forms.Button();
+            this.btnNextOne = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
             this.panel1.SuspendLayout();
@@ -78,10 +80,11 @@
             // 
             // tbxFolderPath
             // 
-            this.tbxFolderPath.Location = new System.Drawing.Point(1531, 6);
+            this.tbxFolderPath.Location = new System.Drawing.Point(1750, 8);
+            this.tbxFolderPath.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbxFolderPath.Name = "tbxFolderPath";
             this.tbxFolderPath.ReadOnly = true;
-            this.tbxFolderPath.Size = new System.Drawing.Size(256, 21);
+            this.tbxFolderPath.Size = new System.Drawing.Size(292, 25);
             this.tbxFolderPath.TabIndex = 211;
             this.tbxFolderPath.Text = "이미지 경로";
             // 
@@ -89,9 +92,10 @@
             // 
             this.btnConfirm.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnConfirm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnConfirm.Location = new System.Drawing.Point(1746, 313);
+            this.btnConfirm.Location = new System.Drawing.Point(1995, 56);
+            this.btnConfirm.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(126, 35);
+            this.btnConfirm.Size = new System.Drawing.Size(144, 44);
             this.btnConfirm.TabIndex = 210;
             this.btnConfirm.Text = "확인";
             this.btnConfirm.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -102,9 +106,10 @@
             // 
             this.btnBack.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnBack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBack.Location = new System.Drawing.Point(1746, 231);
+            this.btnBack.Location = new System.Drawing.Point(1995, 461);
+            this.btnBack.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnBack.Name = "btnBack";
-            this.btnBack.Size = new System.Drawing.Size(126, 35);
+            this.btnBack.Size = new System.Drawing.Size(144, 44);
             this.btnBack.TabIndex = 209;
             this.btnBack.Text = "실행취소";
             this.btnBack.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -115,9 +120,10 @@
             // 
             this.btnChangeFolder.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnChangeFolder.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnChangeFolder.Location = new System.Drawing.Point(1793, 6);
+            this.btnChangeFolder.Location = new System.Drawing.Point(2049, 8);
+            this.btnChangeFolder.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnChangeFolder.Name = "btnChangeFolder";
-            this.btnChangeFolder.Size = new System.Drawing.Size(79, 23);
+            this.btnChangeFolder.Size = new System.Drawing.Size(90, 29);
             this.btnChangeFolder.TabIndex = 212;
             this.btnChangeFolder.Text = "폴더변경";
             this.btnChangeFolder.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -156,7 +162,8 @@
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle8;
             this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(177, 45);
+            this.dataGridView1.Location = new System.Drawing.Point(202, 56);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -171,7 +178,7 @@
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 20;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(143, 612);
+            this.dataGridView1.Size = new System.Drawing.Size(163, 765);
             this.dataGridView1.TabIndex = 208;
             // 
             // Column2
@@ -207,9 +214,10 @@
             this.btnM.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnM.ForeColor = System.Drawing.Color.Red;
             this.btnM.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnM.Location = new System.Drawing.Point(1746, 192);
+            this.btnM.Location = new System.Drawing.Point(1995, 305);
+            this.btnM.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnM.Name = "btnM";
-            this.btnM.Size = new System.Drawing.Size(126, 35);
+            this.btnM.Size = new System.Drawing.Size(144, 44);
             this.btnM.TabIndex = 205;
             this.btnM.Text = "M";
             this.btnM.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -221,9 +229,10 @@
             this.btnD.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnD.ForeColor = System.Drawing.Color.Blue;
             this.btnD.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnD.Location = new System.Drawing.Point(1746, 153);
+            this.btnD.Location = new System.Drawing.Point(1995, 253);
+            this.btnD.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnD.Name = "btnD";
-            this.btnD.Size = new System.Drawing.Size(126, 35);
+            this.btnD.Size = new System.Drawing.Size(144, 44);
             this.btnD.TabIndex = 204;
             this.btnD.Text = "D";
             this.btnD.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -235,9 +244,10 @@
             this.btnA.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnA.ForeColor = System.Drawing.Color.SpringGreen;
             this.btnA.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnA.Location = new System.Drawing.Point(1746, 114);
+            this.btnA.Location = new System.Drawing.Point(1995, 204);
+            this.btnA.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnA.Name = "btnA";
-            this.btnA.Size = new System.Drawing.Size(126, 35);
+            this.btnA.Size = new System.Drawing.Size(144, 44);
             this.btnA.TabIndex = 203;
             this.btnA.Text = "A";
             this.btnA.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -249,9 +259,10 @@
             this.btnN.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnN.ForeColor = System.Drawing.SystemColors.HighlightText;
             this.btnN.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnN.Location = new System.Drawing.Point(1746, 75);
+            this.btnN.Location = new System.Drawing.Point(1995, 156);
+            this.btnN.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnN.Name = "btnN";
-            this.btnN.Size = new System.Drawing.Size(126, 35);
+            this.btnN.Size = new System.Drawing.Size(144, 44);
             this.btnN.TabIndex = 202;
             this.btnN.Text = "N";
             this.btnN.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -261,9 +272,10 @@
             // dtpDate
             // 
             this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDate.Location = new System.Drawing.Point(8, 7);
+            this.dtpDate.Location = new System.Drawing.Point(9, 9);
+            this.dtpDate.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(97, 21);
+            this.dtpDate.Size = new System.Drawing.Size(110, 25);
             this.dtpDate.TabIndex = 206;
             this.dtpDate.ValueChanged += new System.EventHandler(this.dtpDate_ValueChanged);
             // 
@@ -297,7 +309,8 @@
             dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gridMergeImage.DefaultCellStyle = dataGridViewCellStyle11;
             this.gridMergeImage.EnableHeadersVisualStyles = false;
-            this.gridMergeImage.Location = new System.Drawing.Point(8, 44);
+            this.gridMergeImage.Location = new System.Drawing.Point(9, 55);
+            this.gridMergeImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.gridMergeImage.MultiSelect = false;
             this.gridMergeImage.Name = "gridMergeImage";
             this.gridMergeImage.ReadOnly = true;
@@ -312,7 +325,7 @@
             this.gridMergeImage.RowHeadersVisible = false;
             this.gridMergeImage.RowTemplate.Height = 20;
             this.gridMergeImage.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridMergeImage.Size = new System.Drawing.Size(168, 613);
+            this.gridMergeImage.Size = new System.Drawing.Size(192, 766);
             this.gridMergeImage.TabIndex = 201;
             this.gridMergeImage.SelectionChanged += new System.EventHandler(this.gridMergeImageRowChange);
             // 
@@ -333,9 +346,10 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.DataPanel);
-            this.panel1.Location = new System.Drawing.Point(326, 45);
+            this.panel1.Location = new System.Drawing.Point(373, 56);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1389, 904);
+            this.panel1.Size = new System.Drawing.Size(1587, 1130);
             this.panel1.TabIndex = 214;
             // 
             // DataPanel
@@ -344,9 +358,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DataPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.DataPanel.Location = new System.Drawing.Point(-500, -500);
+            this.DataPanel.Location = new System.Drawing.Point(-571, -625);
+            this.DataPanel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.DataPanel.Name = "DataPanel";
-            this.DataPanel.Size = new System.Drawing.Size(2390, 1904);
+            this.DataPanel.Size = new System.Drawing.Size(2731, 2380);
             this.DataPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.DataPanel.TabIndex = 200;
             this.DataPanel.TabStop = false;
@@ -359,9 +374,10 @@
             // 
             this.btnOnOff.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnOnOff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOnOff.Location = new System.Drawing.Point(1747, 353);
+            this.btnOnOff.Location = new System.Drawing.Point(1995, 566);
+            this.btnOnOff.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnOnOff.Name = "btnOnOff";
-            this.btnOnOff.Size = new System.Drawing.Size(126, 35);
+            this.btnOnOff.Size = new System.Drawing.Size(144, 44);
             this.btnOnOff.TabIndex = 215;
             this.btnOnOff.Text = "Mask on";
             this.btnOnOff.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -371,11 +387,12 @@
             // ZoomController
             // 
             this.ZoomController.LargeChange = 1;
-            this.ZoomController.Location = new System.Drawing.Point(1795, 474);
+            this.ZoomController.Location = new System.Drawing.Point(2051, 775);
+            this.ZoomController.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ZoomController.Maximum = 4;
             this.ZoomController.Name = "ZoomController";
             this.ZoomController.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.ZoomController.Size = new System.Drawing.Size(45, 145);
+            this.ZoomController.Size = new System.Drawing.Size(56, 181);
             this.ZoomController.TabIndex = 216;
             this.ZoomController.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.ZoomController.ValueChanged += new System.EventHandler(this.ZoomController_ValueChanged);
@@ -383,45 +400,45 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1830, 597);
+            this.label1.Location = new System.Drawing.Point(2091, 929);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 12);
+            this.label1.Size = new System.Drawing.Size(40, 15);
             this.label1.TabIndex = 217;
             this.label1.Text = "200X";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1830, 571);
+            this.label2.Location = new System.Drawing.Point(2091, 897);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 12);
+            this.label2.Size = new System.Drawing.Size(40, 15);
             this.label2.TabIndex = 218;
             this.label2.Text = "100X";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1830, 541);
+            this.label3.Location = new System.Drawing.Point(2091, 859);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(25, 12);
+            this.label3.Size = new System.Drawing.Size(32, 15);
             this.label3.TabIndex = 218;
             this.label3.Text = "40X";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1830, 510);
+            this.label4.Location = new System.Drawing.Point(2091, 821);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(25, 12);
+            this.label4.Size = new System.Drawing.Size(32, 15);
             this.label4.TabIndex = 218;
             this.label4.Text = "20X";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1830, 483);
+            this.label5.Location = new System.Drawing.Point(2091, 787);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(25, 12);
+            this.label5.Size = new System.Drawing.Size(32, 15);
             this.label5.TabIndex = 218;
             this.label5.Text = "10X";
             // 
@@ -429,9 +446,10 @@
             // 
             this.btnCursor.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnCursor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCursor.Location = new System.Drawing.Point(1747, 392);
+            this.btnCursor.Location = new System.Drawing.Point(1995, 618);
+            this.btnCursor.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnCursor.Name = "btnCursor";
-            this.btnCursor.Size = new System.Drawing.Size(126, 35);
+            this.btnCursor.Size = new System.Drawing.Size(144, 44);
             this.btnCursor.TabIndex = 219;
             this.btnCursor.Text = "Cursor on";
             this.btnCursor.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -442,9 +460,10 @@
             // 
             this.btnMove.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnMove.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnMove.Location = new System.Drawing.Point(1746, 35);
+            this.btnMove.Location = new System.Drawing.Point(1995, 106);
+            this.btnMove.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnMove.Name = "btnMove";
-            this.btnMove.Size = new System.Drawing.Size(126, 35);
+            this.btnMove.Size = new System.Drawing.Size(144, 44);
             this.btnMove.TabIndex = 220;
             this.btnMove.Text = "이동";
             this.btnMove.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -455,9 +474,10 @@
             // 
             this.btnType.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnType.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnType.Location = new System.Drawing.Point(1746, 433);
+            this.btnType.Location = new System.Drawing.Point(1995, 670);
+            this.btnType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnType.Name = "btnType";
-            this.btnType.Size = new System.Drawing.Size(126, 35);
+            this.btnType.Size = new System.Drawing.Size(144, 44);
             this.btnType.TabIndex = 220;
             this.btnType.Text = "A타입";
             this.btnType.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -468,9 +488,10 @@
             // 
             this.ThumbnailImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ThumbnailImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ThumbnailImage.Location = new System.Drawing.Point(134, 663);
+            this.ThumbnailImage.Location = new System.Drawing.Point(153, 829);
+            this.ThumbnailImage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.ThumbnailImage.Name = "ThumbnailImage";
-            this.ThumbnailImage.Size = new System.Drawing.Size(186, 286);
+            this.ThumbnailImage.Size = new System.Drawing.Size(212, 357);
             this.ThumbnailImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ThumbnailImage.TabIndex = 213;
             this.ThumbnailImage.TabStop = false;
@@ -480,9 +501,10 @@
             // 
             // picPen
             // 
-            this.picPen.Location = new System.Drawing.Point(1747, 474);
+            this.picPen.Location = new System.Drawing.Point(1997, 775);
+            this.picPen.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.picPen.Name = "picPen";
-            this.picPen.Size = new System.Drawing.Size(35, 277);
+            this.picPen.Size = new System.Drawing.Size(40, 346);
             this.picPen.TabIndex = 221;
             this.picPen.TabStop = false;
             // 
@@ -490,21 +512,52 @@
             // 
             this.btnClear.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.btnClear.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnClear.Location = new System.Drawing.Point(1746, 272);
+            this.btnClear.Location = new System.Drawing.Point(1995, 513);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(126, 35);
+            this.btnClear.Size = new System.Drawing.Size(144, 44);
             this.btnClear.TabIndex = 222;
             this.btnClear.Text = "전체초기화";
             this.btnClear.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // btnPreOne
+            // 
+            this.btnPreOne.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnPreOne.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPreOne.Location = new System.Drawing.Point(1995, 357);
+            this.btnPreOne.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnPreOne.Name = "btnPreOne";
+            this.btnPreOne.Size = new System.Drawing.Size(144, 44);
+            this.btnPreOne.TabIndex = 223;
+            this.btnPreOne.Text = "<";
+            this.btnPreOne.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnPreOne.UseVisualStyleBackColor = true;
+            this.btnPreOne.Click += new System.EventHandler(this.btnPreOne_Click);
+            // 
+            // btnNextOne
+            // 
+            this.btnNextOne.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnNextOne.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnNextOne.Location = new System.Drawing.Point(1995, 409);
+            this.btnNextOne.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnNextOne.Name = "btnNextOne";
+            this.btnNextOne.Size = new System.Drawing.Size(144, 44);
+            this.btnNextOne.TabIndex = 224;
+            this.btnNextOne.Text = ">";
+            this.btnNextOne.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnNextOne.UseVisualStyleBackColor = true;
+            this.btnNextOne.Click += new System.EventHandler(this.btnNextOne_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1884, 961);
+            this.ClientSize = new System.Drawing.Size(2153, 1201);
+            this.Controls.Add(this.btnNextOne);
+            this.Controls.Add(this.btnPreOne);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.picPen);
             this.Controls.Add(this.btnType);
@@ -530,6 +583,7 @@
             this.Controls.Add(this.btnN);
             this.Controls.Add(this.dtpDate);
             this.Controls.Add(this.gridMergeImage);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "Form1";
             this.Text = "이미지 병합";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -580,6 +634,8 @@
         private System.Windows.Forms.Button btnType;
         private System.Windows.Forms.PictureBox picPen;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnPreOne;
+        private System.Windows.Forms.Button btnNextOne;
     }
 }
 

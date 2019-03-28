@@ -73,6 +73,8 @@ namespace MergeImage
         private List<string> slidesFullName = new List<string>();
         private List<string> filterSlidesFullName = new List<string>();
         private Dictionary<string, int> thumbImageSize = new Dictionary<string, int>();
+        Stack<List<DataGridViewRow>> preStack = new Stack<List<DataGridViewRow>>();
+        Stack<List<DataGridViewRow>> nextStack = new Stack<List<DataGridViewRow>>();
 
         private Boolean isFirst = true;
 
@@ -399,14 +401,32 @@ namespace MergeImage
             {
                 if (tailsStatus != "")
                 {
-                    Point slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
 
+                    Point slidePiont = new Point((int)(e.X / zoomScale + Left1), (int)(e.Y / zoomScale + Top1));
                     tempsSlide = pointSlides(slidePiont);
                     modifySlideList.AddRange(tempsSlide);
-
                     modifySlideList = modifySlideList.Distinct().ToList();
-
                     saveSelectedTailsImages(modifySlideList);
+
+
+                    if(modifySlideList.Count != 0)
+                    {
+                        List<DataGridViewRow> tempList = new List<DataGridViewRow>();
+                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        {
+                            DataGridViewRow cloneRow = (DataGridViewRow)row.Clone();
+                            for (int index = 0; index < row.Cells.Count; index++)
+                            {
+                                cloneRow.Cells[index].Value = row.Cells[index].Value;
+                            }
+
+                            tempList.Add(cloneRow);
+
+                        }
+                        pushPreStack(tempList);
+                        nextStack.Clear();// prestack.pop을 이용해 이전 단계로 돌아간후 새로운 작업이 추가 되였을때 nextstack을 저장하여 있는 정보 Clear.
+                    }
+                    
                     addModifyImageListToDataGridView1();
                     drawImage(filterSlidesFullName);
                     modifySlideList.Clear();
@@ -619,6 +639,8 @@ namespace MergeImage
             
             if (gridMergeImage.SelectedRows.Count > 0)
             {
+                preStack.Clear();
+                nextStack.Clear();
                 clearScaleBitmap();
                 isFirst = true;
                 thumbImageSize.Clear();
@@ -1382,13 +1404,13 @@ namespace MergeImage
             this.dataGridView1.SelectionChanged -= new System.EventHandler(this.dataGridView1_SelectionChanged);
             Stopwatch stopwatch2 = new Stopwatch(); //객체 선언
             stopwatch2.Start(); // 시간측정 시작
-            
             dataGridView1.Rows.Clear();
             int rowindex = gridMergeImage.SelectedRows[0].Index;
             DataGridViewRow selectedRow = gridMergeImage.Rows[rowindex];
             string currentId = Convert.ToString(selectedRow.Cells[0].Value);
             Dictionary<string, int> location;
             string modifySlideStyle;
+
 
             foreach (string item in tailsImagesLog.Values)
             {
@@ -1408,7 +1430,7 @@ namespace MergeImage
                 {
                     continue;
                 }
-                dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle);
+                dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle); 
             }
 
             stopwatch2.Stop();
@@ -1506,8 +1528,26 @@ namespace MergeImage
 
         private void btnClear_Click(object sender, EventArgs e)
         {
+           // preStack.Clear();
+           // nextStack.Clear();
+
             if (gridMergeImage.CurrentRow == null)
                 return;
+
+            List<DataGridViewRow> tempList = new List<DataGridViewRow>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                DataGridViewRow cloneRow = (DataGridViewRow)row.Clone();
+                for (int index = 0; index < row.Cells.Count; index++)
+                {
+                    cloneRow.Cells[index].Value = row.Cells[index].Value;
+                }
+
+                tempList.Add(cloneRow);
+
+            }
+            pushPreStack(tempList);
+            nextStack.Clear();// prestack.pop을 이용해 이전 단계로 돌아간후 새로운 작업이 추가 되였을때 nextstack을 저장하여 있는 정보 Clear.
 
             string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
             string id = gridMergeImage.CurrentRow.Cells[0].Value.ToString();
@@ -1565,6 +1605,119 @@ namespace MergeImage
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void btnPreOne_Click(object sender, EventArgs e)
+        {
+            if (preStack.Count == 0)
+            {
+                return;
+            }
+
+            // 2019.03.27 next stack 저장 start
+            List<DataGridViewRow> tempList = new List<DataGridViewRow>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                DataGridViewRow cloneRow = (DataGridViewRow)row.Clone();
+                for (int index = 0; index < row.Cells.Count; index++)
+                {
+                    cloneRow.Cells[index].Value = row.Cells[index].Value;
+                }
+
+                tempList.Add(cloneRow);
+
+            }
+            pushNextStack(tempList);
+            // 2019.03.27 next stack 저장 end
+
+
+
+            findModifyImage(preStack.Pop());
+        }
+
+        private void btnNextOne_Click(object sender, EventArgs e)
+        {
+            if (nextStack.Count == 0)
+            {
+                return;
+            }
+
+            // 2019.03.27 pushPreStack 저장 start
+            List<DataGridViewRow> tempList = new List<DataGridViewRow>();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                DataGridViewRow cloneRow = (DataGridViewRow)row.Clone();
+                for (int index = 0; index < row.Cells.Count; index++)
+                {
+                    cloneRow.Cells[index].Value = row.Cells[index].Value;
+                }
+
+                tempList.Add(cloneRow);
+
+            }
+            pushPreStack(tempList);
+            // 2019.03.27 pushPreStack 저장 end
+
+            findModifyImage(nextStack.Pop());
+
+
+        }
+
+        public void pushPreStack(List<DataGridViewRow> prams)
+        {
+            
+            preStack.Push(prams);
+        }
+
+        public void pushNextStack(List<DataGridViewRow> prams)
+        {
+            if(prams.Count != 0)
+            {
+                nextStack.Push(prams);
+            }
+
+        }
+
+        
+        public void findModifyImage(List<DataGridViewRow> pDataGridViewRows)
+        {
+            if (gridMergeImage.CurrentRow == null)
+                return;
+
+            List<string> remodifyFullName = new List<string>();
+
+            string originalPath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
+            string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
+            string id = gridMergeImage.CurrentRow.Cells[0].Value.ToString();
+            id += "_" + wholeX + "-" + wholeY;
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                string pX = row.Cells[0].Value.ToString();
+                string pY = row.Cells[1].Value.ToString();
+                string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
+                dstFullPath += id + "_" + pX + "-" + pY + ".jpg";
+                deleteTailsImages(dstFullPath);
+
+            }
+
+            foreach (DataGridViewRow row in pDataGridViewRows)
+            {
+                string pX = row.Cells[0].Value.ToString();
+                string pY = row.Cells[1].Value.ToString();
+
+                string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
+                dstFullPath += id + "_" + pX + "-" + pY + ".jpg";
+                deleteTailsImages(dstFullPath);
+
+                string orgFullPath = originalPath + "\\" + row.Cells[2].Value.ToString() + "\\";
+                orgFullPath += id + "_" + pX + "-" + pY + ".jpg";
+                System.IO.File.Copy(orgFullPath, dstFullPath, true);
+            }
+            getDateModifyImageList();
+            addModifyImageListToDataGridView1();
+            drawImage(filterSlidesFullName);
+
         }
     }
 }
