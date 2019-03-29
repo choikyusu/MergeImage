@@ -556,7 +556,9 @@ namespace MergeImage
 
             //선택한 병합이미지 리스트에서 확인을 했다는 의미의 Y로 변경
             gridMergeImage.CurrentRow.Cells[(int)eMergeImageGridIndex.CONFIRM].Value = "Y";
+            gridMergeImage.CurrentRow.Cells[1].Style.BackColor = Color.Red;
             saveFileMergeImageStatus();
+            countSlide();
         }
 
         public void readFileMergeImageStatus()
@@ -578,11 +580,13 @@ namespace MergeImage
                     if (row.Cells[(int)eMergeImageGridIndex.ID].Value.ToString().Trim() == id)
                     {
                         row.Cells[(int)eMergeImageGridIndex.CONFIRM].Value = "Y";
+                        row.Cells[1].Style.BackColor = Color.Red;
                     }
                 }
             }
 
             file.Close();
+            countSlide();
         }
 
         private void saveFileMergeImageStatus()
@@ -1719,5 +1723,37 @@ namespace MergeImage
             drawImage(filterSlidesFullName);
 
         }
+
+        // Count Total Image, Checked Image, UnChecked Image numbers;
+        public void countSlide()
+        {
+            if (gridMergeImage.CurrentRow == null)
+                return;
+
+            int totalNumber = gridMergeImage.Rows.Count;
+            int checkedNumber = 0;
+            int unCheckedNumber = 0;
+
+            foreach (DataGridViewRow row in gridMergeImage.Rows)
+            {
+                if (row.Cells[1].Value.ToString() == "Y")
+                {
+                    checkedNumber++;
+                }
+            }
+            unCheckedNumber = totalNumber - checkedNumber;
+
+            lbTotalCount.Text = totalNumber.ToString();
+            lbCheckedCount.Text = checkedNumber.ToString();
+            lbUnCheckedCount.Text = unCheckedNumber.ToString();
+        }
+
+
+
+
+
+
+
+
     }
 }
