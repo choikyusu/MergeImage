@@ -29,14 +29,21 @@ namespace MergeImage
             ZOOM_OUT
         }
 
+        public enum eMode
+        {
+            MOVE,
+            PEN
+        }
+
+        public eMode mode = eMode.MOVE;
         
         double zoomScale = 1;
         int startPointX = 99999;
         int startPointY = 99999;
         int top = 0;
         int left = 0;
-        int splitWidth = 250;
-        int splitHeight = 250;
+        int splitWidth = 256;
+        int splitHeight = 256;
         int wholeX;
         int wholeY;
         int preZoomScale = 0;
@@ -116,6 +123,9 @@ namespace MergeImage
             readFileMergeImageStatus();
             getDateModifyImageList();
             loadMaskColor();
+
+            btnOnOff.Text = "Mask on";
+            btnCursor.Text = "Cursor on";
 
 #if Surface
             btnMove.Visible = true;
@@ -353,7 +363,7 @@ namespace MergeImage
         {
 
 #if Surface
-            if (e.Button == MouseButtons.Left && btnMove.Text == "이동")
+            if (e.Button == MouseButtons.Left && mode == eMode.MOVE)
 #else
             if (e.Button == MouseButtons.Left)
 #endif
@@ -364,7 +374,7 @@ namespace MergeImage
                 DataPanel.Focus();
             }
 #if Surface
-            if (e.Button == MouseButtons.Left && btnMove.Text == "선택")
+            if (e.Button == MouseButtons.Left && mode == eMode.PEN)
 #else
             if (e.Button == MouseButtons.Right)
 #endif
@@ -381,7 +391,7 @@ namespace MergeImage
             List<string> slectedImage = new List<string>();
             List<string> tempsSlide = new List<string>();
 #if Surface
-            if (e.Button == MouseButtons.Left && btnMove.Text =="이동")
+            if (e.Button == MouseButtons.Left && mode == eMode.MOVE)
 #else
             if (e.Button == MouseButtons.Left)
 #endif
@@ -394,7 +404,7 @@ namespace MergeImage
                 isMove = false;
             }
 #if Surface
-            if (e.Button == MouseButtons.Left && btnMove.Text == "선택")
+            if (e.Button == MouseButtons.Left && mode == eMode.PEN)
 #else
             if (e.Button == MouseButtons.Right)
 #endif
@@ -1044,10 +1054,10 @@ namespace MergeImage
             int pY = 0;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
-            wholeX = int.Parse(itemName.Split('-', '_')[2]);
-            wholeY = int.Parse(itemName.Split('-', '_')[3]);
-            pX = int.Parse(itemName.Split('-', '_')[4]);
-            pY = int.Parse(itemName.Split('-', '_')[5]);
+            wholeX = int.Parse(itemName.Split('-', '_')[2]) * 256;
+            wholeY = int.Parse(itemName.Split('-', '_')[1]) * 256;
+            pX = int.Parse(itemName.Split('-', '_')[4]) * 256;
+            pY = int.Parse(itemName.Split('-', '_')[3]) * 256;
 
             pXY.Add("wholeX", wholeX);
             pXY.Add("wholeY", wholeY);
@@ -1076,10 +1086,12 @@ namespace MergeImage
         {
             if (btnOnOff.Text == "Mask on")
             {
+                btnOnOff.Image = Properties.Resources.마스크;
                 btnOnOff.Text = "Mask off";
             }
             else
             {
+                btnOnOff.Image = Properties.Resources.마스크눌린거;
                 btnOnOff.Text = "Mask on";
             }
             drawImage(filterSlidesFullName);
@@ -1239,10 +1251,15 @@ namespace MergeImage
             }
         }
 
+
         private void btnN_Click(object sender, EventArgs e)
         {
             tailsStatus = "N";
-            picPen.Image = Properties.Resources.WhitePen;
+            btnN.Image = Properties.Resources.라인흰색눌린거;
+            btnA.Image = Properties.Resources.라인녹색;
+            btnD.Image = Properties.Resources.라인파란색;
+            btnM.Image = Properties.Resources.라인빨간색;
+            btnPen_Click(null, null);
 #if Surface
             btnMove.Text = "선택";
 #endif
@@ -1251,7 +1268,11 @@ namespace MergeImage
         private void btnA_Click(object sender, EventArgs e)
         {
             tailsStatus = "A";
-            picPen.Image = Properties.Resources.GreenPen;
+            btnN.Image = Properties.Resources.라인흰색;
+            btnA.Image = Properties.Resources.라인녹색눌린거;
+            btnD.Image = Properties.Resources.라인파란색;
+            btnM.Image = Properties.Resources.라인빨간색;
+            btnPen_Click(null, null);
 #if Surface
             btnMove.Text = "선택";
 #endif
@@ -1260,7 +1281,11 @@ namespace MergeImage
         private void btnD_Click(object sender, EventArgs e)
         {
             tailsStatus = "D";
-            picPen.Image = Properties.Resources.BluePen;
+            btnN.Image = Properties.Resources.라인흰색;
+            btnA.Image = Properties.Resources.라인녹색;
+            btnD.Image = Properties.Resources.라인파란색눌린거;
+            btnM.Image = Properties.Resources.라인빨간색;
+            btnPen_Click(null, null);
 #if Surface
             btnMove.Text = "선택";
 #endif
@@ -1269,7 +1294,11 @@ namespace MergeImage
         private void btnM_Click(object sender, EventArgs e)
         {
             tailsStatus = "M";
-            picPen.Image = Properties.Resources.RedPen;
+            btnN.Image = Properties.Resources.라인흰색;
+            btnA.Image = Properties.Resources.라인녹색;
+            btnD.Image = Properties.Resources.라인파란색;
+            btnM.Image = Properties.Resources.라인빨간색눌린거;
+            btnPen_Click(null, null);
 
 #if Surface
             btnMove.Text = "선택";
@@ -1492,15 +1521,17 @@ namespace MergeImage
         private void btnMove_Click(object sender, EventArgs e)
         {
 #if Surface
-            if (btnMove.Text == "이동")
-            {
-                btnMove.Text = "선택";
-            }
-            else
-            {
-                btnMove.Text = "이동";
-            }
+
+            mode = eMode.MOVE;
+            btnMove.Image = global::MergeImage.Properties.Resources.이동눌린거;
+            btnPen.Image = global::MergeImage.Properties.Resources.펜;
+            tailsStatus = "";
+            btnN.Image = Properties.Resources.라인흰색;
+            btnA.Image = Properties.Resources.라인녹색;
+            btnD.Image = Properties.Resources.라인파란색;
+            btnM.Image = Properties.Resources.라인빨간색;
 #endif
+
         }
 
         private void btnType_Click(object sender, EventArgs e)
@@ -1522,11 +1553,14 @@ namespace MergeImage
             if (btnCursor.Text == "Cursor on")
             {
                 btnCursor.Text = "Cursor off";
+                btnCursor.Image = global::MergeImage.Properties.Resources.커서;
+
                 drawImage(filterSlidesFullName);
             }
             else
             {
                 btnCursor.Text = "Cursor on";
+                btnCursor.Image = global::MergeImage.Properties.Resources.커서눌린거;
             }
         }
 
@@ -1693,35 +1727,95 @@ namespace MergeImage
             string originalPath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
             string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
             string id = gridMergeImage.CurrentRow.Cells[0].Value.ToString();
-            id += "_" + wholeX + "-" + wholeY;
+            id += "_" + wholeY/256 + "-" + wholeX/256;
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                string pX = row.Cells[0].Value.ToString();
-                string pY = row.Cells[1].Value.ToString();
+                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/256).ToString();
+                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/256).ToString();
                 string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
-                dstFullPath += id + "_" + pX + "-" + pY + ".jpg";
+                dstFullPath += id + "_" + pY + "-" + pX + ".jpg";
                 deleteTailsImages(dstFullPath);
 
             }
 
             foreach (DataGridViewRow row in pDataGridViewRows)
             {
-                string pX = row.Cells[0].Value.ToString();
-                string pY = row.Cells[1].Value.ToString();
+                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/256).ToString();
+                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/256).ToString();
 
                 string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
                 dstFullPath += id + "_" + pX + "-" + pY + ".jpg";
                 deleteTailsImages(dstFullPath);
 
                 string orgFullPath = originalPath + "\\" + row.Cells[2].Value.ToString() + "\\";
-                orgFullPath += id + "_" + pX + "-" + pY + ".jpg";
+                orgFullPath += id + "_" + pY + "-" + pX + ".jpg";
                 System.IO.File.Copy(orgFullPath, dstFullPath, true);
             }
             getDateModifyImageList();
             addModifyImageListToDataGridView1();
             drawImage(filterSlidesFullName);
 
+        }
+
+        private void btnPen_Click(object sender, EventArgs e)
+        {
+#if Surface
+            mode = eMode.PEN;
+            btnMove.Image = global::MergeImage.Properties.Resources.이동;
+            btnPen.Image = global::MergeImage.Properties.Resources.펜눌린거;
+
+#endif
+        }
+
+        private void btnPreOne_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnPreOne.Image = global::MergeImage.Properties.Resources.뒤로가기눌린거;
+        }
+
+        private void btnPreOne_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnPreOne.Image = global::MergeImage.Properties.Resources.뒤로가기;
+        }
+
+        private void btnNextOne_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnNextOne.Image = global::MergeImage.Properties.Resources.앞으로가기눌린거;
+        }
+
+        private void btnNextOne_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnNextOne.Image = global::MergeImage.Properties.Resources.앞으로가기;
+        }
+
+        private void btnConfirm_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnConfirm.Image = global::MergeImage.Properties.Resources.확인버튼눌린거;
+        }
+
+        private void btnConfirm_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnConfirm.Image = global::MergeImage.Properties.Resources.확인버튼;
+        }
+
+        private void btnClear_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnClear.Image = global::MergeImage.Properties.Resources.초기화눌린거;
+        }
+
+        private void btnClear_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnClear.Image = global::MergeImage.Properties.Resources.초기화;
+        }
+
+        private void btnFolder_MouseDown(object sender, MouseEventArgs e)
+        {
+            btnChangeFolder.Image = global::MergeImage.Properties.Resources.폴더눌린거;
+        }
+
+        private void btnChangeFolder_MouseUp(object sender, MouseEventArgs e)
+        {
+            btnChangeFolder.Image = global::MergeImage.Properties.Resources.폴더;
         }
 
         // Count Total Image, Checked Image, UnChecked Image numbers;

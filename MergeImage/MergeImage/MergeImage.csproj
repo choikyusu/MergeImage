@@ -149,6 +149,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\폴더눌린거.png" />
+    <None Include="Resources\폴더.png" />
+    <None Include="Resources\마스크눌린거.png" />
+    <None Include="Resources\마스크.png" />
+    <None Include="Resources\커서눌린거.png" />
+    <None Include="Resources\커서.png" />
+    <None Include="Resources\초기화눌린거.png" />
+    <None Include="Resources\초기화.png" />
+    <None Include="Resources\확인버튼눌린거.png" />
+    <None Include="Resources\확인버튼.png" />
+    <None Include="Resources\뒤로가기.png" />
+    <None Include="Resources\앞으로가기눌린거.png" />
+    <None Include="Resources\앞으로가기.png" />
+    <None Include="Resources\뒤로가기눌린거.png" />
+    <None Include="Resources\테두리.png" />
+    <None Include="Resources\라인흰색눌린거.png" />
+    <None Include="Resources\라인파란색눌린거.png" />
+    <None Include="Resources\라인빨간색눌린거.png" />
+    <None Include="Resources\라인녹색눌린거.png" />
+    <None Include="Resources\라인빨간색.png" />
+    <None Include="Resources\라인녹색.png" />
+    <None Include="Resources\라인흰색.png" />
+    <None Include="Resources\라인파란색.png" />
+    <None Include="Resources\펜눌린거.png" />
+    <None Include="Resources\펜.png" />
+    <None Include="Resources\이동.png" />
+    <None Include="Resources\이동눌린거.png" />
     <None Include="Resources\WhitePen.png" />
     <None Include="Resources\RedPen.png" />
     <None Include="Resources\blue20.png" />
