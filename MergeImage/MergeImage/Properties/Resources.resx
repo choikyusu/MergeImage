@@ -268,4 +268,70 @@
   <data name="확인버튼눌린거" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\확인버튼눌린거.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="A" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\A.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_1x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thumbnail" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thumbnail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_10x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\10x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_20x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\20x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\4x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="경로" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\경로.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="돋보기" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\돋보기.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="돋보기눌린거" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\돋보기눌린거.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="바" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\바.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="바2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\바2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="바3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\바3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="상태" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\상태.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="텍스트박스" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\텍스트박스.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="텍스트상자테두리없음" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\텍스트상자테두리없음.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thumbnail1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thumbnail1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thumbnail2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thumbnail2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thumbnail3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thumbnail3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thumbnail4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thumbnail4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Thumbnail5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Thumbnail5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

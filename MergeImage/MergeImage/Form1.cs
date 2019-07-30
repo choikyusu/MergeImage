@@ -35,6 +35,8 @@ namespace MergeImage
             PEN
         }
 
+        public Thumbnail thumbnail = null;
+
         public eMode mode = eMode.MOVE;
         
         double zoomScale = 1;
@@ -124,8 +126,12 @@ namespace MergeImage
             getDateModifyImageList();
             loadMaskColor();
 
+            thumbnail = new Thumbnail(ThumbnailImage_MouseDown, ThumbnailImage_MouseMove, ThumbnailImage_MouseUp);
+
             btnOnOff.Text = "Mask on";
             btnCursor.Text = "Cursor on";
+            btnType.Text = "A타입";
+            btnThumbnail.Text = "on";
 
 #if Surface
             btnMove.Visible = true;
@@ -236,7 +242,6 @@ namespace MergeImage
         // 마우스 휠을 통한 이미지 확대 축소 함수 생성
         private void DataPanel_MouseWheel(object sender, MouseEventArgs e)
         {
-            this.ZoomController.ValueChanged -= new System.EventHandler(this.ZoomController_ValueChanged);
 #if Surface
             if (e.Delta > 0)
 #else
@@ -247,43 +252,44 @@ namespace MergeImage
 
                 if (zoomScale == 0.5)
                 {
-                    ZoomController.Value = 0;
                     zoomScale = 1;
                     top += (int)((e.Y ) / zoomScale);
                     left += (int)((e.X ) / zoomScale);
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 0;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
+
+                    btnScale20x_Click(null, null);
                 }
                 else if (zoomScale == 0.2)
                 {
-                    ZoomController.Value = 1;
                     zoomScale = 0.5;
                     top += (int)((e.Y ) / 0.33);
                     left += (int)((e.X ) / 0.33);
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 1;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
+                    btnScale10x_Click(null, null);
                 }
                 else if (zoomScale == 0.1)
                 {
-                    ZoomController.Value = 2;
                     zoomScale = 0.2;
                     top += (int)((e.Y ) / zoomScale);
                     left += (int)((e.X ) / zoomScale);
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 2;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
+                    btnScale4x_Click(null, null);
                 }
                 else if (zoomScale == 0.05)
                 {
-                    ZoomController.Value = 3;
                     zoomScale = 0.1;
                     top += (int)((e.Y ) / zoomScale);
                     left += (int)((e.X ) / zoomScale);
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 3;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
+                    btnScale2x_Click(null, null);
                 }
             }
             else
@@ -294,46 +300,43 @@ namespace MergeImage
                     top -= (int)((e.Y) / zoomScale);
                     left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.5;
-                    ZoomController.Value = 1;
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 1;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
-
+                    btnScale10x_Click(null, null);
                 }
                 else if (zoomScale == 0.5)
                 {
                     top -= (int)((e.Y) / 0.33);
                     left -= (int)((e.X) / 0.33);
                     zoomScale = 0.2;
-                    ZoomController.Value = 2;
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 2;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
-
+                    btnScale4x_Click(null, null);
                 }
                 else if (zoomScale == 0.2)
                 {
                     top -= (int)((e.Y) / zoomScale);
                     left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.1;
-                    ZoomController.Value = 3;
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 3;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
+                    btnScale2x_Click(null, null);
                 }
                 else if (zoomScale == 0.1)
                 {
                     top -= (int)((e.Y) / zoomScale);
                     left -= (int)((e.X) / zoomScale);
                     zoomScale = 0.05;
-                    ZoomController.Value = 4;
-                    preZoomScale = ZoomController.Value;
+                    preZoomScale = 4;
                     zoomScale = Math.Round(zoomScale * 100) / 100;
                     drawImage(filterSlidesFullName);
+                    btnScale1x_Click(null, null);
                 }
                
             }
-            this.ZoomController.ValueChanged += new System.EventHandler(this.ZoomController_ValueChanged);
         }
 
         private void btnFold_Click(object sender, EventArgs e)
@@ -833,7 +836,7 @@ namespace MergeImage
             if (moveThumbnail == true)
                 DataPanel.Refresh();
 
-            if (ThumbnailImage.Image != null)
+            if (thumbnail.getPictureBoxThumbnailImage().Image != null)
             {
                 drawThumbnailImageViewborder();
             }
@@ -949,11 +952,11 @@ namespace MergeImage
             // 동일한 이미지에서  타일 Pixels size 같아서 한개 타일 Pixel size 구하면 됨.
             imagePixels = pixelsXY(pathParams[0]);
 
-            Bitmap canvas = new Bitmap(ThumbnailImage.Width, ThumbnailImage.Height);
+            Bitmap canvas = new Bitmap(thumbnail.getPictureBoxThumbnailImage().Width, thumbnail.getPictureBoxThumbnailImage().Height);
             Graphics g = System.Drawing.Graphics.FromImage(canvas);
             // 이미지 Merge 하여 그려주기.
-            float scalesX = (float)(ThumbnailImage.Width) / (thumbImageSize["maxX"] - thumbImageSize["minX"]);
-            float scalesY = (float)(ThumbnailImage.Height) / (thumbImageSize["maxY"] - thumbImageSize["minY"]);
+            float scalesX = (float)(thumbnail.getPictureBoxThumbnailImage().Width) / (thumbImageSize["maxX"] - thumbImageSize["minX"]);
+            float scalesY = (float)(thumbnail.getPictureBoxThumbnailImage().Height) / (thumbImageSize["maxY"] - thumbImageSize["minY"]);
 
             if (scalesX <= scalesY)
             {
@@ -977,13 +980,13 @@ namespace MergeImage
             }
 
 
-            if (ThumbnailImage.Image != null)
-                ThumbnailImage.Image.Dispose();
+            if (thumbnail.getPictureBoxThumbnailImage().Image != null)
+                thumbnail.getPictureBoxThumbnailImage().Image.Dispose();
 
             if (thumbOriginalimg != null)
                 thumbOriginalimg.Dispose();
 
-            ThumbnailImage.Image = canvas as Image;
+            thumbnail.getPictureBoxThumbnailImage().Image = canvas as Image;
             thumbOriginalimg = canvas.Clone() as Image;
             g.Dispose();
 
@@ -1113,10 +1116,10 @@ namespace MergeImage
                 xmFloat = (int)((DataPanel.Width - hiddenLeft * 2) / zoomScale * scales) + xFloat;//border size，
                 xFloat = 0;
             }
-            else if (xFloat > ThumbnailImage.Width)
+            else if (xFloat > thumbnail.getPictureBoxThumbnailImage().Width)
             {
-                xmFloat = ThumbnailImage.Width;
-                xFloat = ThumbnailImage.Width - 1;
+                xmFloat = thumbnail.getPictureBoxThumbnailImage().Width;
+                xFloat = thumbnail.getPictureBoxThumbnailImage().Width - 1;
             }
             else
             {
@@ -1128,10 +1131,10 @@ namespace MergeImage
                 ymFloat = (int)((DataPanel.Height - hiddenTop * 2) / zoomScale * scales) + yFloat;//border size，
                 yFloat = 0;
             }
-            else if (yFloat > ThumbnailImage.Height)
+            else if (yFloat > thumbnail.getPictureBoxThumbnailImage().Height)
             {
-                ymFloat = ThumbnailImage.Height;
-                yFloat = ThumbnailImage.Height - 1;
+                ymFloat = thumbnail.getPictureBoxThumbnailImage().Height;
+                yFloat = thumbnail.getPictureBoxThumbnailImage().Height - 1;
             }
             else
             {
@@ -1142,43 +1145,42 @@ namespace MergeImage
             {
                 xmFloat = 1;
             }
-            else if (xmFloat + xFloat > ThumbnailImage.Width)
+            else if (xmFloat + xFloat > thumbnail.getPictureBoxThumbnailImage().Width)
             {
-                xmFloat = ThumbnailImage.Width - xFloat;
+                xmFloat = thumbnail.getPictureBoxThumbnailImage().Width - xFloat;
             }
 
             if (ymFloat < 0)
             {
                 ymFloat = 1;
             }
-            else if (ymFloat + yFloat > ThumbnailImage.Height)
+            else if (ymFloat + yFloat > thumbnail.getPictureBoxThumbnailImage().Height)
             {
-                ymFloat = ThumbnailImage.Height - yFloat;
+                ymFloat = thumbnail.getPictureBoxThumbnailImage().Height - yFloat;
             }
 
             g.DrawRectangle(RedPen, new Rectangle(xFloat, yFloat, xmFloat, ymFloat));//border추가
             //g.DrawRectangle(RedPen, new Rectangle(0, 0, 10, 10));//border추가
 
 
-            if (ThumbnailImage.Image != null)
-                ThumbnailImage.Image.Dispose();
+            if (thumbnail.getPictureBoxThumbnailImage().Image != null)
+                thumbnail.getPictureBoxThumbnailImage().Image.Dispose();
 
-            ThumbnailImage.InitialImage = null;
-            ThumbnailImage.Image = tempBitmap;
-            ThumbnailImage.Refresh();
+            thumbnail.getPictureBoxThumbnailImage().InitialImage = null;
+            thumbnail.getPictureBoxThumbnailImage().Image = tempBitmap;
+            thumbnail.getPictureBoxThumbnailImage().Refresh();
 
 
             RedPen.Dispose();
             g.Dispose();
         }
 
-        private void ZoomController_ValueChanged(object sender, EventArgs e)
+        private void setNewZoomScale(int newZoomScale)
         {
-
             //축소
-            if (preZoomScale < ZoomController.Value)
+            if (preZoomScale < newZoomScale)
             {
-                for (int i = preZoomScale; i < ZoomController.Value; i++)
+                for (int i = preZoomScale; i < newZoomScale; i++)
                 {
                     if (i == 0)
                     {
@@ -1199,24 +1201,22 @@ namespace MergeImage
                         top -= (int)((DataPanel.Height / 2) / zoomScale);
                         left -= (int)((DataPanel.Width / 2) / zoomScale);
                         zoomScale = 0.1;
-
                     }
                     else if (i == 3)
                     {
                         top -= (int)((DataPanel.Height / 2) / zoomScale);
                         left -= (int)((DataPanel.Width / 2) / zoomScale);
                         zoomScale = 0.05;
-
                     }
                 }
-                preZoomScale = ZoomController.Value;
+                preZoomScale = newZoomScale;
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
             //확대
-            else if (preZoomScale > ZoomController.Value)
+            else if (preZoomScale > newZoomScale)
             {
-                for (int i = preZoomScale; i > ZoomController.Value; i--)
+                for (int i = preZoomScale; i > newZoomScale; i--)
                 {
                     if (i == 1)
                     {
@@ -1245,12 +1245,11 @@ namespace MergeImage
 
                     }
                 }
-                preZoomScale = ZoomController.Value;
+                preZoomScale = newZoomScale;
                 zoomScale = Math.Round(zoomScale * 100) / 100;
                 drawImage(filterSlidesFullName);
             }
         }
-
 
         private void btnN_Click(object sender, EventArgs e)
         {
@@ -1538,10 +1537,12 @@ namespace MergeImage
         {
             if (btnType.Text == "A타입")
             {
+                btnType.Image = Properties.Resources.B;
                 btnType.Text = "B타입";
             }
             else
             {
+                btnType.Image = Properties.Resources.A;
                 btnType.Text = "A타입";
             }
             drawImage(filterSlidesFullName);
@@ -1816,6 +1817,80 @@ namespace MergeImage
         private void btnChangeFolder_MouseUp(object sender, MouseEventArgs e)
         {
             btnChangeFolder.Image = global::MergeImage.Properties.Resources.폴더;
+        }
+
+        private void btnScale1x_Click(object sender, EventArgs e)
+        {
+            btnScale1x.Top = -15;
+            btnScale2x.Top = -22;
+            btnScale4x.Top = -22;
+            btnScale10x.Top = -22;
+            btnScale20x.Top = -22;
+
+            setNewZoomScale(4);
+
+        }
+
+        private void btnScale2x_Click(object sender, EventArgs e)
+        {
+            btnScale1x.Top = -22;
+            btnScale2x.Top = -15;
+            btnScale4x.Top = -22;
+            btnScale10x.Top = -22;
+            btnScale20x.Top = -22;
+
+            setNewZoomScale(3);
+
+        }
+
+        private void btnScale4x_Click(object sender, EventArgs e)
+        {
+            btnScale1x.Top = -22;
+            btnScale2x.Top = -22;
+            btnScale4x.Top = -15;
+            btnScale10x.Top = -22;
+            btnScale20x.Top = -22;
+
+            setNewZoomScale(2);
+
+        }
+
+        private void btnScale10x_Click(object sender, EventArgs e)
+        {
+            btnScale1x.Top = -22;
+            btnScale2x.Top = -22;
+            btnScale4x.Top = -22;
+            btnScale10x.Top = -15;
+            btnScale20x.Top = -22;
+
+            setNewZoomScale(1);
+        }
+
+        private void btnScale20x_Click(object sender, EventArgs e)
+        {
+            btnScale1x.Top = -22;
+            btnScale2x.Top = -22;
+            btnScale4x.Top = -22;
+            btnScale10x.Top = -22;
+            btnScale20x.Top = -15;
+
+            setNewZoomScale(0);
+        }
+
+        private void btnThumbnail_Click(object sender, EventArgs e)
+        {
+            if (btnThumbnail.Text == "on")
+            {
+                btnThumbnail.Image = Properties.Resources.돋보기눌린거;
+                btnThumbnail.Text = "off";
+                thumbnail.Show();
+            }
+            else
+            {
+                btnThumbnail.Image = Properties.Resources.돋보기;
+                btnThumbnail.Text = "on";
+                thumbnail.Hide();
+            }
         }
 
         // Count Total Image, Checked Image, UnChecked Image numbers;

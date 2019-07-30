@@ -122,6 +122,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Thumbnail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Thumbnail.Designer.cs">
+      <DependentUpon>Thumbnail.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -135,6 +141,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Thumbnail.resx">
+      <DependentUpon>Thumbnail.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -149,6 +158,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Thumbnail3.png" />
+    <None Include="Resources\Thumbnail2.png" />
+    <None Include="Resources\Thumbnail1.png" />
+    <None Include="Resources\Thumbnail5.png" />
+    <None Include="Resources\Thumbnail4.png" />
+    <None Include="Resources\Thumbnail.png" />
+    <None Include="Resources\텍스트상자테두리없음.png" />
+    <None Include="Resources\상태.png" />
+    <None Include="Resources\바3.png" />
+    <None Include="Resources\바.png" />
+    <None Include="Resources\바2.png" />
+    <None Include="Resources\텍스트박스.png" />
+    <None Include="Resources\경로.png" />
+    <None Include="Resources\돋보기.png" />
+    <None Include="Resources\돋보기눌린거.png" />
     <None Include="Resources\폴더눌린거.png" />
     <None Include="Resources\폴더.png" />
     <None Include="Resources\마스크눌린거.png" />
@@ -180,6 +204,13 @@
     <None Include="Resources\RedPen.png" />
     <None Include="Resources\blue20.png" />
     <None Include="Resources\blue10.png" />
+    <None Include="Resources\A.png" />
+    <None Include="Resources\B.png" />
+    <None Include="Resources\1x.png" />
+    <None Include="Resources\2x.png" />
+    <None Include="Resources\4x.png" />
+    <None Include="Resources\10x.png" />
+    <None Include="Resources\20x.png" />
     <Content Include="Resources\blue100.png" />
     <None Include="Resources\blue5.png" />
     <Content Include="Resources\blue50.png" />
