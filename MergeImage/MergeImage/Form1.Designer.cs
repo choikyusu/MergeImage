@@ -44,8 +44,11 @@
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dtpDate = new System.Windows.Forms.DateTimePicker();
             this.gridMergeImage = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imagePath = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.DataPanel = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.lbTotal = new System.Windows.Forms.Label();
             this.lbUnChecked = new System.Windows.Forms.Label();
@@ -53,8 +56,6 @@
             this.lbTotalCount = new System.Windows.Forms.Label();
             this.lbCheckedCount = new System.Windows.Forms.Label();
             this.lbUnCheckedCount = new System.Windows.Forms.Label();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnThumbnail = new System.Windows.Forms.PictureBox();
             this.btnScale10x = new System.Windows.Forms.PictureBox();
             this.btnScale4x = new System.Windows.Forms.PictureBox();
@@ -74,7 +75,6 @@
             this.btnA = new System.Windows.Forms.PictureBox();
             this.btnPen = new System.Windows.Forms.PictureBox();
             this.btnMove = new System.Windows.Forms.PictureBox();
-            this.DataPanel = new System.Windows.Forms.PictureBox();
             this.btnScale20x = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -88,9 +88,11 @@
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnThumbnail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale10x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale4x)).BeginInit();
@@ -110,7 +112,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMove)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale20x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -285,6 +286,20 @@
             this.gridMergeImage.TabIndex = 201;
             this.gridMergeImage.SelectionChanged += new System.EventHandler(this.gridMergeImageRowChange);
             // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 93;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "확인";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 30;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.DataPanel);
@@ -292,6 +307,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1389, 904);
             this.panel1.TabIndex = 214;
+            // 
+            // DataPanel
+            // 
+            this.DataPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DataPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.DataPanel.Location = new System.Drawing.Point(-500, -500);
+            this.DataPanel.Name = "DataPanel";
+            this.DataPanel.Size = new System.Drawing.Size(2390, 1904);
+            this.DataPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.DataPanel.TabIndex = 200;
+            this.DataPanel.TabStop = false;
+            this.DataPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseDown);
+            this.DataPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseMove);
+            this.DataPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseUp);
+            this.DataPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseWheel);
             // 
             // contextMenuStrip1
             // 
@@ -360,20 +392,6 @@
             this.lbUnCheckedCount.TabIndex = 226;
             this.lbUnCheckedCount.Text = "- -";
             // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 93;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "확인";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 30;
-            // 
             // btnThumbnail
             // 
             this.btnThumbnail.Image = global::MergeImage.Properties.Resources.돋보기;
@@ -387,8 +405,9 @@
             // 
             // btnScale10x
             // 
+            this.btnScale10x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScale10x.Image = global::MergeImage.Properties.Resources._10x;
-            this.btnScale10x.Location = new System.Drawing.Point(1526, -14);
+            this.btnScale10x.Location = new System.Drawing.Point(1284, -22);
             this.btnScale10x.Name = "btnScale10x";
             this.btnScale10x.Size = new System.Drawing.Size(34, 55);
             this.btnScale10x.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -398,8 +417,9 @@
             // 
             // btnScale4x
             // 
+            this.btnScale4x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScale4x.Image = global::MergeImage.Properties.Resources._4x;
-            this.btnScale4x.Location = new System.Drawing.Point(1487, -14);
+            this.btnScale4x.Location = new System.Drawing.Point(1245, -22);
             this.btnScale4x.Name = "btnScale4x";
             this.btnScale4x.Size = new System.Drawing.Size(34, 55);
             this.btnScale4x.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -409,8 +429,9 @@
             // 
             // btnScale2x
             // 
+            this.btnScale2x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScale2x.Image = global::MergeImage.Properties.Resources._2x;
-            this.btnScale2x.Location = new System.Drawing.Point(1448, -14);
+            this.btnScale2x.Location = new System.Drawing.Point(1206, -22);
             this.btnScale2x.Name = "btnScale2x";
             this.btnScale2x.Size = new System.Drawing.Size(34, 55);
             this.btnScale2x.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -420,8 +441,9 @@
             // 
             // btnScale1x
             // 
+            this.btnScale1x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScale1x.Image = global::MergeImage.Properties.Resources._1x;
-            this.btnScale1x.Location = new System.Drawing.Point(1409, -14);
+            this.btnScale1x.Location = new System.Drawing.Point(1167, -22);
             this.btnScale1x.Name = "btnScale1x";
             this.btnScale1x.Size = new System.Drawing.Size(34, 55);
             this.btnScale1x.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -431,8 +453,9 @@
             // 
             // btnType
             // 
+            this.btnType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnType.Image = global::MergeImage.Properties.Resources.A;
-            this.btnType.Location = new System.Drawing.Point(1335, 7);
+            this.btnType.Location = new System.Drawing.Point(1539, 7);
             this.btnType.Name = "btnType";
             this.btnType.Size = new System.Drawing.Size(47, 34);
             this.btnType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -455,8 +478,9 @@
             // 
             // btnCursor
             // 
+            this.btnCursor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCursor.Image = global::MergeImage.Properties.Resources.커서눌린거;
-            this.btnCursor.Location = new System.Drawing.Point(1282, 7);
+            this.btnCursor.Location = new System.Drawing.Point(1486, 7);
             this.btnCursor.Name = "btnCursor";
             this.btnCursor.Size = new System.Drawing.Size(47, 34);
             this.btnCursor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -466,8 +490,9 @@
             // 
             // btnOnOff
             // 
+            this.btnOnOff.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOnOff.Image = global::MergeImage.Properties.Resources.마스크눌린거;
-            this.btnOnOff.Location = new System.Drawing.Point(1229, 7);
+            this.btnOnOff.Location = new System.Drawing.Point(1433, 7);
             this.btnOnOff.Name = "btnOnOff";
             this.btnOnOff.Size = new System.Drawing.Size(47, 34);
             this.btnOnOff.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -490,8 +515,9 @@
             // 
             // btnConfirm
             // 
+            this.btnConfirm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnConfirm.Image = global::MergeImage.Properties.Resources.확인버튼;
-            this.btnConfirm.Location = new System.Drawing.Point(1167, 7);
+            this.btnConfirm.Location = new System.Drawing.Point(1371, 7);
             this.btnConfirm.Name = "btnConfirm";
             this.btnConfirm.Size = new System.Drawing.Size(47, 34);
             this.btnConfirm.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -593,27 +619,11 @@
             this.btnMove.TabStop = false;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
-            // DataPanel
-            // 
-            this.DataPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DataPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.DataPanel.Location = new System.Drawing.Point(-500, -500);
-            this.DataPanel.Name = "DataPanel";
-            this.DataPanel.Size = new System.Drawing.Size(2390, 1904);
-            this.DataPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.DataPanel.TabIndex = 200;
-            this.DataPanel.TabStop = false;
-            this.DataPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseDown);
-            this.DataPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseMove);
-            this.DataPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseUp);
-            this.DataPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseWheel);
-            // 
             // btnScale20x
             // 
+            this.btnScale20x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnScale20x.Image = global::MergeImage.Properties.Resources._20x;
-            this.btnScale20x.Location = new System.Drawing.Point(1565, -7);
+            this.btnScale20x.Location = new System.Drawing.Point(1323, -15);
             this.btnScale20x.Name = "btnScale20x";
             this.btnScale20x.Size = new System.Drawing.Size(34, 55);
             this.btnScale20x.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -643,6 +653,7 @@
             // 
             // pictureBox3
             // 
+            this.pictureBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox3.Image = global::MergeImage.Properties.Resources.바;
             this.pictureBox3.Location = new System.Drawing.Point(1155, 1);
             this.pictureBox3.Name = "pictureBox3";
@@ -666,8 +677,8 @@
             this.pictureBox5.Image = global::MergeImage.Properties.Resources.바3;
             this.pictureBox5.Location = new System.Drawing.Point(639, 1);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(522, 47);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox5.Size = new System.Drawing.Size(584, 47);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 251;
             this.pictureBox5.TabStop = false;
             // 
@@ -746,7 +757,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(132)))), ((int)(((byte)(132)))));
             this.ClientSize = new System.Drawing.Size(1884, 961);
             this.Controls.Add(this.btnThumbnail);
             this.Controls.Add(this.btnScale10x);
@@ -799,6 +810,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).EndInit();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnThumbnail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale10x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale4x)).EndInit();
@@ -818,7 +830,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMove)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale20x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -891,6 +902,7 @@
         private System.Windows.Forms.PictureBox pictureBox6;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

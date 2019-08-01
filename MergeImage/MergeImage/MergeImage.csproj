@@ -158,9 +158,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Thumbnail1.png" />
     <None Include="Resources\Thumbnail3.png" />
     <None Include="Resources\Thumbnail2.png" />
-    <None Include="Resources\Thumbnail1.png" />
     <None Include="Resources\Thumbnail5.png" />
     <None Include="Resources\Thumbnail4.png" />
     <None Include="Resources\Thumbnail.png" />
