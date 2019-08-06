@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle97 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle98 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle99 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle100 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle101 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle102 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tbxFolderPath = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -48,7 +48,6 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imagePath = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.DataPanel = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.lbTotal = new System.Windows.Forms.Label();
             this.lbUnChecked = new System.Windows.Forms.Label();
@@ -56,6 +55,7 @@
             this.lbTotalCount = new System.Windows.Forms.Label();
             this.lbCheckedCount = new System.Windows.Forms.Label();
             this.lbUnCheckedCount = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.btnThumbnail = new System.Windows.Forms.PictureBox();
             this.btnScale10x = new System.Windows.Forms.PictureBox();
             this.btnScale4x = new System.Windows.Forms.PictureBox();
@@ -75,6 +75,7 @@
             this.btnA = new System.Windows.Forms.PictureBox();
             this.btnPen = new System.Windows.Forms.PictureBox();
             this.btnMove = new System.Windows.Forms.PictureBox();
+            this.DataPanel = new System.Windows.Forms.PictureBox();
             this.btnScale20x = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -88,11 +89,9 @@
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnThumbnail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale10x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale4x)).BeginInit();
@@ -112,6 +111,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMove)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale20x)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -159,13 +159,13 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.dataGridView1.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
             this.dataGridView1.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle97.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomCenter;
+            dataGridViewCellStyle97.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle97.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle97.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle97.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle97.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle97;
             this.dataGridView1.ColumnHeadersHeight = 20;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -173,27 +173,27 @@
             this.Column3,
             this.dataGridViewTextBoxColumn1,
             this.Column1});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle98.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle98.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle98.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle98.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle98.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle98.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle98.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle98;
             this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(148, 101);
+            this.dataGridView1.Location = new System.Drawing.Point(149, 114);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle99.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle99.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle99.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle99.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle99.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle99.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle99.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle99;
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 20;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -246,39 +246,39 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.gridMergeImage.BackgroundColor = System.Drawing.SystemColors.InactiveBorder;
             this.gridMergeImage.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomCenter;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.LightYellow;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            this.gridMergeImage.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle100.Alignment = System.Windows.Forms.DataGridViewContentAlignment.BottomCenter;
+            dataGridViewCellStyle100.BackColor = System.Drawing.Color.LightYellow;
+            dataGridViewCellStyle100.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle100.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle100.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle100.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.gridMergeImage.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle100;
             this.gridMergeImage.ColumnHeadersHeight = 20;
             this.gridMergeImage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.gridMergeImage.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
             this.Column4});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridMergeImage.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle101.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle101.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle101.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle101.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle101.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle101.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle101.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridMergeImage.DefaultCellStyle = dataGridViewCellStyle101;
             this.gridMergeImage.EnableHeadersVisualStyles = false;
-            this.gridMergeImage.Location = new System.Drawing.Point(1, 100);
+            this.gridMergeImage.Location = new System.Drawing.Point(2, 113);
             this.gridMergeImage.MultiSelect = false;
             this.gridMergeImage.Name = "gridMergeImage";
             this.gridMergeImage.ReadOnly = true;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridMergeImage.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle102.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle102.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle102.Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            dataGridViewCellStyle102.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle102.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle102.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle102.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridMergeImage.RowHeadersDefaultCellStyle = dataGridViewCellStyle102;
             this.gridMergeImage.RowHeadersVisible = false;
             this.gridMergeImage.RowTemplate.Height = 20;
             this.gridMergeImage.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -302,28 +302,12 @@
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel1.Controls.Add(this.DataPanel);
             this.panel1.Location = new System.Drawing.Point(326, 60);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1389, 904);
             this.panel1.TabIndex = 214;
-            // 
-            // DataPanel
-            // 
-            this.DataPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.DataPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.DataPanel.Location = new System.Drawing.Point(-500, -500);
-            this.DataPanel.Name = "DataPanel";
-            this.DataPanel.Size = new System.Drawing.Size(2390, 1904);
-            this.DataPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.DataPanel.TabIndex = 200;
-            this.DataPanel.TabStop = false;
-            this.DataPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseDown);
-            this.DataPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseMove);
-            this.DataPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseUp);
-            this.DataPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseWheel);
             // 
             // contextMenuStrip1
             // 
@@ -335,7 +319,7 @@
             // 
             this.lbTotal.AutoSize = true;
             this.lbTotal.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.lbTotal.Location = new System.Drawing.Point(8, 53);
+            this.lbTotal.Location = new System.Drawing.Point(19, 66);
             this.lbTotal.Name = "lbTotal";
             this.lbTotal.Size = new System.Drawing.Size(57, 12);
             this.lbTotal.TabIndex = 226;
@@ -345,7 +329,7 @@
             // 
             this.lbUnChecked.AutoSize = true;
             this.lbUnChecked.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.lbUnChecked.Location = new System.Drawing.Point(169, 53);
+            this.lbUnChecked.Location = new System.Drawing.Point(222, 67);
             this.lbUnChecked.Name = "lbUnChecked";
             this.lbUnChecked.Size = new System.Drawing.Size(41, 12);
             this.lbUnChecked.TabIndex = 226;
@@ -356,7 +340,7 @@
             this.lbChecked.AutoSize = true;
             this.lbChecked.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
             this.lbChecked.ForeColor = System.Drawing.Color.Red;
-            this.lbChecked.Location = new System.Drawing.Point(94, 53);
+            this.lbChecked.Location = new System.Drawing.Point(132, 66);
             this.lbChecked.Name = "lbChecked";
             this.lbChecked.Size = new System.Drawing.Size(29, 12);
             this.lbChecked.TabIndex = 226;
@@ -366,7 +350,7 @@
             // 
             this.lbTotalCount.AutoSize = true;
             this.lbTotalCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.lbTotalCount.Location = new System.Drawing.Point(24, 73);
+            this.lbTotalCount.Location = new System.Drawing.Point(34, 86);
             this.lbTotalCount.Name = "lbTotalCount";
             this.lbTotalCount.Size = new System.Drawing.Size(21, 12);
             this.lbTotalCount.TabIndex = 226;
@@ -376,7 +360,7 @@
             // 
             this.lbCheckedCount.AutoSize = true;
             this.lbCheckedCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.lbCheckedCount.Location = new System.Drawing.Point(99, 73);
+            this.lbCheckedCount.Location = new System.Drawing.Point(137, 86);
             this.lbCheckedCount.Name = "lbCheckedCount";
             this.lbCheckedCount.Size = new System.Drawing.Size(21, 12);
             this.lbCheckedCount.TabIndex = 226;
@@ -386,7 +370,7 @@
             // 
             this.lbUnCheckedCount.AutoSize = true;
             this.lbUnCheckedCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.lbUnCheckedCount.Location = new System.Drawing.Point(170, 72);
+            this.lbUnCheckedCount.Location = new System.Drawing.Point(229, 86);
             this.lbUnCheckedCount.Name = "lbUnCheckedCount";
             this.lbUnCheckedCount.Size = new System.Drawing.Size(21, 12);
             this.lbUnCheckedCount.TabIndex = 226;
@@ -619,6 +603,23 @@
             this.btnMove.TabStop = false;
             this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
             // 
+            // DataPanel
+            // 
+            this.DataPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.DataPanel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.DataPanel.Location = new System.Drawing.Point(-491, -484);
+            this.DataPanel.Name = "DataPanel";
+            this.DataPanel.Size = new System.Drawing.Size(2390, 1904);
+            this.DataPanel.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.DataPanel.TabIndex = 200;
+            this.DataPanel.TabStop = false;
+            this.DataPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseDown);
+            this.DataPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseMove);
+            this.DataPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseUp);
+            this.DataPanel.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.DataPanel_MouseWheel);
+            // 
             // btnScale20x
             // 
             this.btnScale20x.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -686,9 +687,9 @@
             // 
             this.pictureBox7.BackColor = System.Drawing.Color.White;
             this.pictureBox7.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
-            this.pictureBox7.Location = new System.Drawing.Point(0, 47);
+            this.pictureBox7.Location = new System.Drawing.Point(1, 60);
             this.pictureBox7.Name = "pictureBox7";
-            this.pictureBox7.Size = new System.Drawing.Size(76, 23);
+            this.pictureBox7.Size = new System.Drawing.Size(96, 23);
             this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox7.TabIndex = 253;
             this.pictureBox7.TabStop = false;
@@ -696,9 +697,9 @@
             // pictureBox8
             // 
             this.pictureBox8.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
-            this.pictureBox8.Location = new System.Drawing.Point(0, 66);
+            this.pictureBox8.Location = new System.Drawing.Point(1, 79);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(76, 23);
+            this.pictureBox8.Size = new System.Drawing.Size(96, 23);
             this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox8.TabIndex = 254;
             this.pictureBox8.TabStop = false;
@@ -706,9 +707,9 @@
             // pictureBox11
             // 
             this.pictureBox11.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
-            this.pictureBox11.Location = new System.Drawing.Point(145, 47);
+            this.pictureBox11.Location = new System.Drawing.Point(195, 60);
             this.pictureBox11.Name = "pictureBox11";
-            this.pictureBox11.Size = new System.Drawing.Size(76, 23);
+            this.pictureBox11.Size = new System.Drawing.Size(96, 23);
             this.pictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox11.TabIndex = 257;
             this.pictureBox11.TabStop = false;
@@ -716,9 +717,9 @@
             // pictureBox12
             // 
             this.pictureBox12.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
-            this.pictureBox12.Location = new System.Drawing.Point(145, 66);
+            this.pictureBox12.Location = new System.Drawing.Point(195, 79);
             this.pictureBox12.Name = "pictureBox12";
-            this.pictureBox12.Size = new System.Drawing.Size(76, 23);
+            this.pictureBox12.Size = new System.Drawing.Size(96, 23);
             this.pictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox12.TabIndex = 258;
             this.pictureBox12.TabStop = false;
@@ -726,9 +727,9 @@
             // pictureBox9
             // 
             this.pictureBox9.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
-            this.pictureBox9.Location = new System.Drawing.Point(72, 47);
+            this.pictureBox9.Location = new System.Drawing.Point(98, 60);
             this.pictureBox9.Name = "pictureBox9";
-            this.pictureBox9.Size = new System.Drawing.Size(76, 23);
+            this.pictureBox9.Size = new System.Drawing.Size(96, 23);
             this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox9.TabIndex = 255;
             this.pictureBox9.TabStop = false;
@@ -736,9 +737,9 @@
             // pictureBox10
             // 
             this.pictureBox10.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
-            this.pictureBox10.Location = new System.Drawing.Point(72, 66);
+            this.pictureBox10.Location = new System.Drawing.Point(98, 79);
             this.pictureBox10.Name = "pictureBox10";
-            this.pictureBox10.Size = new System.Drawing.Size(76, 23);
+            this.pictureBox10.Size = new System.Drawing.Size(96, 23);
             this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox10.TabIndex = 256;
             this.pictureBox10.TabStop = false;
@@ -746,9 +747,9 @@
             // pictureBox6
             // 
             this.pictureBox6.Image = global::MergeImage.Properties.Resources.상태;
-            this.pictureBox6.Location = new System.Drawing.Point(0, 47);
+            this.pictureBox6.Location = new System.Drawing.Point(1, 60);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(221, 48);
+            this.pictureBox6.Size = new System.Drawing.Size(291, 48);
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox6.TabIndex = 252;
             this.pictureBox6.TabStop = false;
@@ -810,7 +811,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).EndInit();
             this.panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnThumbnail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale10x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale4x)).EndInit();
@@ -830,6 +830,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.btnA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnMove)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataPanel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnScale20x)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();

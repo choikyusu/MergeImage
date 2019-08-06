@@ -158,6 +158,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\그림1.png" />
     <None Include="Resources\Thumbnail1.png" />
     <None Include="Resources\Thumbnail3.png" />
     <None Include="Resources\Thumbnail2.png" />
