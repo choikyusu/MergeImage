@@ -129,14 +129,13 @@ namespace MergeImage
         {
 
             InitializeComponent();
+            thumbnail = new Thumbnail(ThumbnailImage_MouseDown, ThumbnailImage_MouseMove, ThumbnailImage_MouseUp);
 
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
             getDateImageList();
             readFileMergeImageStatus();
             getDateModifyImageList();
             loadMaskColor();
-
-            thumbnail = new Thumbnail(ThumbnailImage_MouseDown, ThumbnailImage_MouseMove, ThumbnailImage_MouseUp);
 
             btnOnOff.Text = "Mask on";
             btnCursor.Text = "Cursor on";
@@ -1069,10 +1068,10 @@ namespace MergeImage
             int pY = 0;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
-            wholeX = int.Parse(itemName.Split('-', '_')[2]) * 256;
-            wholeY = int.Parse(itemName.Split('-', '_')[1]) * 256;
-            pX = int.Parse(itemName.Split('-', '_')[4]) * 256;
-            pY = int.Parse(itemName.Split('-', '_')[3]) * 256;
+            wholeX = int.Parse(itemName.Split('-', '_')[2]) * 128;
+            wholeY = int.Parse(itemName.Split('-', '_')[1]) * 128;
+            pX = int.Parse(itemName.Split('-', '_')[4]) * 128;
+            pY = int.Parse(itemName.Split('-', '_')[3]) * 128;
 
             pXY.Add("wholeX", wholeX);
             pXY.Add("wholeY", wholeY);
@@ -1740,12 +1739,12 @@ namespace MergeImage
             string originalPath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
             string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
             string id = gridMergeImage.CurrentRow.Cells[0].Value.ToString();
-            id += "_" + wholeY/256 + "-" + wholeX/256;
+            id += "_" + wholeY/128 + "-" + wholeX/ 128;
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/256).ToString();
-                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/256).ToString();
+                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/ 128).ToString();
+                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/ 128).ToString();
                 string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
                 dstFullPath += id + "_" + pY + "-" + pX + ".jpg";
                 deleteTailsImages(dstFullPath);
@@ -1754,8 +1753,8 @@ namespace MergeImage
 
             foreach (DataGridViewRow row in pDataGridViewRows)
             {
-                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/256).ToString();
-                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/256).ToString();
+                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/ 128).ToString();
+                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/ 128).ToString();
 
                 string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
                 dstFullPath += id + "_" + pX + "-" + pY + ".jpg";
@@ -1903,6 +1902,11 @@ namespace MergeImage
                 btnThumbnail.Text = "on";
                 thumbnail.Hide();
             }
+        }
+
+        private void tbxFolderPath_TextChanged(object sender, EventArgs e)
+        {
+
         }
 
         // Count Total Image, Checked Image, UnChecked Image numbers;
