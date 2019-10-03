@@ -1909,6 +1909,24 @@ namespace MergeImage
 
         }
 
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.Width > 1740)
+            {
+                //1389, 904
+                //2390, 1904
+                int plusWidth = this.Width - 1740;
+                panel1.Width = 1389 + plusWidth;
+                DataPanel.Width = 2390 + plusWidth;
+            }
+            if (this.Height > 1020)
+            {
+                int plusHeight = this.Height - 1020;
+                panel1.Height = 904 + plusHeight;
+                DataPanel.Height = 1904 + plusHeight;
+            }
+        }
+
         // Count Total Image, Checked Image, UnChecked Image numbers;
         public void countSlide()
         {

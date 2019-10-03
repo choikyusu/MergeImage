@@ -47,28 +47,28 @@
             this.pictureBox5.Image = global::MergeImage.Properties.Resources.Thumbnail5;
             this.pictureBox5.Location = new System.Drawing.Point(1, 2);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(8, 258);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox5.Size = new System.Drawing.Size(10, 312);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 5;
             this.pictureBox5.TabStop = false;
             // 
             // pictureBox4
             // 
             this.pictureBox4.Image = global::MergeImage.Properties.Resources.Thumbnail4;
-            this.pictureBox4.Location = new System.Drawing.Point(-1, 254);
+            this.pictureBox4.Location = new System.Drawing.Point(4, 312);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(259, 7);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox4.Size = new System.Drawing.Size(312, 10);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 4;
             this.pictureBox4.TabStop = false;
             // 
             // pictureBox3
             // 
             this.pictureBox3.Image = global::MergeImage.Properties.Resources.Thumbnail3;
-            this.pictureBox3.Location = new System.Drawing.Point(252, 0);
+            this.pictureBox3.Location = new System.Drawing.Point(313, -2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(9, 258);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox3.Size = new System.Drawing.Size(10, 323);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 3;
             this.pictureBox3.TabStop = false;
             // 
@@ -76,9 +76,9 @@
             // 
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.SizeAll;
             this.pictureBox1.Image = global::MergeImage.Properties.Resources.Thumbnail1;
-            this.pictureBox1.Location = new System.Drawing.Point(230, -1);
+            this.pictureBox1.Location = new System.Drawing.Point(291, -1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(31, 32);
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -90,8 +90,8 @@
             this.pictureBox2.Image = global::MergeImage.Properties.Resources.Thumbnail2;
             this.pictureBox2.Location = new System.Drawing.Point(1, -1);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(259, 10);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.Size = new System.Drawing.Size(320, 10);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
             // 
@@ -99,7 +99,7 @@
             // 
             this.ThumbnailImage.Location = new System.Drawing.Point(13, 12);
             this.ThumbnailImage.Name = "ThumbnailImage";
-            this.ThumbnailImage.Size = new System.Drawing.Size(236, 237);
+            this.ThumbnailImage.Size = new System.Drawing.Size(302, 300);
             this.ThumbnailImage.TabIndex = 1;
             this.ThumbnailImage.TabStop = false;
             // 
@@ -107,7 +107,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(261, 261);
+            this.ClientSize = new System.Drawing.Size(321, 321);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.pictureBox3);
