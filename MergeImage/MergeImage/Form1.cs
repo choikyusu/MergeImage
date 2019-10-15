@@ -708,13 +708,13 @@ namespace MergeImage
 
                 Parallel.ForEach(filterSlidesFullName, (item) =>
                 {
-                    if (item.Replace("\\","/").Contains("/N/"))
+                    if (item.Replace("\\","/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/N/"))
                         dicNADMRate["N"]++;
-                    else if (item.Replace("\\", "/").Contains("/A/"))
+                    else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/A/"))
                         dicNADMRate["A"]++;
-                    else if (item.Replace("\\", "/").Contains("/D/"))
+                    else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/D/"))
                         dicNADMRate["D"]++;
-                    else if (item.Replace("\\", "/").Contains("/M/"))
+                    else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/M/"))
                         dicNADMRate["M"]++;
 
                     Bitmap img = new Bitmap(item);
@@ -1509,19 +1509,10 @@ namespace MergeImage
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
 
             int totalCount = dicTempNADMRate["N"] + dicTempNADMRate["A"] + dicTempNADMRate["D"] + dicTempNADMRate["M"];
-            int n = dicTempNADMRate["N"] * 100 / totalCount;
-            int a = dicTempNADMRate["A"] * 100 / totalCount;
-            int d = dicTempNADMRate["D"] * 100 / totalCount;
-            int m = dicTempNADMRate["M"] * 100 / totalCount;
-
-            if (n + a + d + m == 96)
-                n += 4;
-            else if (n + a + d + m == 97)
-                n += 3;
-            else if (n + a + d + m == 98)
-                n += 2;
-            else if (n + a + d + m == 99)
-                n += 1;
+            double n = Math.Round((double)dicTempNADMRate["N"] * 100 / totalCount, 2);
+            double a = Math.Round((double)dicTempNADMRate["A"] * 100 / totalCount, 2);
+            double d = Math.Round((double)dicTempNADMRate["D"] * 100 / totalCount, 2);
+            double m = Math.Round((double)dicTempNADMRate["M"] * 100 / totalCount, 2);
 
             lblN.Text = (n).ToString() + " %";
             lblA.Text = (a).ToString() + " %";
