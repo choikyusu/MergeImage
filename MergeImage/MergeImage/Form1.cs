@@ -816,7 +816,7 @@ namespace MergeImage
                 if (img == null)
                     continue;
 
-                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width, img.Height);
+                g.DrawImage(img, (int)((tempSize["pX"] - Left1) * zoomScale), (int)((tempSize["pY"] - Top1) * zoomScale), img.Width + 1, img.Height + 1);
 
                 if (btnType.Text == "B타입")
                 {
@@ -1003,7 +1003,7 @@ namespace MergeImage
                 wholeY = tempSize["wholeY"];
                 Bitmap img = dicBitmap100[filename];
                 g.DrawImage(img, (int)((tempSize["pX"] - startPointX) * scales), (int)((tempSize["pY"] - startPointY) * scales),
-                    (int)(imagePixels["width"] * (scales)), (int)(imagePixels["height"] * (scales)));
+                    (int)(imagePixels["width"] * (scales)) + 1, (int)(imagePixels["height"] * (scales)) + 1);
             }
 
 
