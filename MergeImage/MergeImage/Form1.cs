@@ -73,6 +73,8 @@ namespace MergeImage
         ConcurrentDictionary<string, Bitmap> dicBitmap10 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap5 = new ConcurrentDictionary<string, Bitmap>();
 
+        ConcurrentDictionary<string, int> dicNADMRate = new ConcurrentDictionary<string, int>();
+
 
         List<string> selectedCursor = new List<string>();
 
@@ -664,9 +666,15 @@ namespace MergeImage
 
         private void gridMergeImageRowChange(object sender, EventArgs e)
         {
-            
             if (gridMergeImage.SelectedRows.Count > 0)
             {
+                dicNADMRate.Clear();
+                dicNADMRate.TryAdd("N", 0);
+                dicNADMRate.TryAdd("A", 0);
+                dicNADMRate.TryAdd("D", 0);
+                dicNADMRate.TryAdd("M", 0);
+
+
                 preStack.Clear();
                 nextStack.Clear();
                 clearScaleBitmap();
@@ -700,32 +708,41 @@ namespace MergeImage
 
                 Parallel.ForEach(filterSlidesFullName, (item) =>
                 {
-                        Bitmap img = new Bitmap(item);
-                        dicBitmap100.TryAdd(item, img);
+                    if (item.Replace("\\","/").Contains("/N/"))
+                        dicNADMRate["N"]++;
+                    else if (item.Replace("\\", "/").Contains("/A/"))
+                        dicNADMRate["A"]++;
+                    else if (item.Replace("\\", "/").Contains("/D/"))
+                        dicNADMRate["D"]++;
+                    else if (item.Replace("\\", "/").Contains("/M/"))
+                        dicNADMRate["M"]++;
 
-                        int width = (int)(img.Width * 0.5);
-                        int height = (int)(img.Height * 0.5);
-                        Size resize = new Size(width, height);
-                        Bitmap image50 = new Bitmap(img, resize);
-                        dicBitmap50.TryAdd(item, image50);
+                    Bitmap img = new Bitmap(item);
+                    dicBitmap100.TryAdd(item, img);
 
-                        width = (int)(img.Width * 0.2);
-                        height = (int)(img.Height * 0.2);
-                        resize = new Size(width, height);
-                        Bitmap image20 = new Bitmap(img, resize);
-                        dicBitmap20.TryAdd(item, image20);
+                    int width = (int)(img.Width * 0.5);
+                    int height = (int)(img.Height * 0.5);
+                    Size resize = new Size(width, height);
+                    Bitmap image50 = new Bitmap(img, resize);
+                    dicBitmap50.TryAdd(item, image50);
 
-                        width = (int)(img.Width * 0.1);
-                        height = (int)(img.Height * 0.1);
-                        resize = new Size(width, height);
-                        Bitmap image10 = new Bitmap(img, resize);
-                        dicBitmap10.TryAdd(item, image10);
+                    width = (int)(img.Width * 0.2);
+                    height = (int)(img.Height * 0.2);
+                    resize = new Size(width, height);
+                    Bitmap image20 = new Bitmap(img, resize);
+                    dicBitmap20.TryAdd(item, image20);
 
-                        width = (int)(img.Width * 0.05);
-                        height = (int)(img.Height * 0.05);
-                        resize = new Size(width, height);
-                        Bitmap image5 = new Bitmap(img, resize);
-                        dicBitmap5.TryAdd(item, image5);
+                    width = (int)(img.Width * 0.1);
+                    height = (int)(img.Height * 0.1);
+                    resize = new Size(width, height);
+                    Bitmap image10 = new Bitmap(img, resize);
+                    dicBitmap10.TryAdd(item, image10);
+
+                    width = (int)(img.Width * 0.05);
+                    height = (int)(img.Height * 0.05);
+                    resize = new Size(width, height);
+                    Bitmap image5 = new Bitmap(img, resize);
+                    dicBitmap5.TryAdd(item, image5);
                 }
                 );
                 getDateModifyImageList();
@@ -733,7 +750,6 @@ namespace MergeImage
                 drawImage(filterSlidesFullName);
                 drawThumbnailImage(filterSlidesFullName);
                 drawThumbnailImageViewborder();
-                
             }
         }
 
@@ -1068,10 +1084,10 @@ namespace MergeImage
             int pY = 0;
             itemName = itemName.Split('\\').Last();
             itemName = itemName.Split('.')[0];
-            wholeX = int.Parse(itemName.Split('-', '_')[2]) * 128;
-            wholeY = int.Parse(itemName.Split('-', '_')[1]) * 128;
-            pX = int.Parse(itemName.Split('-', '_')[4]) * 128;
-            pY = int.Parse(itemName.Split('-', '_')[3]) * 128;
+            wholeX = int.Parse(itemName.Split('-', '_')[2]) * 256;
+            wholeY = int.Parse(itemName.Split('-', '_')[1]) * 256;
+            pX = int.Parse(itemName.Split('-', '_')[4]) * 256;
+            pY = int.Parse(itemName.Split('-', '_')[3]) * 256;
 
             pXY.Add("wholeX", wholeX);
             pXY.Add("wholeY", wholeY);
@@ -1443,6 +1459,12 @@ namespace MergeImage
         }
         public void addModifyImageListToDataGridView1()
         {
+            ConcurrentDictionary<string, int> dicTempNADMRate = new ConcurrentDictionary<string, int>();
+            dicTempNADMRate.TryAdd("N", dicNADMRate["N"]);
+            dicTempNADMRate.TryAdd("A", dicNADMRate["A"]);
+            dicTempNADMRate.TryAdd("D", dicNADMRate["D"]);
+            dicTempNADMRate.TryAdd("M", dicNADMRate["M"]);
+
             string pStyle = "";
             this.dataGridView1.SelectionChanged -= new System.EventHandler(this.dataGridView1_SelectionChanged);
             Stopwatch stopwatch2 = new Stopwatch(); //객체 선언
@@ -1475,10 +1497,36 @@ namespace MergeImage
                 }
                 dataGridView1.Rows.Add(location["pX"], location["pY"], pStyle, modifySlideStyle); 
             }
+            
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                dicTempNADMRate[row.Cells[2].Value.ToString()]--;
+                dicTempNADMRate[row.Cells[3].Value.ToString()]++;
+            }
 
             stopwatch2.Stop();
             System.Console.WriteLine("addModifyImageListToDataGridView1 time : " + stopwatch2.ElapsedMilliseconds + "ms");
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+
+            int totalCount = dicTempNADMRate["N"] + dicTempNADMRate["A"] + dicTempNADMRate["D"] + dicTempNADMRate["M"];
+            int n = dicTempNADMRate["N"] * 100 / totalCount;
+            int a = dicTempNADMRate["A"] * 100 / totalCount;
+            int d = dicTempNADMRate["D"] * 100 / totalCount;
+            int m = dicTempNADMRate["M"] * 100 / totalCount;
+
+            if (n + a + d + m == 96)
+                n += 4;
+            else if (n + a + d + m == 97)
+                n += 3;
+            else if (n + a + d + m == 98)
+                n += 2;
+            else if (n + a + d + m == 99)
+                n += 1;
+
+            lblN.Text = (n).ToString() + " %";
+            lblA.Text = (a).ToString() + " %";
+            lblD.Text = (d).ToString() + " %";
+            lblM.Text = (m).ToString() + " %";
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -1739,12 +1787,12 @@ namespace MergeImage
             string originalPath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
             string basePath = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd") + "\\modify";
             string id = gridMergeImage.CurrentRow.Cells[0].Value.ToString();
-            id += "_" + wholeY/128 + "-" + wholeX/ 128;
+            id += "_" + wholeY/128 + "-" + wholeX/ 256;
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/ 128).ToString();
-                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/ 128).ToString();
+                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/ 256).ToString();
+                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/ 256).ToString();
                 string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
                 dstFullPath += id + "_" + pY + "-" + pX + ".jpg";
                 deleteTailsImages(dstFullPath);
@@ -1753,8 +1801,8 @@ namespace MergeImage
 
             foreach (DataGridViewRow row in pDataGridViewRows)
             {
-                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/ 128).ToString();
-                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/ 128).ToString();
+                string pX = (Int32.Parse(row.Cells[0].Value.ToString())/ 256).ToString();
+                string pY = (Int32.Parse(row.Cells[1].Value.ToString())/ 256).ToString();
 
                 string dstFullPath = basePath + "\\" + row.Cells[3].Value.ToString() + "\\";
                 dstFullPath += id + "_" + pX + "-" + pY + ".jpg";
@@ -1927,6 +1975,35 @@ namespace MergeImage
             }
         }
 
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            Process cmd = new Process();
+            cmd.StartInfo.FileName = "cmd.exe";
+            cmd.StartInfo.RedirectStandardInput = true;
+            cmd.StartInfo.RedirectStandardOutput = true;
+            cmd.StartInfo.RedirectStandardError = true;
+            cmd.StartInfo.CreateNoWindow = true;
+            cmd.StartInfo.UseShellExecute = false;
+            cmd.EnableRaisingEvents = true;
+            cmd.Start();
+
+            cmd.OutputDataReceived += (object sending_process, DataReceivedEventArgs ev) =>
+            {
+                if (ev.Data != null)
+                {
+                    this.Invoke(new Action(delegate () // this == Form 이다. Form이 아닌 컨트롤의 Invoke를 직접호출해도 무방하다.
+                    {
+                        label1.Text += Environment.NewLine + ev.Data;
+                    }));
+                }
+            };
+
+            cmd.StandardInput.WriteLine(@"cd C:\Users\kaist01\Desktop\Showing\");
+            cmd.StandardInput.WriteLine(@"python demo.py");
+            cmd.BeginOutputReadLine();
+            cmd.Close();
+        }
+
         // Count Total Image, Checked Image, UnChecked Image numbers;
         public void countSlide()
         {
@@ -1950,13 +2027,6 @@ namespace MergeImage
             lbCheckedCount.Text = checkedNumber.ToString();
             lbUnCheckedCount.Text = unCheckedNumber.ToString();
         }
-
-
-
-
-
-
-
 
     }
 }

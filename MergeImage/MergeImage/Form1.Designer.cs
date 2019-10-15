@@ -48,6 +48,8 @@
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.imagePath = new System.Windows.Forms.FolderBrowserDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.DataPanel = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.lbTotal = new System.Windows.Forms.Label();
@@ -89,6 +91,23 @@
             this.pictureBox9 = new System.Windows.Forms.PictureBox();
             this.pictureBox10 = new System.Windows.Forms.PictureBox();
             this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.btnStart = new System.Windows.Forms.Button();
+            this.lblN = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.pictureBox13 = new System.Windows.Forms.PictureBox();
+            this.pictureBox14 = new System.Windows.Forms.PictureBox();
+            this.lblA = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pictureBox15 = new System.Windows.Forms.PictureBox();
+            this.pictureBox16 = new System.Windows.Forms.PictureBox();
+            this.lblD = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.pictureBox17 = new System.Windows.Forms.PictureBox();
+            this.pictureBox18 = new System.Windows.Forms.PictureBox();
+            this.lblM = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.pictureBox19 = new System.Windows.Forms.PictureBox();
+            this.pictureBox20 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridMergeImage)).BeginInit();
             this.panel1.SuspendLayout();
@@ -125,6 +144,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).BeginInit();
             this.SuspendLayout();
             // 
             // tbxFolderPath
@@ -183,7 +210,7 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(149, 114);
+            this.dataGridView1.Location = new System.Drawing.Point(149, 150);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
@@ -268,7 +295,7 @@
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.gridMergeImage.DefaultCellStyle = dataGridViewCellStyle5;
             this.gridMergeImage.EnableHeadersVisualStyles = false;
-            this.gridMergeImage.Location = new System.Drawing.Point(2, 113);
+            this.gridMergeImage.Location = new System.Drawing.Point(2, 149);
             this.gridMergeImage.MultiSelect = false;
             this.gridMergeImage.Name = "gridMergeImage";
             this.gridMergeImage.ReadOnly = true;
@@ -304,11 +331,33 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.DataPanel);
             this.panel1.Location = new System.Drawing.Point(326, 60);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1389, 904);
             this.panel1.TabIndex = 214;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label2.Location = new System.Drawing.Point(636, 90);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(261, 387);
+            this.label2.TabIndex = 261;
+            this.label2.Text = "label1";
+            this.label2.Visible = false;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label1.Location = new System.Drawing.Point(319, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(261, 387);
+            this.label1.TabIndex = 260;
+            this.label1.Text = "label1";
+            this.label1.Visible = false;
             // 
             // DataPanel
             // 
@@ -750,10 +799,180 @@
             this.pictureBox6.Image = global::MergeImage.Properties.Resources.상태;
             this.pictureBox6.Location = new System.Drawing.Point(1, 60);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(291, 48);
+            this.pictureBox6.Size = new System.Drawing.Size(291, 92);
             this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox6.TabIndex = 252;
             this.pictureBox6.TabStop = false;
+            // 
+            // btnStart
+            // 
+            this.btnStart.Location = new System.Drawing.Point(1456, 5);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(93, 36);
+            this.btnStart.TabIndex = 259;
+            this.btnStart.Text = "컴펌 시작";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // lblN
+            // 
+            this.lblN.AutoSize = true;
+            this.lblN.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.lblN.Location = new System.Drawing.Point(22, 128);
+            this.lblN.Name = "lblN";
+            this.lblN.Size = new System.Drawing.Size(0, 12);
+            this.lblN.TabIndex = 260;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.label4.Location = new System.Drawing.Point(29, 108);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(14, 12);
+            this.label4.TabIndex = 261;
+            this.label4.Text = "N";
+            // 
+            // pictureBox13
+            // 
+            this.pictureBox13.BackColor = System.Drawing.Color.White;
+            this.pictureBox13.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox13.Location = new System.Drawing.Point(2, 102);
+            this.pictureBox13.Name = "pictureBox13";
+            this.pictureBox13.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox13.TabIndex = 262;
+            this.pictureBox13.TabStop = false;
+            // 
+            // pictureBox14
+            // 
+            this.pictureBox14.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox14.Location = new System.Drawing.Point(2, 121);
+            this.pictureBox14.Name = "pictureBox14";
+            this.pictureBox14.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox14.TabIndex = 263;
+            this.pictureBox14.TabStop = false;
+            // 
+            // lblA
+            // 
+            this.lblA.AutoSize = true;
+            this.lblA.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.lblA.Location = new System.Drawing.Point(94, 128);
+            this.lblA.Name = "lblA";
+            this.lblA.Size = new System.Drawing.Size(0, 12);
+            this.lblA.TabIndex = 264;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.label6.Location = new System.Drawing.Point(101, 108);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(13, 12);
+            this.label6.TabIndex = 265;
+            this.label6.Text = "A";
+            // 
+            // pictureBox15
+            // 
+            this.pictureBox15.BackColor = System.Drawing.Color.White;
+            this.pictureBox15.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox15.Location = new System.Drawing.Point(74, 102);
+            this.pictureBox15.Name = "pictureBox15";
+            this.pictureBox15.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox15.TabIndex = 266;
+            this.pictureBox15.TabStop = false;
+            // 
+            // pictureBox16
+            // 
+            this.pictureBox16.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox16.Location = new System.Drawing.Point(74, 121);
+            this.pictureBox16.Name = "pictureBox16";
+            this.pictureBox16.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox16.TabIndex = 267;
+            this.pictureBox16.TabStop = false;
+            // 
+            // lblD
+            // 
+            this.lblD.AutoSize = true;
+            this.lblD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.lblD.Location = new System.Drawing.Point(166, 128);
+            this.lblD.Name = "lblD";
+            this.lblD.Size = new System.Drawing.Size(0, 12);
+            this.lblD.TabIndex = 268;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.label8.Location = new System.Drawing.Point(173, 108);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(13, 12);
+            this.label8.TabIndex = 269;
+            this.label8.Text = "D";
+            // 
+            // pictureBox17
+            // 
+            this.pictureBox17.BackColor = System.Drawing.Color.White;
+            this.pictureBox17.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox17.Location = new System.Drawing.Point(146, 102);
+            this.pictureBox17.Name = "pictureBox17";
+            this.pictureBox17.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox17.TabIndex = 270;
+            this.pictureBox17.TabStop = false;
+            // 
+            // pictureBox18
+            // 
+            this.pictureBox18.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox18.Location = new System.Drawing.Point(146, 121);
+            this.pictureBox18.Name = "pictureBox18";
+            this.pictureBox18.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox18.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox18.TabIndex = 271;
+            this.pictureBox18.TabStop = false;
+            // 
+            // lblM
+            // 
+            this.lblM.AutoSize = true;
+            this.lblM.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.lblM.Location = new System.Drawing.Point(238, 128);
+            this.lblM.Name = "lblM";
+            this.lblM.Size = new System.Drawing.Size(0, 12);
+            this.lblM.TabIndex = 272;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
+            this.label10.Location = new System.Drawing.Point(245, 108);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(16, 12);
+            this.label10.TabIndex = 273;
+            this.label10.Text = "M";
+            // 
+            // pictureBox19
+            // 
+            this.pictureBox19.BackColor = System.Drawing.Color.White;
+            this.pictureBox19.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox19.Location = new System.Drawing.Point(218, 102);
+            this.pictureBox19.Name = "pictureBox19";
+            this.pictureBox19.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox19.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox19.TabIndex = 274;
+            this.pictureBox19.TabStop = false;
+            // 
+            // pictureBox20
+            // 
+            this.pictureBox20.Image = global::MergeImage.Properties.Resources.텍스트상자테두리없음;
+            this.pictureBox20.Location = new System.Drawing.Point(218, 121);
+            this.pictureBox20.Name = "pictureBox20";
+            this.pictureBox20.Size = new System.Drawing.Size(72, 23);
+            this.pictureBox20.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox20.TabIndex = 275;
+            this.pictureBox20.TabStop = false;
             // 
             // Form1
             // 
@@ -761,6 +980,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(132)))), ((int)(((byte)(132)))), ((int)(((byte)(132)))));
             this.ClientSize = new System.Drawing.Size(1724, 981);
+            this.Controls.Add(this.lblM);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.pictureBox19);
+            this.Controls.Add(this.pictureBox20);
+            this.Controls.Add(this.lblD);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.pictureBox17);
+            this.Controls.Add(this.pictureBox18);
+            this.Controls.Add(this.lblA);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.pictureBox15);
+            this.Controls.Add(this.pictureBox16);
+            this.Controls.Add(this.lblN);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.pictureBox13);
+            this.Controls.Add(this.pictureBox14);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnThumbnail);
             this.Controls.Add(this.btnScale10x);
             this.Controls.Add(this.btnScale4x);
@@ -845,6 +1081,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox19)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox20)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -905,6 +1149,25 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblN;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pictureBox13;
+        private System.Windows.Forms.PictureBox pictureBox14;
+        private System.Windows.Forms.Label lblA;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.PictureBox pictureBox15;
+        private System.Windows.Forms.PictureBox pictureBox16;
+        private System.Windows.Forms.Label lblD;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.PictureBox pictureBox17;
+        private System.Windows.Forms.PictureBox pictureBox18;
+        private System.Windows.Forms.Label lblM;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.PictureBox pictureBox19;
+        private System.Windows.Forms.PictureBox pictureBox20;
     }
 }
 
