@@ -44,6 +44,8 @@ namespace MergeImage
             PEN
         }
 
+        public bool isAnalysisSlide = false;
+
         public Thumbnail thumbnail = null;
 
         public eMode mode = eMode.MOVE;
@@ -542,7 +544,9 @@ namespace MergeImage
             filterSlidesFullName.Clear();
 
             // Directory 아래 모든 하위 Direct를 검색하여 파일 이름 가져오기.
-            string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
+            //string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
+            //string path = @"C:\Users\kaist01\Desktop\Showing\original\" + dtpDate.Value.ToString("yyyy.MM.dd");
+            string path = @"C:\Users\kaist01\Desktop\Showing\original\" + dtpDate.Value.ToString("yyyy.MM.dd");
             DirectoryInfo dirPath = new DirectoryInfo(@path);
             if (dirPath.Exists == true)
             {
@@ -849,6 +853,23 @@ namespace MergeImage
                     setMaskNADM(g, slideStyle, tempSize, imagePixels);
 
                 }
+            }
+
+            if (isAnalysisSlide == false)
+            {
+                string drawString = "AI 분석 해주세요";
+                Font font = new Font("Tahoma", 50, FontStyle.Bold, GraphicsUnit.Point);
+
+
+                for(int i = -3; i<=3;i++)
+                {
+                    for (int j = -3; j <= 3; j++)
+                    {
+                        g.DrawString(drawString, font, Brushes.Black, 910 + i, 710 + j);
+                    }
+                }
+                g.DrawString(drawString, font, Brushes.Red, 910,710);
+                font.Dispose();
             }
 
             if (DataPanel.Image != null)
@@ -1968,6 +1989,8 @@ namespace MergeImage
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+
+            isAnalysisSlide = true;
             Process cmd = new Process();
             cmd.StartInfo.FileName = "cmd.exe";
             cmd.StartInfo.RedirectStandardInput = true;
@@ -1984,7 +2007,31 @@ namespace MergeImage
                 {
                     this.Invoke(new Action(delegate () // this == Form 이다. Form이 아닌 컨트롤의 Invoke를 직접호출해도 무방하다.
                     {
-                        label1.Text += Environment.NewLine + ev.Data;
+                        if (ev.Data.Contains("start"))
+                        {
+                            progressBar1.Visible = true;
+                            //label1.Visible = true;
+                        }
+                        else if (ev.Data.Contains("totalCount :"))
+                        {
+                            int totalCount = Int32.Parse(ev.Data.Replace("totalCount :", "").Trim());
+                            progressBar1.Maximum = totalCount;
+                            //label1.Text = totalCount + System.Environment.NewLine + label1.Text;
+
+
+                        }
+                        else if (ev.Data.Contains("currentCount :"))
+                        {
+                            int currentCount = Int32.Parse(ev.Data.Replace("currentCount :", "").Trim());
+                            progressBar1.Value = currentCount;
+                            //label1.Text = currentCount + System.Environment.NewLine + label1.Text;
+                        }
+                        else if (ev.Data.Contains("complete"))
+                        {
+                            progressBar1.Visible = false;
+                            //label1.Visible = false;
+                        }
+
                     }));
                 }
             };
