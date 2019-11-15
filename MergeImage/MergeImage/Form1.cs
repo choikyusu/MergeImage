@@ -12,11 +12,14 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace MergeImage
 {
     public partial class Form1 : Form
     {
+
+        System.Timers.Timer timer = new System.Timers.Timer();
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
         private static extern IntPtr CreateRoundRectRgn(int nLeftRect
                                                      , int nTopRect
@@ -75,6 +78,9 @@ namespace MergeImage
         ConcurrentDictionary<string, Bitmap> dicBitmap10 = new ConcurrentDictionary<string, Bitmap>();
         ConcurrentDictionary<string, Bitmap> dicBitmap5 = new ConcurrentDictionary<string, Bitmap>();
 
+        ConcurrentDictionary<string, string> dicTileClassification = new ConcurrentDictionary<string, string>();
+        List<string> SlideClassificationList = new List<string>();
+
         ConcurrentDictionary<string, int> dicNADMRate = new ConcurrentDictionary<string, int>();
 
 
@@ -131,12 +137,12 @@ namespace MergeImage
 
         public Form1()
         {
-
             InitializeComponent();
             thumbnail = new Thumbnail(ThumbnailImage_MouseDown, ThumbnailImage_MouseMove, ThumbnailImage_MouseUp);
 
             tbxFolderPath.Text = Properties.Settings.Default.imagePath;
             getDateImageList();
+            getClassificationList();
             readFileMergeImageStatus();
             getDateModifyImageList();
             loadMaskColor();
@@ -145,6 +151,9 @@ namespace MergeImage
             btnCursor.Text = "Cursor on";
             btnType.Text = "A타입";
             btnThumbnail.Text = "on";
+
+            timer.Interval = 1000;
+            timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 
             //panel1.Region = System.Drawing.Region.FromHrgn(CreateRoundRectRgn(0, 0, panel1.Width, panel1.Height, 30, 30));
 
@@ -155,6 +164,21 @@ namespace MergeImage
 #endif
 
             drawnImage.Clear();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (lblProgress.Visible == true)
+            {
+                if (lblProgress.Text == "AI 분석중")
+                    lblProgress.Text = "AI 분석중.";
+                else if (lblProgress.Text == "AI 분석중.")
+                    lblProgress.Text = "AI 분석중..";
+                else if (lblProgress.Text == "AI 분석중..")
+                    lblProgress.Text = "AI 분석중...";
+                else if (lblProgress.Text == "AI 분석중...")
+                    lblProgress.Text = "AI 분석중";
+            }
         }
 
         private void loadMaskColor()
@@ -366,6 +390,7 @@ namespace MergeImage
                 Properties.Settings.Default.Save();
                 //readTailsImagesLog();
                 getDateImageList();
+                getClassificationList();
                 readFileMergeImageStatus();
 
             }
@@ -532,8 +557,80 @@ namespace MergeImage
             //이미지 리스트 다시 불러오기
             dataGridView1.Rows.Clear();
             getDateImageList();
+            getClassificationList();
             readFileMergeImageStatus();
+            if (SlideClassificationList.Contains(gridMergeImage.SelectedRows[0].Cells[0].Value.ToString()))
+                isAnalysisSlide = true;
 
+        }
+
+        public void getClassificationList()
+        {
+            int n = 0, a =0, d = 0, m = 0;
+            dicTileClassification.Clear();
+            SlideClassificationList.Clear();
+            List<string> uniqName = new List<string>();
+
+            string path = tbxFolderPath.Text + "\\" + dtpDate.Value.ToString("yyyy.MM.dd");
+            DirectoryInfo dirPath = new DirectoryInfo(@path);
+            if (dirPath.Exists == true)
+            {
+                DirectoryInfo[] dirs = dirPath.GetDirectories();
+                foreach (DirectoryInfo dir in dirs) // 하위 폴더목록을 스캔합니다.
+                {
+                    //폴더명이 N,A,D,M일때만 탐색
+                    if (dir.Name == "N" || dir.Name == "A" || dir.Name == "D" || dir.Name == "M")
+                    {
+                        foreach (FileInfo File in dir.GetFiles()) // 선택 폴더의 파일 목록을 스캔합니다.
+                        {
+                            if (File.Name.Contains("_") == true && File.Name.Contains(gridMergeImage.CurrentRow.Cells[0].Value.ToString()))
+                            {
+                                dicTileClassification.TryAdd(File.Name, dir.Name);
+                                string SlideName = File.Name.Split('_')[0];
+                                SlideClassificationList.Add(SlideName);        // 타일 ID(Image ID) 저장
+
+                                if (dir.Name == "N")
+                                    n++;
+                                else if (dir.Name == "A")
+                                    a++;
+                                else if (dir.Name == "D")
+                                    d++;
+                                else if (dir.Name == "M")
+                                    m++;
+                            }
+                        }
+                    }
+                }
+                
+                int totalCount = n + a + d + m;
+                if (totalCount != 0)
+                {
+                    //double nRate = Math.Round((double)n * 100 / totalCount, 2);
+                    //double aRate = Math.Round((double)a * 100 / totalCount, 2);
+                    //double dRate = Math.Round((double)d * 100 / totalCount, 2);
+                    //double mRate = Math.Round((double)m * 100 / totalCount, 2);
+
+                    //lblN.Text = (nRate).ToString() + " %";
+                    //lblA.Text = (aRate).ToString() + " %";
+                    //lblD.Text = (dRate).ToString() + " %";
+                    //lblM.Text = (mRate).ToString() + " %";
+
+                    lblN.Text = (n).ToString();
+                    lblA.Text = (a).ToString();
+                    lblD.Text = (d).ToString();
+                    lblM.Text = (m).ToString();
+                }
+                else
+                {
+                    lblN.Text = (0).ToString();
+                    lblA.Text = (0).ToString();
+                    lblD.Text = (0).ToString();
+                    lblM.Text = (0).ToString();
+                }
+
+                SlideClassificationList = SlideClassificationList.Distinct().ToList();
+                SlideClassificationList.Sort();
+            }
         }
 
         public void getDateImageList()
@@ -672,12 +769,12 @@ namespace MergeImage
         {
             if (gridMergeImage.SelectedRows.Count > 0)
             {
+                isAnalysisSlide = false;
                 dicNADMRate.Clear();
                 dicNADMRate.TryAdd("N", 0);
                 dicNADMRate.TryAdd("A", 0);
                 dicNADMRate.TryAdd("D", 0);
                 dicNADMRate.TryAdd("M", 0);
-
 
                 preStack.Clear();
                 nextStack.Clear();
@@ -749,6 +846,12 @@ namespace MergeImage
                     dicBitmap5.TryAdd(item, image5);
                 }
                 );
+
+                getClassificationList();
+                if (SlideClassificationList.Contains(gridMergeImage.SelectedRows[0].Cells[0].Value.ToString()))
+                {
+                    isAnalysisSlide = true;
+                }
                 getDateModifyImageList();
                 addModifyImageListToDataGridView1();
                 drawImage(filterSlidesFullName);
@@ -766,7 +869,7 @@ namespace MergeImage
             return true;
         }
 
-        public string splitFileName(string fileName)
+        public string getTyleBySplitFileName(string fileName)
         {
             string[] fileNames = fileName.Split('\\');
             return fileNames[fileNames.Length - 2];
@@ -825,13 +928,16 @@ namespace MergeImage
                 if (btnType.Text == "B타입")
                 {
                     
-                    string slideStyle = splitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                    string slideStyle = getTyleBySplitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
 
                     if (tailsImagesLog.ContainsKey(filename.Split('\\').Last()))
                     {
-                        slideStyle = splitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                        slideStyle = getTyleBySplitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     }
-                    
+                    else if(dicTileClassification.ContainsKey(filename.Split('\\').Last()))
+                    {
+                        slideStyle = dicTileClassification[filename.Split('\\').Last()];
+                    }
                     
                     //분할이미지에 NADM으로 색칠하기.
                     setMaskNADM(g, slideStyle, tempSize, imagePixels);
@@ -843,11 +949,16 @@ namespace MergeImage
             {
                 foreach (string filename in drawnImage)
                 {
-                    string slideStyle = splitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                    string slideStyle = getTyleBySplitFileName(filename);  // slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     if (tailsImagesLog.ContainsKey(filename.Split('\\').Last()))
                     {
-                        slideStyle = splitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
+                        slideStyle = getTyleBySplitFileName(tailsImagesLog[filename.Split('\\').Last()]);  // modify slide 이미지 색상 주기 위한  N, A, D, M style 구하기.
                     }
+                    else if (dicTileClassification.ContainsKey(filename.Split('\\').Last()))
+                    {
+                        slideStyle = dicTileClassification[filename.Split('\\').Last()];
+                    }
+
                     tempSize = parsingXY(filename);
                     //분할이미지에 NADM으로 색칠하기.
                     setMaskNADM(g, slideStyle, tempSize, imagePixels);
@@ -857,7 +968,7 @@ namespace MergeImage
 
             if (isAnalysisSlide == false)
             {
-                string drawString = "AI 분석 해주세요";
+                string drawString = "AI 분석을 해주세요.";
                 Font font = new Font("Tahoma", 50, FontStyle.Bold, GraphicsUnit.Point);
 
 
@@ -1470,13 +1581,16 @@ namespace MergeImage
                         {
                             if (File.Name.Contains("_") == true)
                             {
-                                tailsImagesLog.Add(File.Name, File.FullName);              // 타일 Name(Image Name)
+                                tailsImagesLog.Add(File.Name, File.FullName);      
+
+                                
                             }
                         }
                     }
                 }
             }
             
+
         }
         public void addModifyImageListToDataGridView1()
         {
@@ -1528,17 +1642,6 @@ namespace MergeImage
             stopwatch2.Stop();
             System.Console.WriteLine("addModifyImageListToDataGridView1 time : " + stopwatch2.ElapsedMilliseconds + "ms");
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
-
-            int totalCount = dicTempNADMRate["N"] + dicTempNADMRate["A"] + dicTempNADMRate["D"] + dicTempNADMRate["M"];
-            double n = Math.Round((double)dicTempNADMRate["N"] * 100 / totalCount, 2);
-            double a = Math.Round((double)dicTempNADMRate["A"] * 100 / totalCount, 2);
-            double d = Math.Round((double)dicTempNADMRate["D"] * 100 / totalCount, 2);
-            double m = Math.Round((double)dicTempNADMRate["M"] * 100 / totalCount, 2);
-
-            lblN.Text = (n).ToString() + " %";
-            lblA.Text = (a).ToString() + " %";
-            lblD.Text = (d).ToString() + " %";
-            lblM.Text = (m).ToString() + " %";
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -1989,57 +2092,86 @@ namespace MergeImage
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            progressBar1.Value = 0;
+            pnlAnalysisAI.Visible = true;
 
-            isAnalysisSlide = true;
-            Process cmd = new Process();
-            cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.RedirectStandardInput = true;
-            cmd.StartInfo.RedirectStandardOutput = true;
-            cmd.StartInfo.RedirectStandardError = true;
-            cmd.StartInfo.CreateNoWindow = true;
-            cmd.StartInfo.UseShellExecute = false;
-            cmd.EnableRaisingEvents = true;
-            cmd.Start();
+            timer.Start();
 
-            cmd.OutputDataReceived += (object sending_process, DataReceivedEventArgs ev) =>
+            FileInfo fileInfo = new FileInfo(@"C:\Users\kaist01\Desktop\Showing\tempdata\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString() + ".mrxs");
+            DirectoryInfo directoryInfo = new DirectoryInfo(@"C:\Users\kaist01\Desktop\Showing\tempdata\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString());
+
+            if (fileInfo.Exists == true && directoryInfo.Exists == true)
             {
-                if (ev.Data != null)
+                fileInfo.MoveTo(@"C:\Users\kaist01\Desktop\Showing\input\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString() + ".mrxs");
+                directoryInfo.MoveTo(@"C:\Users\kaist01\Desktop\Showing\input\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString());
+                
+                Process cmd = new Process();
+                cmd.StartInfo.FileName = "cmd.exe";
+                cmd.StartInfo.RedirectStandardInput = true;
+                cmd.StartInfo.RedirectStandardOutput = true;
+                cmd.StartInfo.RedirectStandardError = true;
+                cmd.StartInfo.CreateNoWindow = true;
+                cmd.StartInfo.UseShellExecute = false;
+                cmd.EnableRaisingEvents = true;
+                cmd.Start();
+
+                cmd.OutputDataReceived += (object sending_process, DataReceivedEventArgs ev) =>
                 {
-                    this.Invoke(new Action(delegate () // this == Form 이다. Form이 아닌 컨트롤의 Invoke를 직접호출해도 무방하다.
+                    if (ev.Data != null)
                     {
-                        if (ev.Data.Contains("start"))
+                        this.Invoke(new Action(delegate () // this == Form 이다. Form이 아닌 컨트롤의 Invoke를 직접호출해도 무방하다.
                         {
-                            progressBar1.Visible = true;
-                            //label1.Visible = true;
-                        }
-                        else if (ev.Data.Contains("totalCount :"))
-                        {
-                            int totalCount = Int32.Parse(ev.Data.Replace("totalCount :", "").Trim());
-                            progressBar1.Maximum = totalCount;
-                            //label1.Text = totalCount + System.Environment.NewLine + label1.Text;
+                            if (ev.Data.Contains("start"))
+                            {
+                                //label1.Visible = true;
+                                lblProgress.Text = "AI 분석중";
+                            }
+                            else if (ev.Data.Contains("totalCount :"))
+                            {
+                                int totalCount = Int32.Parse(ev.Data.Replace("totalCount :", "").Trim());
+                                progressBar1.Maximum = totalCount;
+                                //label1.Text = totalCount + System.Environment.NewLine + label1.Text;
+                            }
+                            else if (ev.Data.Contains("currentCount :"))
+                            {
+                                int currentCount = Int32.Parse(ev.Data.Replace("currentCount :", "").Trim());
+                                progressBar1.Value = currentCount;
+                                //label1.Text = currentCount + System.Environment.NewLine + label1.Text;
+                            }
+                            else if (ev.Data.Contains("complete"))
+                            {
+                                isAnalysisSlide = true;
+                                pnlAnalysisAI.Visible = false;
+                                timer.Stop();
 
 
-                        }
-                        else if (ev.Data.Contains("currentCount :"))
-                        {
-                            int currentCount = Int32.Parse(ev.Data.Replace("currentCount :", "").Trim());
-                            progressBar1.Value = currentCount;
-                            //label1.Text = currentCount + System.Environment.NewLine + label1.Text;
-                        }
-                        else if (ev.Data.Contains("complete"))
-                        {
-                            progressBar1.Visible = false;
-                            //label1.Visible = false;
-                        }
+                                FileInfo fileInfo1 = new FileInfo(@"C:\Users\kaist01\Desktop\Showing\input\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString() + ".mrxs");
+                                DirectoryInfo directoryInfo1 = new DirectoryInfo(@"C:\Users\kaist01\Desktop\Showing\input\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString());
+                                if (fileInfo1.Exists)
+                                    fileInfo1.MoveTo(@"C:\Users\kaist01\Desktop\Showing\tempdata\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString() + ".mrxs");
+                                
+                                if(directoryInfo1.Exists)
+                                    directoryInfo1.MoveTo(@"C:\Users\kaist01\Desktop\Showing\tempdata\" + gridMergeImage.SelectedRows[0].Cells[0].Value.ToString());
 
-                    }));
-                }
-            };
 
-            cmd.StandardInput.WriteLine(@"cd C:\Users\kaist01\Desktop\Showing\");
-            cmd.StandardInput.WriteLine(@"python demo.py");
-            cmd.BeginOutputReadLine();
-            cmd.Close();
+                                getClassificationList();
+                                drawImage(filterSlidesFullName);
+
+                                //label1.Visible = false;
+                            }
+                        }));
+                    }
+                };
+
+                cmd.StandardInput.WriteLine(@"cd C:\Users\kaist01\Desktop\Showing\");
+                cmd.StandardInput.WriteLine(@"python new_demo.py");
+                cmd.BeginOutputReadLine();
+                cmd.Close();
+            }
+            else
+            {
+                MessageBox.Show("스캔된 파일이 없습니다. 확인 부탁드립니다.");
+            }
         }
 
         // Count Total Image, Checked Image, UnChecked Image numbers;
