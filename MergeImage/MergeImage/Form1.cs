@@ -708,43 +708,50 @@ namespace MergeImage
 
                 Parallel.ForEach(filterSlidesFullName, (item) =>
                 {
-                    if (item.Replace("\\","/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/N/"))
-                        dicNADMRate["N"]++;
-                    else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/A/"))
-                        dicNADMRate["A"]++;
-                    else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/D/"))
-                        dicNADMRate["D"]++;
-                    else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/M/"))
-                        dicNADMRate["M"]++;
+                    try
+                    {
 
-                    Bitmap img = new Bitmap(item);
-                    dicBitmap100.TryAdd(item, img);
+                        if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/N/"))
+                            dicNADMRate["N"]++;
+                        else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/A/"))
+                            dicNADMRate["A"]++;
+                        else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/D/"))
+                            dicNADMRate["D"]++;
+                        else if (item.Replace("\\", "/").Contains(dtpDate.Value.ToString("yyyy.MM.dd") + "/M/"))
+                            dicNADMRate["M"]++;
 
-                    int width = (int)(img.Width * 0.5);
-                    int height = (int)(img.Height * 0.5);
-                    Size resize = new Size(width, height);
-                    Bitmap image50 = new Bitmap(img, resize);
-                    dicBitmap50.TryAdd(item, image50);
+                        Bitmap img = new Bitmap(item);
+                        dicBitmap100.TryAdd(item, img);
 
-                    width = (int)(img.Width * 0.2);
-                    height = (int)(img.Height * 0.2);
-                    resize = new Size(width, height);
-                    Bitmap image20 = new Bitmap(img, resize);
-                    dicBitmap20.TryAdd(item, image20);
+                        //int width = (int)(img.Width * 0.5);
+                        //int height = (int)(img.Height * 0.5);
+                        //Size resize = new Size(width, height);
+                        //Bitmap image50 = new Bitmap(img, resize);
+                        //dicBitmap50.TryAdd(item, image50);
 
-                    width = (int)(img.Width * 0.1);
-                    height = (int)(img.Height * 0.1);
-                    resize = new Size(width, height);
-                    Bitmap image10 = new Bitmap(img, resize);
-                    dicBitmap10.TryAdd(item, image10);
+                        //width = (int)(img.Width * 0.2);
+                        //height = (int)(img.Height * 0.2);
+                        //resize = new Size(width, height);
+                        //Bitmap image20 = new Bitmap(img, resize);
+                        //dicBitmap20.TryAdd(item, image20);
 
-                    width = (int)(img.Width * 0.05);
-                    height = (int)(img.Height * 0.05);
-                    resize = new Size(width, height);
-                    Bitmap image5 = new Bitmap(img, resize);
-                    dicBitmap5.TryAdd(item, image5);
-                }
-                );
+                        //width = (int)(img.Width * 0.1);
+                        //height = (int)(img.Height * 0.1);
+                        //resize = new Size(width, height);
+                        //Bitmap image10 = new Bitmap(img, resize);
+                        //dicBitmap10.TryAdd(item, image10);
+
+                        //width = (int)(img.Width * 0.05);
+                        //height = (int)(img.Height * 0.05);
+                        //resize = new Size(width, height);
+                        //Bitmap image5 = new Bitmap(img, resize);
+                        //dicBitmap5.TryAdd(item, image5);
+                    }
+                    catch(Exception ex )
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                });
                 getDateModifyImageList();
                 addModifyImageListToDataGridView1();
                 drawImage(filterSlidesFullName);
@@ -833,6 +840,8 @@ namespace MergeImage
                     setMaskNADM(g, slideStyle, tempSize, imagePixels);
                     
                 }
+
+                img.Dispose();
             }
 
             if (btnType.Text == "A타입")
@@ -901,6 +910,8 @@ namespace MergeImage
                 g.DrawRectangle(RedPen, rect);
                 RedPen.Dispose();
 
+                img.Dispose();
+
             }
 
             if (DataPanel.Image != null)
@@ -915,23 +926,49 @@ namespace MergeImage
         {
             if (zoomScale == 1)
             {
-                return dicBitmap100[filename];
+                Bitmap a = dicBitmap100[filename];
+                int width = (int)(a.Width );
+                int height = (int)(a.Height);
+                Size resize = new Size(width, height);
+                Bitmap image100 = new Bitmap(a, resize);
+
+                return image100;
             }
             else if (zoomScale == 0.5)
             {
-                return dicBitmap50[filename];
+                Bitmap a = dicBitmap100[filename];
+                int width = (int)(a.Width * 0.5);
+                int height = (int)(a.Height * 0.5);
+                Size resize = new Size(width, height);
+                Bitmap image50 = new Bitmap(a, resize);
+                return image50;
             }
             else if (zoomScale == 0.2)
             {
-                return dicBitmap20[filename];
+                Bitmap a = dicBitmap100[filename];
+                int width = (int)(a.Width * 0.2);
+                int height = (int)(a.Height * 0.2);
+                Size resize = new Size(width, height);
+                Bitmap image20 = new Bitmap(a, resize);
+                return image20;
             }
             else if (zoomScale == 0.1)
             {
-                return dicBitmap10[filename];
+                Bitmap a = dicBitmap100[filename];
+                int width = (int)(a.Width * 0.1);
+                int height = (int)(a.Height * 0.1);
+                Size resize = new Size(width, height);
+                Bitmap image10 = new Bitmap(a, resize);
+                return image10;
             }
             else if (zoomScale == 0.05)
             {
-                return dicBitmap5[filename];
+                Bitmap a = dicBitmap100[filename];
+                int width = (int)(a.Width * 0.05);
+                int height = (int)(a.Height * 0.05);
+                Size resize = new Size(width, height);
+                Bitmap image5 = new Bitmap(a, resize);
+                return image5;
             }
 
             return null;
